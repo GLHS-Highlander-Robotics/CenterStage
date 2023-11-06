@@ -1,12 +1,11 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
-import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.ACTUATOR_MAX;
-import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.ACTUATOR_MIN;
-import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREMENT_STEPS;
+
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_HEIGHT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREMENT_STEPS_SLIDE;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -40,6 +39,7 @@ public class TwoPlayerTeleOp extends LinearOpMode {
     double botHeading;
 
     int armMotorSteps = 0;
+    int rotMotorSteps = 0;
     boolean dPadPressed = false;
 
     @Override
@@ -47,14 +47,14 @@ public class TwoPlayerTeleOp extends LinearOpMode {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         drive = new MecanumDrive(hardwareMap, new Pose2d(new Vector2d(0,0),0));
-        slide = new LinearSlide(hardwareMap);
+//        slide = new LinearSlide(hardwareMap);
 
 //        drive.setModes(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         drive.imu.resetYaw();
-        while (opModeInInit()) {
-            telemetry.addData("Linear Actuator Position:", slide.linearActuator.getPosition());
-            telemetry.update();
-        }
+//        while (opModeInInit()) {
+//            telemetry.addData("Linear Actuator Position:", slide.linearActuator.getPosition());
+//            telemetry.update();
+//        }
         waitForStart();
 
         while (opModeIsActive()) {
@@ -68,12 +68,12 @@ public class TwoPlayerTeleOp extends LinearOpMode {
             telemetry.addData("Heading: ", botHeading);
             telemetry.addData("Field Centric?: ", fieldCentric);
 
-            telemetry.addData("Target arm motor steps:", armMotorSteps);
-            telemetry.addData("Actual arm motor steps:", slide.slideMotor.getCurrentPosition());
-            telemetry.addData("Arm Power:", slide.slideMotor.getPower());
-            telemetry.addData("Arm Current (A):", slide.slideMotor.getCurrent(CurrentUnit.AMPS));
-            telemetry.addData("Arm ZeroPower:", slide.slideMotor.getZeroPowerBehavior());
-            telemetry.addData("Linear Actuator Position:", slide.linearActuator.getPosition());
+//            telemetry.addData("Target arm motor steps:", armMotorSteps);
+//            telemetry.addData("Actual arm motor steps:", slide.slideMotor.getCurrentPosition());
+//            telemetry.addData("Arm Power:", slide.slideMotor.getPower());
+//            telemetry.addData("Arm Current (A):", slide.slideMotor.getCurrent(CurrentUnit.AMPS));
+//            telemetry.addData("Arm ZeroPower:", slide.slideMotor.getZeroPowerBehavior());
+//            telemetry.addData("Linear Actuator Position:", slide.linearActuator.getPosition());
 
             telemetry.update();
         }
@@ -93,30 +93,31 @@ public class TwoPlayerTeleOp extends LinearOpMode {
 
         // Increase arm steps by DPAD increments
         if (gamepad2.dpad_up) {
-            armMotorSteps += INCREMENT_STEPS;
+            rotMotorSteps += INCREMENT_STEPS_SLIDE;
             dPadPressed = true;
         } else if (gamepad2.dpad_down) {
-            armMotorSteps -= INCREMENT_STEPS;
+            rotMotorSteps -= INCREMENT_STEPS_SLIDE;
             dPadPressed = true;
         } else if (dPadPressed) {
             dPadPressed = false;
         }
 
         slide.setSlide(armMotorSteps);
-
-        if (gamepad1.right_trigger > 0.5) {
-            slide.grab();
-        } else if (gamepad1.left_trigger > 0.5) {
-            slide.ungrab();
-        }
-
-        if (gamepad2.right_trigger > 0.5) {
-            slide.setLinearActuator(ACTUATOR_MIN);
-
-        } else if (gamepad2.left_trigger > 0.5) {
-            slide.setLinearActuator(ACTUATOR_MAX);
-
-        }
+        slide.setRot(rotMotorSteps);
+//
+//        if (gamepad1.right_trigger > 0.5) {
+//            slide.grab();
+//        } else if (gamepad1.left_trigger > 0.5) {
+//            slide.ungrab();
+//        }
+//
+//        if (gamepad2.right_trigger > 0.5) {
+//            slide.setLinearActuator(ACTUATOR_MIN);
+//
+//        } else if (gamepad2.left_trigger > 0.5) {
+//            slide.setLinearActuator(ACTUATOR_MAX);
+//
+//        }
     }
 
     public void updateDriveByGamepad() {
