@@ -7,6 +7,12 @@ import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREMENT_STEPS_SLIDE;
 
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_ROT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_ROT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_ROT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_ROT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREMENT_ROT;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -41,13 +47,14 @@ public class TwoPlayerTeleOp extends LinearOpMode {
     int armMotorSteps = 0;
     int rotMotorSteps = 0;
     boolean dPadPressed = false;
+    boolean bumperPressed = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         drive = new MecanumDrive(hardwareMap, new Pose2d(new Vector2d(0,0),0));
-//        slide = new LinearSlide(hardwareMap);
+        slide = new LinearSlide(hardwareMap);
 
 //        drive.setModes(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         drive.imu.resetYaw();
@@ -80,30 +87,29 @@ public class TwoPlayerTeleOp extends LinearOpMode {
     }
 
     public void updateSlideByGamepad() {
-        // Set arm steps to predefined height with buttons
+        // Set rotation steps to predefined height with buttons
         if (gamepad2.a) {
-            armMotorSteps = MIN_HEIGHT;
+            rotMotorSteps = MIN_ROT;
         } else if (gamepad2.b) {
-            armMotorSteps = LOW_HEIGHT;
+            rotMotorSteps = LOW_ROT;
         } else if (gamepad2.x) {
-            armMotorSteps = MEDIUM_HEIGHT;
+            rotMotorSteps = MEDIUM_ROT;
         } else if (gamepad2.y) {
-            armMotorSteps = MAX_HEIGHT;
+            rotMotorSteps = MAX_ROT;
         }
 
         // Increase arm steps by DPAD increments
         if (gamepad2.dpad_up) {
-            rotMotorSteps += INCREMENT_STEPS_SLIDE;
+            armMotorSteps += INCREMENT_STEPS_SLIDE;
             dPadPressed = true;
         } else if (gamepad2.dpad_down) {
-            rotMotorSteps -= INCREMENT_STEPS_SLIDE;
+            armMotorSteps -= INCREMENT_STEPS_SLIDE;
             dPadPressed = true;
         } else if (dPadPressed) {
             dPadPressed = false;
         }
 
-        slide.setSlide(armMotorSteps);
-        slide.setRot(rotMotorSteps);
+        slide.setArmPos(armMotorSteps,rotMotorSteps);
 //
 //        if (gamepad1.right_trigger > 0.5) {
 //            slide.grab();

@@ -84,6 +84,15 @@ public class LinearSlide {
         rotMotor.setTargetPosition(rotMotorSteps);
     }
 
+    public void setArmPos(int armstep, int rotstep) {
+        setRot(rotstep);
+        if (Math.abs(slideMotor.getCurrentPosition()) > 400 && rotMotor.isBusy()) {
+            setSlide(MIN_HEIGHT);
+        } else {
+            setSlide (armstep);
+        }
+    }
+
     public void update() {
         // If motor is busy, run motor at max power.
         // If motor is not busy, hold at current position or stop at lowest height
