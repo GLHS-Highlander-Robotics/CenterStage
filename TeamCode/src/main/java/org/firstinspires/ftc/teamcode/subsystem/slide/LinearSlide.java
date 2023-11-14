@@ -31,11 +31,12 @@ public class LinearSlide {
     public static int LOW_ROT = 440;
     public static int MEDIUM_ROT = 300;
     public static int MAX_ROT = 540;
-    public static int INCREMENT_ROT = 20;
+    public static int INCREMENT_ROT = 5;
     //Grip pos
     public static double GRIP_MIN = 0.0;
     public static double GRIP_MAX = 1.0;
-
+    public static double TURN_MAX = 1.0;
+    public static double TURN_MIN = 0.0;
     //motors
     public DcMotorEx slideMotor;
     public DcMotorEx rotMotor;
@@ -48,14 +49,14 @@ public class LinearSlide {
     private int rotMotorSteps = 0;
 
     public LinearSlide(HardwareMap hardwareMap) {
-//        slideMotor = hardwareMap.get(DcMotorEx.class, "motor_slide");
-//
-//        slideMotor.setDirection(DcMotorEx.Direction.REVERSE);
-//        slideMotor.setTargetPosition(MIN_HEIGHT);
-//        slideMotor.setPower(MAX_POWER_SLIDE);
-//        slideMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-//        slideMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-//        slideMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        slideMotor = hardwareMap.get(DcMotorEx.class, "motor_slide");
+
+        slideMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        slideMotor.setTargetPosition(MIN_HEIGHT);
+        slideMotor.setPower(MAX_POWER_SLIDE);
+        slideMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        slideMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
         rotMotor = hardwareMap.get(DcMotorEx.class, "rotmotor");
         rotMotor.setDirection(DcMotorEx.Direction.REVERSE);
@@ -81,18 +82,13 @@ public class LinearSlide {
     }
 
     public void setRot(int steps) {
-        rotMotorSteps = steps;
-        //rotMotorSteps = Range.clip(steps, MIN_HEIGHT, MAX_HEIGHT);
+        rotMotorSteps = Range.clip(steps, MIN_ROT, MAX_ROT);
         rotMotor.setTargetPosition(rotMotorSteps);
     }
 
     public void setArmPos(int armstep, int rotstep) {
         setRot(rotstep);
-        if (Math.abs(slideMotor.getCurrentPosition()) > 400 && rotMotor.isBusy()) {
-            setSlide(MIN_HEIGHT);
-        } else {
-            setSlide (armstep);
-        }
+        setSlide (armstep);
     }
 
     public void update() {
@@ -137,8 +133,21 @@ public class LinearSlide {
         rightGripper.setPosition(GRIP_MIN - 0.1);
     }
     public void turnRot(Servo rotX, double ticks){
-        rotX.setPosition(ticks);
+        rotX.setPosition(Range.clip(ticks, TURN_MIN, TURN_MAX));
+
     }
+
+    public void turnFloor() {
+        turnRot(rightRot, TURN_MIN);
+        turnRot(leftRot, TURN_MAX);
+    }
+
+    public void turnPlace() {
+        turnRot(rightRot, TURN_MAX - 0.4);
+        turnRot(leftRot, TURN_MIN + 0.4);
+    }
+
+
 
 
 }
