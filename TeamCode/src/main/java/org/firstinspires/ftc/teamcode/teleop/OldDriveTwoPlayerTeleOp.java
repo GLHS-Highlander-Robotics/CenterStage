@@ -1,17 +1,11 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 
-import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_HEIGHT;
-import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_HEIGHT;
-import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_HEIGHT;
-import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREMENT_STEPS_SLIDE;
-
-import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_ROT;
-import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_ROT;
-import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREMENT_ROT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_ROT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_ROT;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -19,30 +13,28 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystem.drive.OldDrive;
 import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 
 @Config
-@Disabled
-public class TwoPlayerTeleOp extends LinearOpMode {
+@TeleOp (name = "OGTwoPlayerTeleop")
+public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
     public static double HIGH_POWER = 0.85;
     public static double LOW_POWER = 0.35;
     public static double DEAD_ZONE_P1 = 0.05;
     public static double DEAD_ZONE_P2 = 0.05;
 
-    MecanumDrive drive;
+    OldDrive drive;
     LinearSlide slide;
 
     double limiter = HIGH_POWER;
-    boolean fieldCentric = false;
+    boolean fieldCentric = true;
     double botHeading;
 
     int armMotorSteps = 0;
@@ -54,7 +46,7 @@ public class TwoPlayerTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        drive = new MecanumDrive(hardwareMap, new Pose2d(new Vector2d(0,0),0));
+        drive = new OldDrive(hardwareMap);
         slide = new LinearSlide(hardwareMap);
 
 //        drive.setModes(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -69,12 +61,8 @@ public class TwoPlayerTeleOp extends LinearOpMode {
             updateDriveByGamepad();
             updateSlideByGamepad();
 
-            drive.localizer.update();
-            slide.update();
 
-            telemetry.addData("Limiter: ", limiter);
-            telemetry.addData("Heading: ", botHeading);
-            telemetry.addData("Field Centric?: ", fieldCentric);
+            slide.update();
 
 //            telemetry.addData("Target arm motor steps:", armMotorSteps);
 //            telemetry.addData("Actual arm motor steps:", slide.slideMotor.getCurrentPosition());
@@ -128,7 +116,7 @@ public class TwoPlayerTeleOp extends LinearOpMode {
     }
 
     public void updateDriveByGamepad() {
-        botHeading = drive.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        drive.updateHeadingRad();
 
         if (gamepad1.a) {
             limiter = HIGH_POWER;
@@ -172,21 +160,22 @@ public class TwoPlayerTeleOp extends LinearOpMode {
         double fieldStrafe = strafe * Math.cos(-botHeading) - forward * Math.sin(-botHeading);
 
         if (!fieldCentric) {
-            drive.setDrivePowers(
-                    new PoseVelocity2d(
-                            new Vector2d(forward,
-                            -strafe),
-                            -rotate
-                    )
-            );
+            drive.driveBot(forward, strafe, rotate);
         } else {
-            drive.setDrivePowers(
-                    new PoseVelocity2d(
-                            new Vector2d(fieldForward,
-                            -fieldStrafe),
-                            -rotate
-                    )
-            );
+            drive.driveBot(fieldForward, fieldStrafe, rotate);
         }
+    }
+
+    public void updateTelemetry() {
+        telemetry.addData("Limiter: ", limiter);
+        telemetry.addData("Heading: ", botHeading);
+        telemetry.addData("Field Centric?: ", fieldCentric);
+
+        telemetry.addData("Target slide motor steps:", armMotorSteps);
+        telemetry.addData("Actual slide motor steps:", slide.slideMotor.getCurrentPosition());
+        telemetry.addData("Slide Power:", slide.slideMotor.getPower());
+        telemetry.addData("Target rot motor steps:", rotMotorSteps);
+        telemetry.addData("Actual rot motor steps:", slide.rotMotor.getCurrentPosition());
+        telemetry.addData("Rot Power:", slide.rotMotor.getPower());
     }
 }

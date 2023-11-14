@@ -32,6 +32,8 @@ package org.firstinspires.ftc.teamcode.auto;/* Copyright (c) 2017 FIRST. All rig
 
 import static org.firstinspires.ftc.teamcode.constants.AutoMods.*;
 
+import android.util.Size;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.roadrunner.Action;
@@ -43,45 +45,75 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.teamcode.constants.AutoMods;
-import org.firstinspires.ftc.teamcode.constants.AutoMods.Locs;
 
 @Autonomous(name = "FarRedAuto")
 public class AutoRedFar extends LinearOpMode{
 
-
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;
-    AutoMods.setCOLOR(Locs.RED);
-    MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(new Vector2d(0,0),0));
-    LinearSlide slide = new LinearSlide(hardwareMap);
+    //MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(new Vector2d(0,0),0));
+
     @Override
     public void runOpMode() throws InterruptedException {
+        AutoMods.teamRed = true;
+        LinearSlide slide = new LinearSlide(hardwareMap);
 
-        Action moveArm = new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                slide.setArmPos(500, 200);
-                return false;
-            }
-        };
-        Action traj1 = drive.actionBuilder(drive.pose)
-                .splineTo(new Vector2d(48, 48), Math.PI / 2)
-                .stopAndAdd(moveArm)
+        spikeDetect = new SpikeDetectionNew(true);
+        portal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .setCameraResolution(new Size(640, 480))
+                .addProcessor(spikeDetect)
+                .enableLiveView(true)
+                .setAutoStopLiveView(true)
                 .build();
+
+//        Action moveArm = new Action() {
+//            @Override
+//            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+//                slide.setArmPos(500, 200);
+//                return false;
+//            }
+//        };
+//        Action traj1 = drive.actionBuilder(drive.pose)
+//                .splineTo(new Vector2d(48, 48), Math.PI / 2)
+//                .stopAndAdd(moveArm)
+//                .build();
 
 
         waitForStart();
 
-        Actions.runBlocking (
-                new SequentialAction(
-                        traj1
-                )
-        );
+        SpikeDetectionNew.Position position = spikeDetect.getPos();
+        portal.close();
+
+        switch (position) {
+            case LEFT:
+                break;
+            case RIGHT:
+                break;
+            case CENTER:
+                break;
+            default:
+                break;
+        }
+
+        while (opModeIsActive()) {
+            if (isStopRequested()) {break;}
+            slide.setRot(440);
+            telemetry.addData("pos: ", slide.rotMotor.getCurrentPosition());
+            telemetry.update();
+        }
+//        Actions.runBlocking (
+//                new SequentialAction(
+//                        traj1
+//                )
+//        );
 
     }
 }

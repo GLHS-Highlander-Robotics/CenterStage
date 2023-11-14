@@ -16,19 +16,19 @@ public class LinearSlide {
 
     //Slide heights
     public static int MIN_HEIGHT = 0;
-    public static int LOW_HEIGHT = 1600;
-    public static int MEDIUM_HEIGHT = 2760;
+    public static int LOW_HEIGHT = 800;
+    public static int MEDIUM_HEIGHT = 1600;
     public static int MAX_HEIGHT = 2760;
     public static int INCREMENT_STEPS_SLIDE = 20;
 
     //Rot powers
     public static double MIN_POWER_ROT = 0;
-    public static double HOLD_POWER_ROT = 0.1;
-    public static double MAX_POWER_ROT = 1;
+    public static double HOLD_POWER_ROT = 0.3;
+    public static double MAX_POWER_ROT = 0.55;
 
     //Rot steps
     public static int MIN_ROT = 0;
-    public static int LOW_ROT = 400;
+    public static int LOW_ROT = 440;
     public static int MEDIUM_ROT = 300;
     public static int MAX_ROT = 540;
     public static int INCREMENT_ROT = 20;
@@ -48,16 +48,17 @@ public class LinearSlide {
     private int rotMotorSteps = 0;
 
     public LinearSlide(HardwareMap hardwareMap) {
-        slideMotor = hardwareMap.get(DcMotorEx.class, "motor_slide");
+//        slideMotor = hardwareMap.get(DcMotorEx.class, "motor_slide");
+//
+//        slideMotor.setDirection(DcMotorEx.Direction.REVERSE);
+//        slideMotor.setTargetPosition(MIN_HEIGHT);
+//        slideMotor.setPower(MAX_POWER_SLIDE);
+//        slideMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+//        slideMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+//        slideMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        slideMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        slideMotor.setTargetPosition(MIN_HEIGHT);
-        slideMotor.setPower(MAX_POWER_SLIDE);
-        slideMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        slideMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        slideMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-        rotMotor = hardwareMap.get(DcMotorEx.class, "rot_slide");
+        rotMotor = hardwareMap.get(DcMotorEx.class, "rotmotor");
+        rotMotor.setDirection(DcMotorEx.Direction.REVERSE);
         rotMotor.setTargetPosition(MIN_ROT);
         rotMotor.setPower(MAX_POWER_ROT);
         rotMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -65,11 +66,11 @@ public class LinearSlide {
         rotMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
 
-        leftGripper = hardwareMap.get(Servo.class, "gripL");
-        rightGripper = hardwareMap.get(Servo.class, "gripR");
-
-        leftRot = hardwareMap.get(Servo.class, "rotL");
-        rightRot = hardwareMap.get(Servo.class, "rotR");
+//        leftGripper = hardwareMap.get(Servo.class, "gripL");
+//        rightGripper = hardwareMap.get(Servo.class, "gripR");
+//
+//        leftRot = hardwareMap.get(Servo.class, "rotL");
+//        rightRot = hardwareMap.get(Servo.class, "rotR");
 
 
     }
@@ -80,7 +81,8 @@ public class LinearSlide {
     }
 
     public void setRot(int steps) {
-        armMotorSteps = Range.clip(steps, MIN_HEIGHT, MAX_HEIGHT);
+        rotMotorSteps = steps;
+        //rotMotorSteps = Range.clip(steps, MIN_HEIGHT, MAX_HEIGHT);
         rotMotor.setTargetPosition(rotMotorSteps);
     }
 

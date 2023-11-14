@@ -14,14 +14,14 @@ import org.opencv.imgproc.Imgproc;
 
 public class SpikeDetectionNew implements VisionProcessor {
     //private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
-    public static int LEFT_X = 800;
-    public static int LEFT_Y = 550;
+    public static int LEFT_X = 100;
+    public static int LEFT_Y = 100;
 
-    public static int CENTER_X = 1175;
-    public static int CENTER_Y = 175;
+    public static int CENTER_X = 300;
+    public static int CENTER_Y = 100;
 
-    public static int RIGHT_X = 1175;
-    public static int RIGHT_Y = 175;
+    public static int RIGHT_X = 500;
+    public static int RIGHT_Y = 100;
 
     public static int WIDTH = 40;
     public static int HEIGHT = 10;
@@ -40,7 +40,10 @@ public class SpikeDetectionNew implements VisionProcessor {
 
 
 
-    Mat modMat;
+    Mat modMat = new Mat();
+    Mat leftMat;
+    Mat centerMat;
+    Mat rightMat;
 
 
     public enum Position{
@@ -49,16 +52,17 @@ public class SpikeDetectionNew implements VisionProcessor {
     }
     public static Position pos = Position.RIGHT;
 
+    public SpikeDetectionNew(boolean red) {
+        super();
+        isRed = red;
+    }
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
 //        lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
-        if (AutoMods.COLOR == AutoMods.Locs.RED) {
-            isRed = true;
-        } else {
-            isRed = false;
-        }
+
     }
+
 
     public Position getPos() {
         return this.pos;
@@ -69,9 +73,9 @@ public class SpikeDetectionNew implements VisionProcessor {
 
         input.copyTo(modMat);
         Imgproc.GaussianBlur(modMat, modMat, new Size(5, 5), 0.0);
-        Mat leftMat = modMat.submat(leftRect);
-        Mat centerMat = modMat.submat(centerRect);
-        Mat rightMat = modMat.submat(rightRect);
+        leftMat = modMat.submat(leftRect);
+        centerMat = modMat.submat(centerRect);
+        rightMat = modMat.submat(rightRect);
 
         left = Core.sumElems(leftMat);
         center = Core.sumElems(centerMat);
