@@ -36,7 +36,6 @@ public class SpikeDetectionNew implements VisionProcessor {
 
     private double maxColor;
 
-    private boolean isRed;
 
 
 
@@ -51,11 +50,6 @@ public class SpikeDetectionNew implements VisionProcessor {
         LEFT, RIGHT, CENTER
     }
     public static Position pos = Position.RIGHT;
-
-    public SpikeDetectionNew(boolean red) {
-        super();
-        isRed = red;
-    }
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
@@ -81,22 +75,22 @@ public class SpikeDetectionNew implements VisionProcessor {
         center = Core.sumElems(centerMat);
         right = Core.sumElems(rightMat);
 
-        maxColor = Math.max(left.val[isRed? 0 : 2], Math.max(center.val[isRed? 0 : 2], right.val[isRed? 0 : 2]));
+        maxColor = Math.max(left.val[AutoMods.teamRed? 0 : 2], Math.max(center.val[AutoMods.teamRed? 0 : 2], right.val[AutoMods.teamRed? 0 : 2]));
 
-        if (maxColor == left.val[isRed? 0 : 2]) {
+        if (maxColor == left.val[AutoMods.teamRed? 0 : 2]) {
             pos = Position.LEFT;
-            Imgproc.rectangle(input, leftRect, isRed? new Scalar (255, 0, 0) : new Scalar (0, 0, 255), 2);
+            Imgproc.rectangle(input, leftRect, AutoMods.teamRed? new Scalar (255, 0, 0) : new Scalar (0, 0, 255), 2);
             Imgproc.rectangle(input, rightRect, new Scalar (0, 0, 0), 2);
             Imgproc.rectangle(input, centerRect, new Scalar (0, 0, 0), 2);
-        } else if (maxColor == center.val[isRed? 0 : 2]){
+        } else if (maxColor == center.val[AutoMods.teamRed? 0 : 2]){
             pos = Position.CENTER;
             Imgproc.rectangle(input, leftRect, new Scalar (0, 0, 0), 2);
             Imgproc.rectangle(input, rightRect, new Scalar (0, 0, 0), 2);
-            Imgproc.rectangle(input, centerRect, isRed? new Scalar (255, 0, 0) : new Scalar (0, 0, 255), 2);
+            Imgproc.rectangle(input, centerRect, AutoMods.teamRed? new Scalar (255, 0, 0) : new Scalar (0, 0, 255), 2);
         } else {
             pos = Position.RIGHT;
             Imgproc.rectangle(input, leftRect, new Scalar (0, 0, 0), 2);
-            Imgproc.rectangle(input, rightRect, isRed? new Scalar (255, 0, 0) : new Scalar (0, 0, 255), 2);
+            Imgproc.rectangle(input, rightRect, AutoMods.teamRed? new Scalar (255, 0, 0) : new Scalar (0, 0, 255), 2);
             Imgproc.rectangle(input, centerRect, new Scalar (0, 0, 0), 2);
         }
 

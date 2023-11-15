@@ -65,7 +65,7 @@ public class AutoRedFar extends LinearOpMode{
         AutoMods.teamRed = true;
         LinearSlide slide = new LinearSlide(hardwareMap);
 
-        spikeDetect = new SpikeDetectionNew(true);
+        spikeDetect = new SpikeDetectionNew();
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .setCameraResolution(new Size(640, 480))
