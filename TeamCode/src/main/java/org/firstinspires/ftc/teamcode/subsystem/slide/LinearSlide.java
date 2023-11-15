@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystem.slide;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
@@ -28,10 +29,10 @@ public class LinearSlide {
 
     //Rot steps
     public static int MIN_ROT = 0;
-    public static int LOW_ROT = 440;
-    public static int MEDIUM_ROT = 300;
+    public static int LOW_ROT = 100;
+    public static int MEDIUM_ROT = 440;
     public static int MAX_ROT = 540;
-    public static int INCREMENT_ROT = 5;
+    public static int INCREMENT_ROT = 2;
     //Grip pos
     public static double GRIP_MIN = 0.0;
     public static double GRIP_MAX = 1.0;
@@ -49,9 +50,9 @@ public class LinearSlide {
     private int rotMotorSteps = 0;
 
     public LinearSlide(HardwareMap hardwareMap) {
-        slideMotor = hardwareMap.get(DcMotorEx.class, "motor_slide");
+        slideMotor = hardwareMap.get(DcMotorEx.class, "slidemotor");
 
-        slideMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        slideMotor.setDirection(DcMotorEx.Direction.FORWARD);
         slideMotor.setTargetPosition(MIN_HEIGHT);
         slideMotor.setPower(MAX_POWER_SLIDE);
         slideMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);

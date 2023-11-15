@@ -5,8 +5,10 @@ import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREME
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREMENT_STEPS_SLIDE;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_ROT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_ROT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_ROT;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -15,6 +17,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystem.drive.OldDrive;
@@ -79,10 +82,10 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         if (gamepad2.a) {
             rotMotorSteps = MIN_ROT;
             armMotorSteps = LOW_HEIGHT;
-            slide.turnFloor();
+//            slide.turnFloor();
         } else if (gamepad2.b) {
             rotMotorSteps = LOW_ROT;
-            slide.turnPlace();
+//            slide.turnPlace();
         } else if (gamepad2.x) {
             rotMotorSteps = MEDIUM_ROT;
         } else if (gamepad2.y) {
@@ -93,7 +96,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         if (-gamepad2.left_stick_y > DEAD_ZONE_P2) {
             armMotorSteps += INCREMENT_STEPS_SLIDE;
              leftStickPressed = true;
-        } else if (gamepad2.left_stick_y < -DEAD_ZONE_P2) {
+        } else if (-gamepad2.left_stick_y < -DEAD_ZONE_P2) {
             armMotorSteps -= INCREMENT_STEPS_SLIDE;
              leftStickPressed= true;
         } else if (leftStickPressed) {
@@ -103,61 +106,62 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         if (-gamepad2.right_stick_y > DEAD_ZONE_P2) {
             rotMotorSteps += INCREMENT_ROT;
             rightStickPressed = true;
-        } else if (gamepad2.right_stick_y < -DEAD_ZONE_P2) {
+        } else if (-gamepad2.right_stick_y < -DEAD_ZONE_P2) {
             rotMotorSteps -= INCREMENT_ROT;
             rightStickPressed = true;
         } else if (rightStickPressed) {
             rightStickPressed = false;
         }
-
+        armMotorSteps = Range.clip(armMotorSteps, MIN_HEIGHT, MAX_HEIGHT);
+        rotMotorSteps = Range.clip(rotMotorSteps, MIN_ROT, MAX_ROT);
         slide.setArmPos(armMotorSteps,rotMotorSteps);
 
         //Grab claw with p1 bumpers
-        if (gamepad1.right_trigger > 0.5 && rightGrabbed) {
-            slide.ungrabR();
-        } else if (gamepad1.right_trigger > 0.5 && !rightGrabbed) {
-            slide.grabR();
-        } else if (!rightGrabbed) {
-            rightGrabbed = true;
-        } else {
-            rightGrabbed = false;
-        }
-
-        if (gamepad1.left_trigger > 0.5 && leftGrabbed) {
-            slide.ungrabL();
-        } else if (gamepad1.left_trigger > 0.5 && !leftGrabbed) {
-            slide.grabL();
-        } else if (gamepad1.left_trigger < 0.5 && !leftGrabbed) {
-            leftGrabbed = true;
-        } else if (gamepad1.left_trigger < 0.5 && leftGrabbed) {
-            leftGrabbed = false;
-        }
+//        if (gamepad1.right_trigger > 0.5 && rightGrabbed) {
+//            slide.ungrabR();
+//        } else if (gamepad1.right_trigger > 0.5 && !rightGrabbed) {
+//            slide.grabR();
+//        } else if (!rightGrabbed) {
+//            rightGrabbed = true;
+//        } else {
+//            rightGrabbed = false;
+//        }
+//
+//        if (gamepad1.left_trigger > 0.5 && leftGrabbed) {
+//            slide.ungrabL();
+//        } else if (gamepad1.left_trigger > 0.5 && !leftGrabbed) {
+//            slide.grabL();
+//        } else if (gamepad1.left_trigger < 0.5 && !leftGrabbed) {
+//            leftGrabbed = true;
+//        } else if (gamepad1.left_trigger < 0.5 && leftGrabbed) {
+//            leftGrabbed = false;
+//        }
 
         //Rotate claw with p2 bumpers
-        if (gamepad2.right_trigger > 0.5) {
-            slide.turnPlace();
-
-        } else if (gamepad2.left_trigger > 0.5) {
-            slide.turnFloor();
-
-        }
+//        if (gamepad2.right_trigger > 0.5) {
+//            slide.turnPlace();
+//
+//        } else if (gamepad2.left_trigger > 0.5) {
+//            slide.turnFloor();
+//
+//        }
         //incremental rotation with p2 dpad
-        if (gamepad2.dpad_up) {
-            slide.turnRot(slide.rightRot, slide.rightRot.getPosition() + 0.1);
-            slide.turnRot(slide.leftRot, slide.leftRot.getPosition() - 0.1);
-            rotated = true;
-        } else if (gamepad2.dpad_down) {
-            slide.turnRot(slide.rightRot, slide.rightRot.getPosition() - 0.1);
-            slide.turnRot(slide.leftRot, slide.leftRot.getPosition() + 0.1);
-            rotated = true;
-        } else if (rotated) {
-            rotated = false;
-        }
+//        if (gamepad2.dpad_up) {
+//            slide.turnRot(slide.rightRot, slide.rightRot.getPosition() + 0.1);
+//            slide.turnRot(slide.leftRot, slide.leftRot.getPosition() - 0.1);
+//            rotated = true;
+//        } else if (gamepad2.dpad_down) {
+//            slide.turnRot(slide.rightRot, slide.rightRot.getPosition() - 0.1);
+//            slide.turnRot(slide.leftRot, slide.leftRot.getPosition() + 0.1);
+//            rotated = true;
+//        } else if (rotated) {
+//            rotated = false;
+//        }
     }
 
     public void updateDriveByGamepad() {
         drive.updateHeadingRad();
-
+        botHeading = drive.botHeading;
         if (gamepad1.a) {
             limiter = HIGH_POWER;
         } else if (gamepad1.b) {
@@ -216,6 +220,9 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         telemetry.addData("Target rot motor steps:", rotMotorSteps);
         telemetry.addData("Actual rot motor steps:", slide.rotMotor.getCurrentPosition());
         telemetry.addData("Rot Power:", slide.rotMotor.getPower());
+        telemetry.addData("Front Left Power:", drive.frontLeftMotor.getPower());
+        telemetry.addData("Back Right Power:", drive.frontRightMotor.getPower());
+
 
 
     }
