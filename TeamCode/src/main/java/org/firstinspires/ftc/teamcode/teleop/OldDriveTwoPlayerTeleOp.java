@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 @Config
 @TeleOp (name = "OGTwoPlayerTeleop")
 public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
-    public static double HIGH_POWER = 0.85;
+    public static double HIGH_POWER = 0.65;
     public static double LOW_POWER = 0.35;
     public static double DEAD_ZONE_P1 = 0.05;
     public static double DEAD_ZONE_P2 = 0.05;
@@ -55,7 +55,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
+        Telemetry multTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         drive = new OldDrive(hardwareMap);
         slide = new LinearSlide(hardwareMap);
@@ -88,6 +88,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
 //            slide.turnPlace();
         } else if (gamepad2.x) {
             rotMotorSteps = MEDIUM_ROT;
+            armMotorSteps = MIN_HEIGHT;
         } else if (gamepad2.y) {
             rotMotorSteps = MAX_ROT;
         }
@@ -138,13 +139,13 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
 //        }
 
         //Rotate claw with p2 bumpers
-//        if (gamepad2.right_trigger > 0.5) {
-//            slide.turnPlace();
-//
-//        } else if (gamepad2.left_trigger > 0.5) {
-//            slide.turnFloor();
-//
-//        }
+        if (gamepad2.right_trigger > 0.5) {
+            slide.place = true;
+
+        } else if (gamepad2.left_trigger > 0.5) {
+            slide.place = false;
+
+        }
         //incremental rotation with p2 dpad
 //        if (gamepad2.dpad_up) {
 //            slide.turnRot(slide.rightRot, slide.rightRot.getPosition() + 0.1);
@@ -220,8 +221,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         telemetry.addData("Target rot motor steps:", rotMotorSteps);
         telemetry.addData("Actual rot motor steps:", slide.rotMotor.getCurrentPosition());
         telemetry.addData("Rot Power:", slide.rotMotor.getPower());
-        telemetry.addData("Front Left Power:", drive.frontLeftMotor.getPower());
-        telemetry.addData("Back Right Power:", drive.frontRightMotor.getPower());
+        telemetry.addData("Place:", slide.place);
 
 
 

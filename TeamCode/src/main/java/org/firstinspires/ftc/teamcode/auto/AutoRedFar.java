@@ -48,6 +48,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystem.drive.OldDrive;
 import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -64,6 +65,7 @@ public class AutoRedFar extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
         AutoMods.teamRed = true;
         LinearSlide slide = new LinearSlide(hardwareMap);
+        OldDrive drive = new OldDrive(hardwareMap);
 
         spikeDetect = new SpikeDetectionNew();
         portal = new VisionPortal.Builder()
@@ -74,46 +76,34 @@ public class AutoRedFar extends LinearOpMode{
                 .setAutoStopLiveView(true)
                 .build();
 
-//        Action moveArm = new Action() {
-//            @Override
-//            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-//                slide.setArmPos(500, 200);
-//                return false;
-//            }
-//        };
-//        Action traj1 = drive.actionBuilder(drive.pose)
-//                .splineTo(new Vector2d(48, 48), Math.PI / 2)
-//                .stopAndAdd(moveArm)
-//                .build();
-
 
         waitForStart();
 
         SpikeDetectionNew.Position position = spikeDetect.getPos();
         portal.close();
 
+        int rotate=0;
+        int forwardDist = 10;
         switch (position) {
             case LEFT:
+                rotate = -15;
                 break;
             case RIGHT:
+                rotate = 15;
                 break;
             case CENTER:
+                forwardDist = 12;
                 break;
             default:
                 break;
         }
-
-        while (opModeIsActive()) {
-            if (isStopRequested()) {break;}
-            slide.setRot(440);
-            telemetry.addData("pos: ", slide.rotMotor.getCurrentPosition());
-            telemetry.update();
+        drive.rotateAndMoveInches(rotate,forwardDist,0,0.5,0.5);
+        slide.setArmPos(2500, 50);
+        while (slide.rotMotor.isBusy() || slide.slideMotor.isBusy()) {
+            idle();
         }
-//        Actions.runBlocking (
-//                new SequentialAction(
-//                        traj1
-//                )
-//        );
+        slide.setArmPos(0,0);
+        drive.rotateAndMoveInches(90-rotate, 90,0,0.5,0.5);
 
     }
 }

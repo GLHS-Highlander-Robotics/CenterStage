@@ -17,27 +17,29 @@ public class LinearSlide {
 
     //Slide heights
     public static int MIN_HEIGHT = 0;
-    public static int LOW_HEIGHT = 800;
+    public static int LOW_HEIGHT = 440;
     public static int MEDIUM_HEIGHT = 1600;
     public static int MAX_HEIGHT = 2760;
     public static int INCREMENT_STEPS_SLIDE = 20;
 
     //Rot powers
     public static double MIN_POWER_ROT = 0;
-    public static double HOLD_POWER_ROT = 0.3;
-    public static double MAX_POWER_ROT = 0.55;
+    public static double HOLD_POWER_ROT = 0.55;
+    public static double MAX_POWER_ROT = 0.75;
 
     //Rot steps
     public static int MIN_ROT = 0;
     public static int LOW_ROT = 100;
     public static int MEDIUM_ROT = 440;
     public static int MAX_ROT = 540;
-    public static int INCREMENT_ROT = 2;
+    public static int INCREMENT_ROT = 3;
     //Grip pos
     public static double GRIP_MIN = 0.0;
     public static double GRIP_MAX = 1.0;
-    public static double TURN_MAX = 1.0;
-    public static double TURN_MIN = 0.0;
+    public static double RFLOOR = 0.73;
+    public static double LFLOOR = 0.31;
+    public static double RPLACE = 0.4;
+    public static double LPLACE = 0.64;
     //motors
     public DcMotorEx slideMotor;
     public DcMotorEx rotMotor;
@@ -48,6 +50,8 @@ public class LinearSlide {
 
     private int armMotorSteps = 0;
     private int rotMotorSteps = 0;
+
+    public boolean place = false;
 
     public LinearSlide(HardwareMap hardwareMap) {
         slideMotor = hardwareMap.get(DcMotorEx.class, "slidemotor");
@@ -71,8 +75,8 @@ public class LinearSlide {
 //        leftGripper = hardwareMap.get(Servo.class, "gripL");
 //        rightGripper = hardwareMap.get(Servo.class, "gripR");
 //
-//        leftRot = hardwareMap.get(Servo.class, "rotL");
-//        rightRot = hardwareMap.get(Servo.class, "rotR");
+        leftRot = hardwareMap.get(Servo.class, "rotL");
+        rightRot = hardwareMap.get(Servo.class, "rotR");
 
 
     }
@@ -104,12 +108,25 @@ public class LinearSlide {
             }
         }
         if (rotMotor.isBusy()) {
-            rotMotor.setPower(MAX_POWER_ROT);
+            if (rotMotorSteps - rotMotor.getCurrentPosition() < 200 && rotMotorSteps - rotMotor.getCurrentPosition() > -200 ) {
+                rotMotor.setPower(MAX_POWER_ROT - 0.5);
+            } else {
+                rotMotor.setPower(MAX_POWER_ROT);
+            }
         } else {
             rotMotor.setPower(HOLD_POWER_ROT);
             if (rotMotor.getCurrentPosition() == MIN_HEIGHT) {
                 rotMotor.setPower(MIN_POWER_ROT);
             }
+        }
+
+        if (place == false) {
+            turnRot(rightRot, RFLOOR);
+            turnRot(leftRot, LFLOOR);
+        } else {
+            turnRot(rightRot, RPLACE - (0.2/270.0) * rotMotor.getCurrentPosition());
+            turnRot(leftRot, LPLACE + (0.2/270.0) * rotMotor.getCurrentPosition());
+
         }
     }
 //Grab functions
@@ -134,18 +151,18 @@ public class LinearSlide {
         rightGripper.setPosition(GRIP_MIN - 0.1);
     }
     public void turnRot(Servo rotX, double ticks){
-        rotX.setPosition(Range.clip(ticks, TURN_MIN, TURN_MAX));
+        rotX.setPosition(Range.clip(ticks, 0, 1));
 
     }
 
     public void turnFloor() {
-        turnRot(rightRot, TURN_MIN);
-        turnRot(leftRot, TURN_MAX);
+        turnRot(rightRot, RFLOOR);
+        turnRot(leftRot, LFLOOR);
     }
 
     public void turnPlace() {
-        turnRot(rightRot, TURN_MAX - 0.4);
-        turnRot(leftRot, TURN_MIN + 0.4);
+        turnRot(rightRot, RPLACE);
+        turnRot(leftRot, LPLACE);
     }
 
 

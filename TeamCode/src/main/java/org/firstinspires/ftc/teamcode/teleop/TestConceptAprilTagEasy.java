@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -39,8 +40,8 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.vision.ConceptAprilTag;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-
-@TeleOp(name = "Concept: AprilTag Easy", group = "Concept")
+@Disabled
+//@TeleOp(name = "Concept: AprilTag Easy", group = "Concept")
 public class TestConceptAprilTagEasy extends LinearOpMode {
 
 
