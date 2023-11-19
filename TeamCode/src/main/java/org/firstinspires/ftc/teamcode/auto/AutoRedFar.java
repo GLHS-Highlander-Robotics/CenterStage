@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto;/* Copyright (c) 2017 FIRST. All rights reserved.
+/* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted (subject to the limitations in the disclaimer below) provided that
@@ -27,27 +27,14 @@ package org.firstinspires.ftc.teamcode.auto;/* Copyright (c) 2017 FIRST. All rig
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-//import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
-import static org.firstinspires.ftc.teamcode.constants.AutoMods.*;
+package org.firstinspires.ftc.teamcode.auto;
 
 import android.util.Size;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystem.drive.OldDrive;
 import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
@@ -59,7 +46,6 @@ public class AutoRedFar extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;
-    //MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(new Vector2d(0,0),0));
 
     @Override
     public void runOpMode() throws InterruptedException {
