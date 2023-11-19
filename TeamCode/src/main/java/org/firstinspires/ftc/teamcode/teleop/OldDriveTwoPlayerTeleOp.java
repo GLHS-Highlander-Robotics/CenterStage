@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_HEI
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_ROT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_ROT;
@@ -51,7 +52,9 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
     boolean rightStickPressed = false;
     boolean leftGrabbed = false;
     boolean rightGrabbed = false;
-    boolean rotated = false;
+    boolean detectedR = false;
+    boolean detectedL = false;
+    boolean detectedRot = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -62,6 +65,9 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
 
         drive.setModes(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         drive.imu.resetYaw();
+        slide.ungrabL();
+        slide.ungrabR();
+        slide.turnFloor();
         while (opModeInInit()) {
             updateTeleOpTelemetry();
             telemetry.update();
@@ -82,9 +88,11 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         if (gamepad2.a) {
             rotMotorSteps = MIN_ROT;
             armMotorSteps = LOW_HEIGHT;
+            slide.place=false;
 //            slide.turnFloor();
         } else if (gamepad2.b) {
             rotMotorSteps = LOW_ROT;
+//            armMotorSteps = MEDIUM_HEIGHT;
 //            slide.turnPlace();
         } else if (gamepad2.x) {
             rotMotorSteps = MEDIUM_ROT;
@@ -104,39 +112,60 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
              leftStickPressed = false;
         }
 
-        if (-gamepad2.right_stick_y > DEAD_ZONE_P2) {
+        // Raise Slide to Presets
+        if(gamepad2.left_bumper){
+            slide.setSlide(LOW_HEIGHT);
+        }else if(gamepad2.right_bumper){
+            slide.setSlide(MEDIUM_HEIGHT);
+        }
+
+        //incremental rotation with p2 dpad
+
+        if (gamepad2.dpad_up) {
             rotMotorSteps += INCREMENT_ROT;
-            rightStickPressed = true;
-        } else if (-gamepad2.right_stick_y < -DEAD_ZONE_P2) {
+            detectedRot = true;
+        } else if (gamepad2.dpad_down) {
             rotMotorSteps -= INCREMENT_ROT;
-            rightStickPressed = true;
-        } else if (rightStickPressed) {
-            rightStickPressed = false;
+            detectedRot = true;
+        } else if (detectedRot) {
+            detectedRot = false;
         }
         armMotorSteps = Range.clip(armMotorSteps, MIN_HEIGHT, MAX_HEIGHT);
         rotMotorSteps = Range.clip(rotMotorSteps, MIN_ROT, MAX_ROT);
         slide.setArmPos(armMotorSteps,rotMotorSteps);
 
         //Grab claw with p1 bumpers
-//        if (gamepad1.right_trigger > 0.5 && rightGrabbed) {
-//            slide.ungrabR();
-//        } else if (gamepad1.right_trigger > 0.5 && !rightGrabbed) {
-//            slide.grabR();
-//        } else if (!rightGrabbed) {
-//            rightGrabbed = true;
-//        } else {
-//            rightGrabbed = false;
-//        }
-//
-//        if (gamepad1.left_trigger > 0.5 && leftGrabbed) {
-//            slide.ungrabL();
-//        } else if (gamepad1.left_trigger > 0.5 && !leftGrabbed) {
-//            slide.grabL();
-//        } else if (gamepad1.left_trigger < 0.5 && !leftGrabbed) {
-//            leftGrabbed = true;
-//        } else if (gamepad1.left_trigger < 0.5 && leftGrabbed) {
-//            leftGrabbed = false;
-//        }
+
+        if (!detectedR) {
+            if (gamepad1.right_trigger > 0.5 && rightGrabbed) {
+                slide.ungrabR();
+                rightGrabbed = false;
+                detectedR = true;
+            } else if (gamepad1.right_trigger > 0.5 && !rightGrabbed) {
+                slide.grabR();
+                rightGrabbed = true;
+                detectedR = true;
+            }
+        } else {
+            if (gamepad1.right_trigger < 0.5) {
+                detectedR = false;
+            }
+        }
+        if (!detectedL) {
+            if (gamepad1.left_trigger > 0.5 && leftGrabbed) {
+                slide.ungrabL();
+                leftGrabbed = false;
+                detectedL = true;
+            } else if (gamepad1.left_trigger > 0.5 && !leftGrabbed) {
+                slide.grabL();
+                leftGrabbed = true;
+                detectedL = true;
+            }
+        } else {
+            if (gamepad1.left_trigger < 0.5) {
+                detectedL = false;
+            }
+        }
 
         //Rotate claw with p2 bumpers
         if (gamepad2.right_trigger > 0.5) {
@@ -146,18 +175,8 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
             slide.place = false;
 
         }
-        //incremental rotation with p2 dpad
-//        if (gamepad2.dpad_up) {
-//            slide.turnRot(slide.rightRot, slide.rightRot.getPosition() + 0.1);
-//            slide.turnRot(slide.leftRot, slide.leftRot.getPosition() - 0.1);
-//            rotated = true;
-//        } else if (gamepad2.dpad_down) {
-//            slide.turnRot(slide.rightRot, slide.rightRot.getPosition() - 0.1);
-//            slide.turnRot(slide.leftRot, slide.leftRot.getPosition() + 0.1);
-//            rotated = true;
-//        } else if (rotated) {
-//            rotated = false;
-//        }
+
+
     }
 
     public void updateDriveByGamepad() {

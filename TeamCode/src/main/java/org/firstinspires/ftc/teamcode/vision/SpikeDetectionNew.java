@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.constants.AutoMods;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
@@ -14,29 +15,26 @@ import org.opencv.imgproc.Imgproc;
 
 public class SpikeDetectionNew implements VisionProcessor {
     //private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
-    public static int LEFT_X = 100;
-    public static int LEFT_Y = 100;
+    public static Point LEFT_RED = new Point(100,200);
+    public static Point LEFT_BLUE = new Point(100,200);
 
-    public static int CENTER_X = 300;
-    public static int CENTER_Y = 100;
+    public static Point CENTER_RED = new Point(300,200);
+    public static Point CENTER_BLUE = new Point(300,200);
 
-    public static int RIGHT_X = 500;
-    public static int RIGHT_Y = 100;
+    public static Point RIGHT_RED = new Point(500,200);
+    public static Point RIGHT_BLUE = new Point(500,200);
 
-    public static int WIDTH = 40;
-    public static int HEIGHT = 10;
+    public static Size BOXSIZE = new Size(20,50);
 
     private Scalar left;
     private Scalar center;
     private Scalar right;
 
-    private Rect leftRect = new Rect(LEFT_X, LEFT_Y, WIDTH, HEIGHT);
-    private Rect centerRect = new Rect(CENTER_X, CENTER_Y, WIDTH, HEIGHT);
-    private Rect rightRect = new Rect(RIGHT_X, RIGHT_Y, WIDTH, HEIGHT);
+    private Rect leftRect;
+    private Rect centerRect;
+    private Rect rightRect;
 
-    private double maxColor;
-
-
+    private double thresh;
 
 
     Mat modMat = new Mat();
@@ -49,12 +47,15 @@ public class SpikeDetectionNew implements VisionProcessor {
 
         LEFT, RIGHT, CENTER
     }
-    public static Position pos = Position.RIGHT;
+    public static Position pos = Position.CENTER;
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
 //        lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
-
+        thresh = AutoMods.teamRed? 2.5 : 3.5;
+        leftRect = new Rect(AutoMods.teamRed? LEFT_RED : LEFT_BLUE, BOXSIZE);
+        centerRect = new Rect(AutoMods.teamRed? CENTER_RED : CENTER_BLUE, BOXSIZE);
+        rightRect = new Rect(AutoMods.teamRed? RIGHT_RED : RIGHT_BLUE, BOXSIZE);
     }
 
 
@@ -75,20 +76,35 @@ public class SpikeDetectionNew implements VisionProcessor {
         center = Core.sumElems(centerMat);
         right = Core.sumElems(rightMat);
 
-        maxColor = Math.max(left.val[AutoMods.teamRed? 0 : 2], Math.max(center.val[AutoMods.teamRed? 0 : 2], right.val[AutoMods.teamRed? 0 : 2]));
+        if ((AutoMods.isFar && AutoMods.teamRed) || (!AutoMods.isFar && !AutoMods.teamRed)) {
+                if (left.val[0] / 1000000.0 > thresh) {
+                    pos = Position.LEFT;
+                } else if (center.val[0] / 1000000.0 > thresh) {
+                    pos = Position.CENTER;
+                } else {
+                    pos = Position.RIGHT;
+                }
 
-        if (maxColor == left.val[AutoMods.teamRed? 0 : 2]) {
-            pos = Position.LEFT;
+        } else {
+            if (right.val[0] / 1000000.0 > thresh) {
+                pos = Position.RIGHT;
+            } else if (center.val[0] / 1000000.0 > thresh) {
+                pos = Position.CENTER;
+            } else {
+                pos = Position.LEFT;
+            }
+        }
+
+
+        if (pos == Position.LEFT) {
             Imgproc.rectangle(input, leftRect, AutoMods.teamRed? new Scalar (255, 0, 0) : new Scalar (0, 0, 255), 2);
             Imgproc.rectangle(input, rightRect, new Scalar (0, 0, 0), 2);
             Imgproc.rectangle(input, centerRect, new Scalar (0, 0, 0), 2);
-        } else if (maxColor == center.val[AutoMods.teamRed? 0 : 2]){
-            pos = Position.CENTER;
+        } else if (pos == Position.CENTER){
             Imgproc.rectangle(input, leftRect, new Scalar (0, 0, 0), 2);
             Imgproc.rectangle(input, rightRect, new Scalar (0, 0, 0), 2);
             Imgproc.rectangle(input, centerRect, AutoMods.teamRed? new Scalar (255, 0, 0) : new Scalar (0, 0, 255), 2);
         } else {
-            pos = Position.RIGHT;
             Imgproc.rectangle(input, leftRect, new Scalar (0, 0, 0), 2);
             Imgproc.rectangle(input, rightRect, AutoMods.teamRed? new Scalar (255, 0, 0) : new Scalar (0, 0, 255), 2);
             Imgproc.rectangle(input, centerRect, new Scalar (0, 0, 0), 2);

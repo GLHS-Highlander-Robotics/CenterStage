@@ -64,6 +64,7 @@ public class AutoRedFar extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         AutoMods.teamRed = true;
+        AutoMods.isFar = true;
         LinearSlide slide = new LinearSlide(hardwareMap);
         OldDrive drive = new OldDrive(hardwareMap);
 
