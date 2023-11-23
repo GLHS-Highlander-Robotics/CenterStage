@@ -21,6 +21,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.constants.AutoMods;
 import org.firstinspires.ftc.teamcode.subsystem.drive.OldDrive;
 import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 
@@ -60,14 +61,15 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Telemetry multTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        drive = new OldDrive(hardwareMap);
+        drive = new OldDrive(hardwareMap, this);
         slide = new LinearSlide(hardwareMap);
 
-        drive.setModes(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        drive.setModes(DcMotorEx.RunMode.RUN_USING_ENCODER);
         drive.imu.resetYaw();
         slide.ungrabL();
         slide.ungrabR();
         slide.turnFloor();
+        AutoMods.isAuto = false;
         while (opModeInInit()) {
             updateTeleOpTelemetry();
             telemetry.update();
@@ -87,18 +89,17 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         // Set rotation steps to predefined height with p2 buttons, preset pickup command
         if (gamepad2.a) {
             rotMotorSteps = MIN_ROT;
-            armMotorSteps = LOW_HEIGHT;
+            armMotorSteps = MIN_HEIGHT;
             slide.place=false;
-//            slide.turnFloor();
         } else if (gamepad2.b) {
             rotMotorSteps = LOW_ROT;
-//            armMotorSteps = MEDIUM_HEIGHT;
-//            slide.turnPlace();
+            armMotorSteps = MIN_HEIGHT;
+            slide.place = true;
         } else if (gamepad2.x) {
             rotMotorSteps = MEDIUM_ROT;
             armMotorSteps = MIN_HEIGHT;
         } else if (gamepad2.y) {
-            rotMotorSteps = MAX_ROT;
+            armMotorSteps = LOW_HEIGHT;
         }
 
         // Increase arm and rotation steps by increments using p2 sticks
@@ -241,6 +242,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         telemetry.addData("Actual rot motor steps:", slide.rotMotor.getCurrentPosition());
         telemetry.addData("Rot Power:", slide.rotMotor.getPower());
         telemetry.addData("Place:", slide.place);
+        telemetry.addData("Turn Rot:", slide.rightRot.getPosition());
 
 
 

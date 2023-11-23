@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystem.drive;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -11,15 +12,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class OldDrive {
     static final double RAW_TICKS_PER_ROTATION = 28;
     static final double MAX_MOTOR_RPM = 6000;
-    static final double GEAR_RATIO = 0.05291; //output divided by input
+    static final double GEAR_RATIO = 1.0/18.9; //output divided by input
     static final double WHEEL_DIAMETER = 3.0; //inches
 
     //Calculated Constants
     static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
     static final double GEARED_TICKS_PER_ROTATION = RAW_TICKS_PER_ROTATION / GEAR_RATIO;
     static final double GEARED_MOTOR_RPM = MAX_MOTOR_RPM * GEAR_RATIO;
-    static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / GEARED_TICKS_PER_ROTATION;
-    static final double MAX_SPEED = WHEEL_CIRCUMFERENCE * (GEARED_MOTOR_RPM / 60.0);
+    static final double INCHES_PER_TICK =  WHEEL_CIRCUMFERENCE / GEARED_TICKS_PER_ROTATION;
+    static final double MAX_SPEED = (9.0/12.0) * WHEEL_CIRCUMFERENCE * (GEARED_MOTOR_RPM / 60.0);
 
     //Constants that you can Change
     static final double HIGH_POWER = 0.85;
@@ -32,6 +33,7 @@ public class OldDrive {
     //Hardware
     public IMU imu;
     public DcMotor frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor;
+    LinearOpMode opMode;
 
 
     //Misc Variables
@@ -41,7 +43,7 @@ public class OldDrive {
 
     /* -------Constructor------- */
 
-    public OldDrive (HardwareMap hardwareMap) {
+    public OldDrive (HardwareMap hardwareMap, LinearOpMode linearopmode) {
         frontLeftMotor = hardwareMap.get(DcMotor.class, "motor_front_left");
         frontRightMotor = hardwareMap.get(DcMotor.class, "motor_front_right");
         backLeftMotor = hardwareMap.get(DcMotor.class, "motor_back_left");
@@ -60,6 +62,7 @@ public class OldDrive {
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        opMode = linearopmode;
     }
 
     /* -------Telemetry------- */
@@ -77,7 +80,7 @@ public class OldDrive {
 
     //Converts distance to time based on the velocity of the robot
     public static double distToTime(double inches, double power) {
-        return Math.round((inches / (MAX_SPEED * power)) * 100) / 100.0;
+        return Math.round(((inches - 2) / (MAX_SPEED * power)) * 100) / 100.0;
     }
 
     /* -------Update Heading------- */
@@ -142,7 +145,7 @@ public class OldDrive {
 
         setPowers(speed);
         while (isBusy(backLeftMotor, backRightMotor, frontLeftMotor, frontRightMotor)){
-
+            opMode.idle();
         }
     }
 
@@ -159,8 +162,8 @@ public class OldDrive {
         setModes(DcMotor.RunMode.RUN_TO_POSITION);
 
         setPowers(speed);
-        while (isBusy(backLeftMotor, backRightMotor, frontLeftMotor, frontRightMotor)){
-
+        while (isBusy(backLeftMotor, backRightMotor, frontLeftMotor, frontRightMotor)) {
+            opMode.idle();
         }
     }
 
@@ -204,17 +207,24 @@ public class OldDrive {
     public void rotateAndMove(double seconds, double rotateTarget, double forwardPower, double strafePower, double rotatePower) {
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
+
         double fieldForward;
         double fieldStrafe;
         updateHeadingDeg();
+        double oghead = botHeading;
         setModes(DcMotor.RunMode.RUN_USING_ENCODER);
-        while (timer.time() < seconds && (botHeading < rotateTarget - 2 || botHeading > rotateTarget + 2)) {
+        while (timer.time() < seconds && (botHeading < rotateTarget - 5 || botHeading > rotateTarget + 5)) {
             updateHeadingRad();
             fieldForward = strafePower * Math.sin(-botHeading) + forwardPower * Math.cos(-botHeading);
             fieldStrafe = strafePower * Math.cos(-botHeading) - forwardPower * Math.sin(-botHeading);
             updateHeadingDeg();
-
-            driveBot(fieldForward, fieldStrafe, rotatePower);
+            opMode.telemetry.addData("rot: ", botHeading);
+            opMode.telemetry.update();
+            if (oghead - rotateTarget < 0) {
+                driveBot(fieldForward, fieldStrafe, -rotatePower);
+            } else {
+                driveBot(fieldForward, fieldStrafe, rotatePower);
+            }
 
         }
         while (timer.time() < seconds) {
@@ -222,7 +232,28 @@ public class OldDrive {
             updateHeadingRad();
             fieldForward = strafePower * Math.sin(-botHeading) + forwardPower * Math.cos(-botHeading);
             fieldStrafe = strafePower * Math.cos(-botHeading) - forwardPower * Math.sin(-botHeading);
-            driveBot(fieldForward, fieldStrafe, 0);
+            updateHeadingDeg();
+            if (botHeading < rotateTarget - 5) {
+                driveBot(fieldForward, fieldStrafe, -rotatePower * 0.5);
+            } else if (botHeading > rotateTarget + 5) {
+                driveBot(fieldForward, fieldStrafe, rotatePower * 0.5);
+            } else {
+                driveBot(fieldForward, fieldStrafe, 0);
+            }
+            opMode.telemetry.addData("rot: ", botHeading);
+            opMode.telemetry.update();
+
+        }
+
+        while (botHeading < rotateTarget - 5 || botHeading > rotateTarget + 5) {
+            if (botHeading <= rotateTarget - 5) {
+                driveBot(0, 0, -rotatePower * 0.5);
+            } else if (botHeading >= rotateTarget + 5) {
+                driveBot(0, 0, rotatePower * 0.5);
+            } else {
+                driveBot(0, 0, 0);
+            }
+            updateHeadingDeg();
         }
         setPowers(0);
     }
@@ -250,15 +281,14 @@ public class OldDrive {
         rotateAndMove(travelTime, rotateTarget, forwardPower, strafePower, rotatePower);
     }
 
-
     //Idle function
     public boolean isBusy(DcMotor... motors) {
         for (DcMotor motor : motors) {
-            if (!motor.isBusy()) {
-                return false;
+            if (motor.isBusy()) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
 
