@@ -69,7 +69,6 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         slide.ungrabL();
         slide.ungrabR();
         slide.turnFloor();
-        AutoMods.isAuto = false;
         while (opModeInInit()) {
             updateTeleOpTelemetry();
             telemetry.update();

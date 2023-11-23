@@ -15,16 +15,15 @@ import org.opencv.imgproc.Imgproc;
 
 public class SpikeDetectionNew implements VisionProcessor {
     //private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
-    public static Point LEFT_RED = new Point(185,300);
-    public static Point LEFT_BLUE = new Point(185,300);
+    public static Point LEFT_RED = new Point(185,325);
+    public static Point LEFT_BLUE = new Point(50,325);
 
     public static Point CENTER_RED = new Point(420,300);
-    public static Point CENTER_BLUE = new Point(420,300);
+    public static Point CENTER_BLUE = new Point(220,300);
 
-    public static Point RIGHT_RED = new Point(500,200);
-    public static Point RIGHT_BLUE = new Point(500,200);
+    public static Point RIGHT_RED = new Point(580,325);
+    public static Point RIGHT_BLUE = new Point(455,325);
 
-    public static Size BOXSIZE = new Size(20,50);
     public static Size BOXSIZEC = new Size(50,20);
 
     private Scalar left;
@@ -52,11 +51,20 @@ public class SpikeDetectionNew implements VisionProcessor {
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
+        thresh = AutoMods.teamRed ? 1 : 1;
 //        lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
-        thresh = AutoMods.teamRed? 1 : 3.5;
-        leftRect = new Rect(AutoMods.teamRed? LEFT_RED : LEFT_BLUE, BOXSIZEC);
-        centerRect = new Rect(AutoMods.teamRed? CENTER_RED : CENTER_BLUE, BOXSIZEC);
-        rightRect = new Rect(AutoMods.teamRed? RIGHT_RED : RIGHT_BLUE, BOXSIZE);
+        if ((AutoMods.isFar && AutoMods.teamRed) || (!AutoMods.isFar && !AutoMods.teamRed)) {
+
+
+            leftRect = new Rect(LEFT_RED, BOXSIZEC);
+            centerRect = new Rect(CENTER_RED, BOXSIZEC);
+            rightRect = new Rect(RIGHT_RED, BOXSIZEC);
+        } else {
+            leftRect = new Rect(LEFT_BLUE, BOXSIZEC);
+            centerRect = new Rect(CENTER_BLUE, BOXSIZEC);
+            rightRect = new Rect(RIGHT_BLUE, BOXSIZEC);
+        }
+
     }
 
 
@@ -88,9 +96,9 @@ public class SpikeDetectionNew implements VisionProcessor {
                 }
 
         } else {
-            if (right.val[0] / 100000.0 < thresh && left.val[0] < center.val[0]) {
+            if (right.val[1] / 100000.0 > thresh) {
                 pos = Position.RIGHT;
-            } else if (center.val[0] / 100000.0 < thresh) {
+            } else if (center.val[1] / 100000.0 > thresh) {
                 pos = Position.CENTER;
             } else {
                 pos = Position.LEFT;

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @Config
@@ -100,7 +101,10 @@ public class LinearSlide {
 
     public void setAutoPos (int armstep, int rotstep) {
         setArmPos(armMotorSteps,rotstep);
-        while (rotMotor.isBusy()) {
+        ElapsedTime safetime = new ElapsedTime();
+        safetime.reset();
+        while (rotMotor.isBusy() && safetime.time() < 5) {
+
             if (rotMotorSteps == MIN_ROT && rotMotor.getCurrentPosition() > MIN_ROT){
                 if (rotMotor.getCurrentPosition() < 100) {
                     rotMotor.setPower(MIN_POWER_ROT);
