@@ -84,46 +84,46 @@ public class AutoRedClose extends LinearOpMode{
         switch (position) {
             case LEFT:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(90, 32, 4, 0.5, 0.2);
+                drive.rotateAndMoveInches(90, 30, 4, 0.5, 0.2);
                 slide.ungrabR();
+                slide.setAutoPos(0, slide.MEDIUM_ROT);
+                slide.setAutoPos(0, slide.LOW_ROT + 20);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90, 13, 44, 0.5, 0.5);
+                slide.ungrabL();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
-                slide.setAutoPos(0, slide.LOW_ROT + 30);
-                slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, 10, 39, 0.3, 0.5);
-                slide.ungrabL();
-                while (timer.time() < 1) {idle();}
+                slide.setAutoPos(0,0);
+                drive.rotateAndMoveInches(90, -35, -5, 0.5, 0.5);
 
-                drive.rotateAndMoveInches(90, -30, -10, 0.5, 0.5);
                 break;
             case RIGHT:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(90, 32, 18, 0.5, 0.2);
+                drive.rotateAndMoveInches(90, 30, 29, 0.5, 0.2);
                 slide.ungrabR();
+                slide.setAutoPos(0, slide.MEDIUM_ROT);
+                slide.setAutoPos(0, slide.LOW_ROT + 20);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90, -2, 40, 0.5, 0.5);
+                slide.ungrabL();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
-                slide.setAutoPos(0, slide.LOW_ROT + 30);
-                slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, -10, 19, 0.3, 0.5);
-                slide.ungrabL();
-                while (timer.time() < 1) {idle();}
                 slide.setAutoPos(0,0);
-                drive.rotateAndMoveInches(90, -20, -10, 0.5, 0.5);
-
+                drive.rotateAndMoveInches(90, -27, -5, 0.5, 0.5);
                 break;
             case CENTER:
                 slide.turnFloor();
                 drive.rotateAndMoveInches(0, 32, 0, 0.5, 0.2);
                 slide.ungrabR();
-                timer.reset();
-                while (timer.time() < 1) {idle();}
-                drive.rotateAndMoveInches(90, 0, 37, 0.5, 0.5);
-                slide.setAutoPos(0, slide.LOW_ROT + 30);
+                slide.setAutoPos(0, slide.MEDIUM_ROT);
+                slide.setAutoPos(0, slide.LOW_ROT + 20);
                 slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90, 0, 48, 0.5, 0.5);
                 slide.ungrabL();
-                while (timer.time() < 1) {idle();}
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
                 slide.setAutoPos(0,0);
-                drive.rotateAndMoveInches(90, -30, -10, 0.5, 0.5);
+                drive.rotateAndMoveInches(90, -30, -5, 0.5, 0.5);
 
                 break;
             default:

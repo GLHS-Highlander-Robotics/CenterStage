@@ -16,13 +16,13 @@ import org.opencv.imgproc.Imgproc;
 public class SpikeDetectionNew implements VisionProcessor {
     //private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
     public static Point LEFT_RED = new Point(185,325);
-    public static Point LEFT_BLUE = new Point(50,325);
+    public static Point LEFT_BLUE = new Point(185,325);
 
     public static Point CENTER_RED = new Point(420,300);
-    public static Point CENTER_BLUE = new Point(220,300);
+    public static Point CENTER_BLUE = new Point(420,300);
 
     public static Point RIGHT_RED = new Point(580,325);
-    public static Point RIGHT_BLUE = new Point(455,325);
+    public static Point RIGHT_BLUE = new Point(580,325);
 
     public static Size BOXSIZEC = new Size(50,20);
 
@@ -86,24 +86,15 @@ public class SpikeDetectionNew implements VisionProcessor {
         center = Core.sumElems(centerMat);
         right = Core.sumElems(rightMat);
 
-        if ((AutoMods.isFar && AutoMods.teamRed) || (!AutoMods.isFar && !AutoMods.teamRed)) {
-                if (left.val[1] / 100000.0 > thresh) {
-                    pos = Position.LEFT;
-                } else if (center.val[1] / 100000.0 > thresh) {
-                    pos = Position.CENTER;
-                } else {
-                    pos = Position.RIGHT;
-                }
 
+        if (left.val[1] / 100000.0 > thresh) {
+            pos = Position.LEFT;
+        } else if (center.val[1] / 100000.0 > thresh) {
+            pos = Position.CENTER;
         } else {
-            if (right.val[1] / 100000.0 > thresh) {
-                pos = Position.RIGHT;
-            } else if (center.val[1] / 100000.0 > thresh) {
-                pos = Position.CENTER;
-            } else {
-                pos = Position.LEFT;
-            }
+            pos = Position.RIGHT;
         }
+
 
 
         if (pos == Position.LEFT) {

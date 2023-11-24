@@ -78,6 +78,7 @@ public class AutoRedFarBoard extends LinearOpMode{
         ElapsedTime timer = new ElapsedTime();
         int forwardDist = 0;
         int rotDist = 0;
+        int rightDist = 50;
         drive.imu.resetYaw();
         SpikeDetectionNew.Position position = spikeDetect.getPos();
         portal.close();
@@ -89,12 +90,23 @@ public class AutoRedFarBoard extends LinearOpMode{
                 timer.reset();
                 while (timer.time() < 1) {idle();}
                 slide.setAutoPos(0, slide.MEDIUM_ROT);
-                drive.rotateAndMoveInches(90, 0, 23, 0.3, 0.5);
                 forwardDist = 13;
                 rotDist = slide.LOW_ROT + 30;
                 break;
             case RIGHT:
+                slide.turnFloor();
+                drive.rotateAndMoveInches(0, 6, 29, 0.5, 0.2);
+                drive.rotateAndMoveInches(0, 23, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(90, 0, -8, 0.5, 0.5);
+                slide.ungrabR();
+                timer.reset();
+                while (timer.time() < 1) {idle();}
+                drive.rotateAndMoveInches(90, 0, 24, 0.5, 0.2);
+                slide.setAutoPos(0, slide.MEDIUM_ROT);
 
+                forwardDist = -5;
+                rotDist = slide.LOW_ROT + 30;
+                rightDist = 35;
                 break;
             case CENTER:
                 slide.turnFloor();
@@ -113,7 +125,7 @@ public class AutoRedFarBoard extends LinearOpMode{
                 break;
         }
 
-        drive.rotateAndMoveInches(90, 0, 50, 0.5, 0.5);
+        drive.rotateAndMoveInches(90, 0, rightDist, 0.5, 0.5);
         slide.setAutoPos(0, rotDist);
         slide.turnPlaceEx();
         drive.rotateAndMoveInches(90, forwardDist, 20, 0.3, 0.5);
