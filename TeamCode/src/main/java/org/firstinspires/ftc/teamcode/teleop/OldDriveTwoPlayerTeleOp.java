@@ -17,6 +17,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 
@@ -56,7 +57,10 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
     boolean detectedR = false;
     boolean detectedL = false;
     boolean detectedRot = false;
-
+    boolean detectedRotTrig = false;
+    boolean rotTrigged = false;
+    boolean detectedResetTrig = false;
+    boolean resetTrigged = false;
     @Override
     public void runOpMode() throws InterruptedException {
         Telemetry multTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -69,6 +73,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         slide.ungrabL();
         slide.ungrabR();
         slide.turnFloor();
+        slide.place = false;
         while (opModeInInit()) {
             updateTeleOpTelemetry();
             telemetry.update();
@@ -89,7 +94,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         if (gamepad2.a) {
             rotMotorSteps = MIN_ROT;
             armMotorSteps = MIN_HEIGHT;
-            slide.place=false;
+            slide.place = false;
         } else if (gamepad2.b) {
             rotMotorSteps = LOW_ROT;
             armMotorSteps = MIN_HEIGHT;
@@ -104,18 +109,18 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         // Increase arm and rotation steps by increments using p2 sticks
         if (-gamepad2.left_stick_y > DEAD_ZONE_P2) {
             armMotorSteps += INCREMENT_STEPS_SLIDE;
-             leftStickPressed = true;
+            leftStickPressed = true;
         } else if (-gamepad2.left_stick_y < -DEAD_ZONE_P2) {
             armMotorSteps -= INCREMENT_STEPS_SLIDE;
-             leftStickPressed= true;
+            leftStickPressed = true;
         } else if (leftStickPressed) {
-             leftStickPressed = false;
+            leftStickPressed = false;
         }
 
         // Raise Slide to Presets
-        if(gamepad2.left_bumper){
+        if (gamepad2.left_bumper) {
             slide.setSlide(LOW_HEIGHT);
-        }else if(gamepad2.right_bumper){
+        } else if (gamepad2.right_bumper) {
             slide.setSlide(MEDIUM_HEIGHT);
         }
 
@@ -132,7 +137,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         }
         armMotorSteps = Range.clip(armMotorSteps, MIN_HEIGHT, MAX_HEIGHT);
         rotMotorSteps = Range.clip(rotMotorSteps, MIN_ROT, MAX_ROT);
-        slide.setArmPos(armMotorSteps,rotMotorSteps);
+        slide.setArmPos(armMotorSteps, rotMotorSteps);
 
         //Grab claw with p1 bumpers
 
@@ -166,18 +171,50 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
                 detectedL = false;
             }
         }
+        // rotation trigger
+        if (!detectedRotTrig) {
+            if (gamepad2.right_trigger > 0.5 && rotTrigged) {
+                slide.place = true;
+                detectedRotTrig = true;
+                rotTrigged = false;
 
-        //Rotate claw with p2 bumpers
-        if (gamepad2.right_trigger > 0.5) {
-            slide.place = true;
+            } else if (gamepad2.right_trigger > 0.5 && !rotTrigged) {
+                slide.place = false;
+                detectedRotTrig = true;
+                rotTrigged = true;
 
-        } else if (gamepad2.left_trigger > 0.5) {
-            slide.place = false;
-
+            }
+        } else {
+            if (gamepad2.right_trigger < 0.5)
+                detectedRotTrig = false;
         }
 
 
+        if (!detectedResetTrig) {
+            if (gamepad2.left_trigger > 0.5 && !resetTrigged) {
+                slide.rotMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+                detectedResetTrig = true;
+                resetTrigged = false;
+
+            } else if (gamepad2.left_trigger > 0.5 && rotTrigged) {
+                slide.rotMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+                detectedRotTrig = true;
+                resetTrigged = true;
+
+            }
+        } else {
+            if (gamepad2.left_trigger < 0.5) {
+                detectedResetTrig = false;
+            }
+
+
+        }
     }
+
+
+
+
+
 
     public void updateDriveByGamepad() {
         drive.updateHeadingRad();

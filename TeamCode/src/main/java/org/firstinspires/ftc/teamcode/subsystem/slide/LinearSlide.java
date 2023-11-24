@@ -30,8 +30,8 @@ public class LinearSlide {
 
     //Rot steps
     public static int MIN_ROT = 0;
-    public static int LOW_ROT = 350;
-    public static int MEDIUM_ROT = 440;
+    public static int LOW_ROT = 370;
+    public static int MEDIUM_ROT = 460;
     public static int MAX_ROT = 540;
     public static int INCREMENT_ROT = 3;
     //Grip pos
@@ -156,7 +156,7 @@ public class LinearSlide {
         if (rotMotor.isBusy()) {
             if (rotMotorSteps == MIN_ROT && rotMotor.getCurrentPosition() > MIN_ROT){
                 if (rotMotor.getCurrentPosition() < 100) {
-                    rotMotor.setPower(MIN_POWER_ROT);
+                    rotMotor.setPower(MAX_POWER_ROT);
                 } else {
                     rotMotor.setPower(MAX_POWER_ROT);
                 }
@@ -224,9 +224,9 @@ public class LinearSlide {
     }
 
     public void turnPlaceEx() {
-        if (rotMotor.getCurrentPosition() > LOW_ROT - 10) {
-            turnRot(rightRot, RPLACE + (0.5/270.0) * (rotMotor.getCurrentPosition() - LOW_ROT));
-            turnRot(leftRot, LPLACE - (0.5/270.0) * (rotMotor.getCurrentPosition() - LOW_ROT));
+        if (rotMotor.getCurrentPosition() > LOW_ROT - 30) {
+            turnRot(rightRot, RPLACE + (0.5/270.0) * (rotMotor.getCurrentPosition() - (LOW_ROT - 30)));
+            turnRot(leftRot, LPLACE - (0.5/270.0) * (rotMotor.getCurrentPosition() - (LOW_ROT - 30)));
         } else {
             turnPlace();
         }

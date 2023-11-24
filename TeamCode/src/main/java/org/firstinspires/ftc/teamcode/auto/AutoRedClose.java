@@ -45,7 +45,7 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "CloseRedBoard")
+@Autonomous(name = "RedBoard")
 public class AutoRedClose extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
@@ -76,8 +76,6 @@ public class AutoRedClose extends LinearOpMode{
 
         waitForStart();
         ElapsedTime timer = new ElapsedTime();
-        int forwardDist = 0;
-        int rotDist = 0;
         drive.imu.resetYaw();
         SpikeDetectionNew.Position position = spikeDetect.getPos();
         portal.close();
@@ -87,7 +85,7 @@ public class AutoRedClose extends LinearOpMode{
                 drive.rotateAndMoveInches(90, 30, 4, 0.5, 0.2);
                 slide.ungrabR();
                 slide.setAutoPos(0, slide.MEDIUM_ROT);
-                slide.setAutoPos(0, slide.LOW_ROT + 20);
+                slide.setAutoPos(0, slide.LOW_ROT + 10);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90, 13, 44, 0.5, 0.5);
                 slide.ungrabL();
@@ -102,7 +100,7 @@ public class AutoRedClose extends LinearOpMode{
                 drive.rotateAndMoveInches(90, 30, 29, 0.5, 0.2);
                 slide.ungrabR();
                 slide.setAutoPos(0, slide.MEDIUM_ROT);
-                slide.setAutoPos(0, slide.LOW_ROT + 20);
+                slide.setAutoPos(0, slide.LOW_ROT + 10);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90, -2, 40, 0.5, 0.5);
                 slide.ungrabL();
@@ -116,7 +114,7 @@ public class AutoRedClose extends LinearOpMode{
                 drive.rotateAndMoveInches(0, 32, 0, 0.5, 0.2);
                 slide.ungrabR();
                 slide.setAutoPos(0, slide.MEDIUM_ROT);
-                slide.setAutoPos(0, slide.LOW_ROT + 20);
+                slide.setAutoPos(0, slide.LOW_ROT + 10);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90, 0, 48, 0.5, 0.5);
                 slide.ungrabL();

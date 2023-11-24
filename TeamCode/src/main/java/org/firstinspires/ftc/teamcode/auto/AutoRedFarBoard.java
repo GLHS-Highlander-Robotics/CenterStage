@@ -34,6 +34,7 @@ import android.util.Size;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -45,7 +46,7 @@ import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.teamcode.constants.AutoMods;
 
-@Autonomous(name = "FarRedBoard")
+@Disabled
 public class AutoRedFarBoard extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
@@ -91,7 +92,7 @@ public class AutoRedFarBoard extends LinearOpMode{
                 while (timer.time() < 1) {idle();}
                 slide.setAutoPos(0, slide.MEDIUM_ROT);
                 forwardDist = 13;
-                rotDist = slide.LOW_ROT + 30;
+                rotDist = slide.LOW_ROT - 10;
                 break;
             case RIGHT:
                 slide.turnFloor();
@@ -119,7 +120,7 @@ public class AutoRedFarBoard extends LinearOpMode{
                 slide.setAutoPos(0, slide.MEDIUM_ROT);
                 drive.rotateAndMoveInches(90, 0, 20, 0.3, 0.5);
                 forwardDist = 5;
-                rotDist = slide.LOW_ROT + 20;
+                rotDist = slide.LOW_ROT;
                 break;
             default:
                 break;

@@ -45,7 +45,7 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "FarRedStay")
+@Autonomous(name = "RedSpawn")
 public class AutoRedFarStay extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
@@ -89,7 +89,11 @@ public class AutoRedFarStay extends LinearOpMode{
 
                 break;
             case RIGHT:
-
+                slide.turnFloor();
+                drive.rotateAndMoveInches(-9, 32, 4, 0.5, 0.2);
+                slide.ungrabR();
+                timer.reset();
+                while (timer.time() < 1) {idle();}
                 break;
             case CENTER:
                 slide.turnFloor();
