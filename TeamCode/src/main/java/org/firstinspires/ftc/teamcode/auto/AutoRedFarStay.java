@@ -90,7 +90,7 @@ public class AutoRedFarStay extends LinearOpMode{
                 break;
             case RIGHT:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(-9, 32, 4, 0.5, 0.2);
+                drive.rotateAndMoveInches(-90, 36, 0, 0.5, 0.2);
                 slide.ungrabR();
                 timer.reset();
                 while (timer.time() < 1) {idle();}

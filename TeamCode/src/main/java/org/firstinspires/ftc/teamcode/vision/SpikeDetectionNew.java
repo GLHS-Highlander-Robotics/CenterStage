@@ -15,11 +15,11 @@ import org.opencv.imgproc.Imgproc;
 
 public class SpikeDetectionNew implements VisionProcessor {
     //private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
-    public static Point LEFT_RED = new Point(185,325);
-    public static Point LEFT_BLUE = new Point(185,325);
+    public static Point LEFT_RED = new Point(145,325);
+    public static Point LEFT_BLUE = new Point(145,325);
 
-    public static Point CENTER_RED = new Point(420,300);
-    public static Point CENTER_BLUE = new Point(420,300);
+    public static Point CENTER_RED = new Point(395,300);
+    public static Point CENTER_BLUE = new Point(395,300);
 
     public static Point RIGHT_RED = new Point(580,325);
     public static Point RIGHT_BLUE = new Point(580,325);

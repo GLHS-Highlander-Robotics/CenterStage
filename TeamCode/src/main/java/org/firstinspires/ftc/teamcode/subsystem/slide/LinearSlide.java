@@ -26,14 +26,15 @@ public class LinearSlide {
     //Rot powers
     public static double MIN_POWER_ROT = 0;
     public static double HOLD_POWER_ROT = 1;
-    public static double MAX_POWER_ROT = 0.50;
+    public static double MAX_POWER_ROT = 1;
 
     //Rot steps
     public static int MIN_ROT = 0;
-    public static int LOW_ROT = 370;
-    public static int MEDIUM_ROT = 460;
-    public static int MAX_ROT = 540;
-    public static int INCREMENT_ROT = 3;
+    public static int LOW_ROT = 350;
+    public static int MEDIUM_ROT = 1295;
+    public static int HIGH_ROT = 760;
+    public static int MAX_ROT = 2106;
+    public static int INCREMENT_ROT = 10;
     //Grip pos
     public static double RFLOOR = 0.9;
     public static double LFLOOR = 0.29;
@@ -90,7 +91,7 @@ public class LinearSlide {
     }
 
     public void setRot(int steps) {
-        rotMotorSteps = Range.clip(steps, MIN_ROT, MAX_ROT);
+        rotMotorSteps = Range.clip(steps, MIN_ROT - 50, MAX_ROT);
         rotMotor.setTargetPosition(rotMotorSteps);
     }
 
@@ -153,40 +154,45 @@ public class LinearSlide {
                 slideMotor.setPower(MIN_POWER_SLIDE);
             }
         }
-        if (rotMotor.isBusy()) {
-            if (rotMotorSteps == MIN_ROT && rotMotor.getCurrentPosition() > MIN_ROT){
-                if (rotMotor.getCurrentPosition() < 100) {
-                    rotMotor.setPower(MAX_POWER_ROT);
-                } else {
-                    rotMotor.setPower(MAX_POWER_ROT);
-                }
-            } else if (rotMotorSteps == MEDIUM_ROT && rotMotor.getCurrentPosition() < MEDIUM_ROT) {
-                if (rotMotor.getCurrentPosition() > 400) {
-                    rotMotor.setPower(MIN_POWER_ROT);
-                } else {
-                    rotMotor.setPower(MAX_POWER_ROT);
-                }
-            } else if (rotMotorSteps == LOW_ROT && rotMotor.getCurrentPosition() < LOW_ROT) {
-                if (rotMotor.getCurrentPosition() > 300) {
-                    rotMotor.setPower(MIN_POWER_ROT);
-                } else {
-                    rotMotor.setPower(MAX_POWER_ROT);
-                }
-            } else {
-                rotMotor.setPower(MAX_POWER_ROT);
-            }
-        } else {
-            rotMotor.setPower(HOLD_POWER_ROT);
-            if (rotMotor.getCurrentPosition() == MIN_ROT) {
-                rotMotor.setPower(MIN_POWER_ROT);
-            }
-        }
+//        if (rotMotor.isBusy()) {
+//            if (rotMotorSteps == MIN_ROT && rotMotor.getCurrentPosition() > MIN_ROT){
+//                if (rotMotor.getCurrentPosition() < 100) {
+//                    rotMotor.setPower(MIN_POWER_ROT);
+//                } else {
+//                    rotMotor.setPower(MAX_POWER_ROT);
+//                }
+//            } else if (rotMotorSteps == HIGH_ROT && rotMotor.getCurrentPosition() < HIGH_ROT) {
+//                if (rotMotor.getCurrentPosition() > 400) {
+//                    rotMotor.setPower(MIN_POWER_ROT);
+//                } else {
+//                    rotMotor.setPower(MAX_POWER_ROT);
+//                }
+//            } else if (rotMotorSteps == MEDIUM_ROT && rotMotor.getCurrentPosition() < MEDIUM_ROT) {
+//                if (rotMotor.getCurrentPosition() > 300) {
+//                    rotMotor.setPower(MIN_POWER_ROT);
+//                } else {
+//                    rotMotor.setPower(MAX_POWER_ROT);
+//                }
+//            } else if(rotMotorSteps == LOW_ROT && rotMotor.getCurrentPosition()>LOW_ROT){
+//                if(rotMotor.getCurrentPosition()<175){
+//                    rotMotor.setPower(MIN_POWER_ROT);
+//                }else{
+//                    rotMotor.setPower(MAX_POWER_ROT);
+//                }
+//            }else {
+//                rotMotor.setPower(MAX_POWER_ROT);
+//            }
+//        } else {
+//            rotMotor.setPower(HOLD_POWER_ROT);
+//            if (rotMotor.getCurrentPosition() == MIN_ROT) {
+//                rotMotor.setPower(MIN_POWER_ROT);
+//            }
+//        }
 
         if (place == false) {
             turnFloor();
         } else {
             turnPlaceEx();
-
         }
     }
 //Grab functions
@@ -210,7 +216,6 @@ public class LinearSlide {
     }
     public void turnRot(Servo rotX, double ticks) {
         rotX.setPosition(Range.clip(ticks, 0, 1));
-
     }
 
     public void turnFloor() {
@@ -224,9 +229,9 @@ public class LinearSlide {
     }
 
     public void turnPlaceEx() {
-        if (rotMotor.getCurrentPosition() > LOW_ROT - 30) {
-            turnRot(rightRot, RPLACE + (0.5/270.0) * (rotMotor.getCurrentPosition() - (LOW_ROT - 30)));
-            turnRot(leftRot, LPLACE - (0.5/270.0) * (rotMotor.getCurrentPosition() - (LOW_ROT - 30)));
+        if (rotMotor.getCurrentPosition() > MEDIUM_ROT - 30) {
+            turnRot(rightRot, RPLACE + (0.5/270.0) * (rotMotor.getCurrentPosition() - (MEDIUM_ROT - 30)));
+            turnRot(leftRot, LPLACE - (0.5/270.0) * (rotMotor.getCurrentPosition() - (MEDIUM_ROT - 30)));
         } else {
             turnPlace();
         }

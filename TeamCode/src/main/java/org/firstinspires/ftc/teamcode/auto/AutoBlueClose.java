@@ -45,8 +45,8 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "RedBoard")
-public class AutoRedClose extends LinearOpMode{
+@Autonomous(name = "BlueBoard")
+public class AutoBlueClose extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;
@@ -56,7 +56,7 @@ public class AutoRedClose extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         Telemetry multTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        AutoMods.teamRed = true;
+        AutoMods.teamRed = false;
         AutoMods.isFar = false;
         slide = new LinearSlide(hardwareMap);
         drive = new OldDrive(hardwareMap, this);
@@ -80,34 +80,34 @@ public class AutoRedClose extends LinearOpMode{
         SpikeDetectionNew.Position position = spikeDetect.getPos();
         portal.close();
         switch (position) {
-            case LEFT:
-                slide.turnFloor();
-                drive.rotateAndMoveInches(90, 30, 1, 0.5, 0.2);
-                slide.ungrabR();
-                slide.setAutoPos(0, slide.MEDIUM_ROT);
-                slide.setAutoPos(0, slide.LOW_ROT + 20);
-                slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, 16, 46, 0.5, 0.5);
-                slide.ungrabL();
-                timer.reset();
-                while (timer.time() < 0.5) {idle();}
-                slide.setAutoPos(0,0);
-                drive.rotateAndMoveInches(90, -35, -5, 0.5, 0.5);
-
-                break;
             case RIGHT:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(90, 30, 29, 0.5, 0.2);
+                drive.rotateAndMoveInches(-90, 30, 1, 0.5, 0.2);
                 slide.ungrabR();
                 slide.setAutoPos(0, slide.MEDIUM_ROT);
-                slide.setAutoPos(0, slide.LOW_ROT + 20);
+                slide.setAutoPos(0, slide.LOW_ROT + 10);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, 0, 40, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, 2, -46, 0.5, 0.5);
                 slide.ungrabL();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
                 slide.setAutoPos(0,0);
-                drive.rotateAndMoveInches(90, -27, -5, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, -35, 5, 0.5, 0.5);
+
+                break;
+            case LEFT:
+                slide.turnFloor();
+                drive.rotateAndMoveInches(-90, 30, -29, 0.5, 0.2);
+                slide.ungrabR();
+                slide.setAutoPos(0, slide.MEDIUM_ROT);
+                slide.setAutoPos(0, slide.LOW_ROT + 20);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(-90, -13, -43, 0.5, 0.5);
+                slide.ungrabL();
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
+                slide.setAutoPos(0,0);
+                drive.rotateAndMoveInches(-90, -27, 5, 0.5, 0.5);
                 break;
             case CENTER:
                 slide.turnFloor();
@@ -116,12 +116,12 @@ public class AutoRedClose extends LinearOpMode{
                 slide.setAutoPos(0, slide.MEDIUM_ROT);
                 slide.setAutoPos(0, slide.LOW_ROT + 20);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, 0, 48, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, -866, -52, 0.5, 0.5);
                 slide.ungrabL();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
                 slide.setAutoPos(0,0);
-                drive.rotateAndMoveInches(90, -30, -5, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, -30, 5, 0.5, 0.5);
 
                 break;
             default:

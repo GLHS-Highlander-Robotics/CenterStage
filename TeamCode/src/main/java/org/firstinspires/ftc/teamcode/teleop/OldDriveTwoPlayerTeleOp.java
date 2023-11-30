@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.HIGH_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREMENT_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREMENT_STEPS_SLIDE;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_HEIGHT;
@@ -94,16 +95,19 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         if (gamepad2.a) {
             rotMotorSteps = MIN_ROT;
             armMotorSteps = MIN_HEIGHT;
+            slide.turnFloor();
             slide.place = false;
         } else if (gamepad2.b) {
             rotMotorSteps = LOW_ROT;
             armMotorSteps = MIN_HEIGHT;
-            slide.place = true;
         } else if (gamepad2.x) {
             rotMotorSteps = MEDIUM_ROT;
             armMotorSteps = MIN_HEIGHT;
+            slide.turnPlaceEx();
+            slide.place=true;
         } else if (gamepad2.y) {
-            armMotorSteps = LOW_HEIGHT;
+            rotMotorSteps =HIGH_ROT;
+            armMotorSteps = MIN_HEIGHT;
         }
 
         // Increase arm and rotation steps by increments using p2 sticks
@@ -136,7 +140,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
             detectedRot = false;
         }
         armMotorSteps = Range.clip(armMotorSteps, MIN_HEIGHT, MAX_HEIGHT);
-        rotMotorSteps = Range.clip(rotMotorSteps, MIN_ROT, MAX_ROT);
+        rotMotorSteps = Range.clip(rotMotorSteps, MIN_ROT - 50, MAX_ROT);
         slide.setArmPos(armMotorSteps, rotMotorSteps);
 
         //Grab claw with p1 bumpers
@@ -191,14 +195,14 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
 
 
         if (!detectedResetTrig) {
-            if (gamepad2.left_trigger > 0.5 && !resetTrigged) {
+            if (gamepad2.left_trigger > 0.5 && resetTrigged) {
                 slide.rotMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
                 detectedResetTrig = true;
                 resetTrigged = false;
 
-            } else if (gamepad2.left_trigger > 0.5 && rotTrigged) {
-                slide.rotMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-                detectedRotTrig = true;
+            } else if (gamepad2.left_trigger > 0.5 && !resetTrigged) {
+                slide.rotMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                detectedResetTrig = true;
                 resetTrigged = true;
 
             }
@@ -279,6 +283,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         telemetry.addData("Rot Power:", slide.rotMotor.getPower());
         telemetry.addData("Place:", slide.place);
         telemetry.addData("Turn Rot:", slide.rightRot.getPosition());
+        telemetry.addData("Mode:", slide.rotMotor.getMode());
 
 
 
