@@ -73,6 +73,7 @@ public class AutoRedFarBoard extends LinearOpMode{
 
         slide.turnPlaceAuto();
         slide.grabAll();
+        slide.turnRot(slide.droneServo, 1);
 
 
         waitForStart();
@@ -111,14 +112,16 @@ public class AutoRedFarBoard extends LinearOpMode{
                 break;
             case CENTER:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(0, 32, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(180, 44, 0, 0.5, 0.75);
                 slide.ungrabR();
                 timer.reset();
                 while (timer.time() < 1) {idle();}
-                drive.rotateAndMoveInches(90, 0, 0, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, 2, 0, 0.5, 0.75);
+                drive.rotateAndMoveInches(-90, 0,40, 0.5, 0.2);
                 slide.turnPlace();
-                slide.setAutoPos(0, slide.MEDIUM_ROT);
-                drive.rotateAndMoveInches(90, 0, 20, 0.3, 0.5);
+                slide.setRot(slide.LOW_ROT);
+                drive.rotateAndMoveInches(90, 0,0, 0.5, 0.75);
+                drive.rotateAndMoveInches(90, -20, 40, 0.3, 0.2);
                 forwardDist = 5;
                 rotDist = slide.LOW_ROT;
                 break;

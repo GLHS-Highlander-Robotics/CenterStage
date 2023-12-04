@@ -72,6 +72,7 @@ public class AutoBlueFarStay extends LinearOpMode{
 
         slide.turnPlaceAuto();
         slide.grabAll();
+        slide.turnRot(slide.droneServo, 1);
 
 
         waitForStart();

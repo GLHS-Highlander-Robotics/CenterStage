@@ -30,16 +30,18 @@ public class LinearSlide {
 
     //Rot steps
     public static int MIN_ROT = 0;
-    public static int LOW_ROT = 350;
+    public static int LOW_ROT = 1090;
     public static int MEDIUM_ROT = 1295;
     public static int HIGH_ROT = 760;
     public static int MAX_ROT = 2106;
     public static int INCREMENT_ROT = 10;
+    public static int TICKSPERROT = 2520;
+    public static double DEGPERTICK = 360.0/TICKSPERROT;
     //Grip pos
     public static double RFLOOR = 0.9;
     public static double LFLOOR = 0.29;
-    public static double RPLACE = 0.31;
-    public static double LPLACE = 0.85;
+    public static double RPLACE = 0.43;
+    public static double LPLACE = 0.73;
     public static double RCLOSE = 0.685;
     public static double ROPEN = 0.5;
     public static double LCLOSE = 0;
@@ -49,7 +51,7 @@ public class LinearSlide {
     public DcMotorEx rotMotor;
 
     //Servos that are a part of the robot
-    public Servo leftGripper, rightGripper, leftRot, rightRot;
+    public Servo leftGripper, rightGripper, leftRot, rightRot, droneServo;
 
 
     private int armMotorSteps = 0;
@@ -79,6 +81,8 @@ public class LinearSlide {
         leftGripper = hardwareMap.get(Servo.class, "gripL");
         rightGripper = hardwareMap.get(Servo.class, "gripR");
 
+        droneServo = hardwareMap.get(Servo.class, "droneLauncher");
+
         leftRot = hardwareMap.get(Servo.class, "rotL");
         rightRot = hardwareMap.get(Servo.class, "rotR");
 
@@ -91,7 +95,7 @@ public class LinearSlide {
     }
 
     public void setRot(int steps) {
-        rotMotorSteps = Range.clip(steps, MIN_ROT - 50, MAX_ROT);
+        rotMotorSteps = Range.clip(steps, MIN_ROT - 200, MAX_ROT + 100);
         rotMotor.setTargetPosition(rotMotorSteps);
     }
 
@@ -205,7 +209,9 @@ public class LinearSlide {
     public void ungrabR() {
         rightGripper.setPosition(ROPEN);
     }
-    public void grabR() { rightGripper.setPosition(RCLOSE); }
+    public void grabR() {
+        rightGripper.setPosition(RCLOSE);
+    }
     public void ungrabAll() {
         ungrabL();
         ungrabR();
@@ -214,6 +220,9 @@ public class LinearSlide {
         grabL();
         grabR();
     }
+
+
+
     public void turnRot(Servo rotX, double ticks) {
         rotX.setPosition(Range.clip(ticks, 0, 1));
     }
@@ -229,9 +238,9 @@ public class LinearSlide {
     }
 
     public void turnPlaceEx() {
-        if (rotMotor.getCurrentPosition() > MEDIUM_ROT - 30) {
-            turnRot(rightRot, RPLACE + (0.5/270.0) * (rotMotor.getCurrentPosition() - (MEDIUM_ROT - 30)));
-            turnRot(leftRot, LPLACE - (0.5/270.0) * (rotMotor.getCurrentPosition() - (MEDIUM_ROT - 30)));
+        if (rotMotor.getCurrentPosition() > HIGH_ROT) {
+            turnRot(rightRot, RPLACE + (DEGPERTICK * (1.0/270.0) * (rotMotor.getCurrentPosition() - (LOW_ROT))));
+            turnRot(leftRot, LPLACE - (DEGPERTICK * (1.0/270.0) * (rotMotor.getCurrentPosition() - (LOW_ROT))));
         } else {
             turnPlace();
         }

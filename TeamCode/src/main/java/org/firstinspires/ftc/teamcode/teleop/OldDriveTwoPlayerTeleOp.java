@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREME
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_HEIGHT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_POWER_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_ROT;
@@ -74,6 +75,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         slide.ungrabL();
         slide.ungrabR();
         slide.turnFloor();
+        slide.turnRot(slide.droneServo, 1);
         slide.place = false;
         while (opModeInInit()) {
             updateTeleOpTelemetry();
@@ -100,6 +102,8 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         } else if (gamepad2.b) {
             rotMotorSteps = LOW_ROT;
             armMotorSteps = MIN_HEIGHT;
+            slide.turnPlaceEx();
+            slide.place=true;
         } else if (gamepad2.x) {
             rotMotorSteps = MEDIUM_ROT;
             armMotorSteps = MIN_HEIGHT;
@@ -123,9 +127,9 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
 
         // Raise Slide to Presets
         if (gamepad2.left_bumper) {
-            slide.setSlide(LOW_HEIGHT);
+            armMotorSteps = LOW_HEIGHT;
         } else if (gamepad2.right_bumper) {
-            slide.setSlide(MEDIUM_HEIGHT);
+            armMotorSteps = MEDIUM_HEIGHT;
         }
 
         //incremental rotation with p2 dpad
@@ -140,7 +144,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
             detectedRot = false;
         }
         armMotorSteps = Range.clip(armMotorSteps, MIN_HEIGHT, MAX_HEIGHT);
-        rotMotorSteps = Range.clip(rotMotorSteps, MIN_ROT - 50, MAX_ROT);
+        rotMotorSteps = Range.clip(rotMotorSteps, MIN_ROT - 100, MAX_HEIGHT);
         slide.setArmPos(armMotorSteps, rotMotorSteps);
 
         //Grab claw with p1 bumpers
@@ -193,26 +197,31 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
                 detectedRotTrig = false;
         }
 
-
-        if (!detectedResetTrig) {
-            if (gamepad2.left_trigger > 0.5 && resetTrigged) {
-                slide.rotMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-                detectedResetTrig = true;
-                resetTrigged = false;
-
-            } else if (gamepad2.left_trigger > 0.5 && !resetTrigged) {
-                slide.rotMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                detectedResetTrig = true;
-                resetTrigged = true;
-
-            }
-        } else {
-            if (gamepad2.left_trigger < 0.5) {
-                detectedResetTrig = false;
-            }
-
-
+        if (gamepad2.left_trigger > 0.5) {
+            slide.turnRot(slide.droneServo, 0);
         }
+
+
+//        if (!detectedResetTrig) {
+//            if (gamepad2.left_trigger > 0.5 && resetTrigged) {
+//                slide.rotMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+//                detectedResetTrig = true;
+//                resetTrigged = false;
+//
+//            } else if (gamepad2.left_trigger > 0.5 && !resetTrigged) {
+//                slide.rotMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+//                slide.rotMotor.setPower(MAX_POWER_ROT);
+//                detectedResetTrig = true;
+//                resetTrigged = true;
+//
+//            }
+//        } else {
+//            if (gamepad2.left_trigger < 0.5) {
+//                detectedResetTrig = false;
+//            }
+//
+//
+//        }
     }
 
 
@@ -241,7 +250,6 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
          rotate = gamepad1.right_stick_x * limiter;
 
         if (Math.abs(gamepad1.left_stick_y) < DEAD_ZONE_P1) {
-
                 forward = 0;
 
         }
@@ -260,6 +268,18 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
 
          fieldForward = strafe * Math.sin(-botHeading) + forward * Math.cos(-botHeading);
          fieldStrafe = strafe * Math.cos(-botHeading) - forward * Math.sin(-botHeading);
+
+         if (gamepad1.dpad_up) {
+             fieldForward = LOW_POWER;
+         } else if (gamepad1.dpad_down) {
+             fieldForward = -LOW_POWER;
+         }
+
+        if (gamepad1.dpad_right) {
+            rotate = LOW_POWER;
+        } else if (gamepad1.dpad_left) {
+            rotate = -LOW_POWER;
+        }
 
         if (!fieldCentric) {
             drive.driveBot(forward, strafe, rotate);

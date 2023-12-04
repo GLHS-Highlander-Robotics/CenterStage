@@ -72,6 +72,7 @@ public class AutoBlueClose extends LinearOpMode{
 
         slide.turnPlaceAuto();
         slide.grabAll();
+        slide.turnRot(slide.droneServo, 1);
 
 
         waitForStart();
@@ -82,27 +83,36 @@ public class AutoBlueClose extends LinearOpMode{
         switch (position) {
             case RIGHT:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(-90, 30, 1, 0.5, 0.2);
+                drive.rotateAndMoveInches(-90, 36, -6, 0.6, 0.2);
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
                 slide.ungrabR();
-                slide.setAutoPos(0, slide.MEDIUM_ROT);
-                slide.setAutoPos(0, slide.LOW_ROT + 10);
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
+                slide.setArmPos(0, slide.LOW_ROT );
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(-90, 2, -46, 0.5, 0.5);
                 slide.ungrabL();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
-                slide.setAutoPos(0,0);
-                drive.rotateAndMoveInches(-90, -35, 5, 0.5, 0.5);
+                slide.setArmPos(0,0);
+                drive.rotateAndMoveInches(-90, -32, 5, 0.5, 0.5);
+                slide.setArmPos(0,-6);
 
                 break;
             case LEFT:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(-90, 30, -29, 0.5, 0.2);
+                drive.rotateAndMoveInches(-90, 36, -29, 0.5, 0.2);
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
                 slide.ungrabR();
-                slide.setAutoPos(0, slide.MEDIUM_ROT);
-                slide.setAutoPos(0, slide.LOW_ROT + 20);
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
+                slide.setAutoPos(0, slide.LOW_ROT);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(-90, -13, -43, 0.5, 0.5);
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
                 slide.ungrabL();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
@@ -112,11 +122,14 @@ public class AutoBlueClose extends LinearOpMode{
             case CENTER:
                 slide.turnFloor();
                 drive.rotateAndMoveInches(0, 32, 0, 0.5, 0.2);
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
                 slide.ungrabR();
-                slide.setAutoPos(0, slide.MEDIUM_ROT);
-                slide.setAutoPos(0, slide.LOW_ROT + 20);
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
+                slide.setArmPos(0, slide.LOW_ROT);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(-90, -866, -52, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, -12, -52, 0.5, 0.5);
                 slide.ungrabL();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
