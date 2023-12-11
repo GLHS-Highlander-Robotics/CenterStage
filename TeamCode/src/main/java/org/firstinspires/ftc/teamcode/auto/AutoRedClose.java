@@ -87,27 +87,46 @@ public class AutoRedClose extends LinearOpMode{
                 slide.ungrabR();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
-                slide.setArmPos(0, slide.LOW_ROT);
+                slide.setArmPos(0, slide.LOW_ROT + 20);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, 14, 46, 0.5, 0.5);
+                drive.rotateAndMoveInches(90, 14, 44, 0.5, 0.5);
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
                 slide.ungrabL();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
-                slide.setArmPos(0,0);
-                timer.reset();
-                while (timer.time() < 1) {idle();}
                 drive.rotateAndMoveInches(90, 20, -5, 0.5, 0.5);
+                drive.rotateAndMoveInches(90, 0, -10, 0.5, 0.5);
+                slide.setArmPos(0,slide.MEDIUM_ROT);
+                slide.turnFloor();
+                drive.rotateAndMoveInches(90, 0, -60, 0.9, 0.5);
+                slide.setArmPos(80,0);
+                drive.rotateAndMoveInches(90, -5, -30, 0.7, 0.5);
+                timer.reset();
+                while (timer.time() < 2) {idle();}
+                drive.rotateAndMoveInches(90, 0, -17, 0.1, 0.5);
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
+                slide.grabR();
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
+                drive.rotateAndMoveInches(90, 0, 5, 0.5, 0.5);
+                slide.setArmPos(0,slide.MEDIUM_ROT);
+                timer.reset();
+                while (timer.time() < 2) {idle();}
+                drive.rotateAndMoveInches(90, 10, 20, 0.5, 0.5);
 
+                drive.rotateAndMoveInches(90, 0, 60, 0.5, 0.5);
                 break;
             case RIGHT:
                 slide.turnFloor();
                 drive.rotateAndMoveInches(90, 30, 29, 0.5, 0.2);
                 slide.ungrabR();
-                slide.setArmPos(0, slide.LOW_ROT);
+                slide.setArmPos(0, slide.LOW_ROT + 10);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, 0, 40, 0.5, 0.5);
+                drive.rotateAndMoveInches(90, -3, 28, 0.5, 0.5);
+                timer.reset();
+                while (timer.time() < 2) {idle();}
                 slide.ungrabL();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
