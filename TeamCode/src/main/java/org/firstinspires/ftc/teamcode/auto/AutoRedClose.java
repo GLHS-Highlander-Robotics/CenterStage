@@ -82,11 +82,13 @@ public class AutoRedClose extends LinearOpMode{
         portal.close();
         switch (position) {
             case LEFT:
+                //Place First Purple Pixel
                 slide.turnFloor();
                 drive.rotateAndMoveInches(90, 30, 5, 0.5, 0.2);
                 slide.ungrabR();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
+                //Move to Wall to place Yellow Pixel
                 slide.setArmPos(0, slide.LOW_ROT + 20);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90, 14, 44, 0.5, 0.5);
@@ -95,28 +97,45 @@ public class AutoRedClose extends LinearOpMode{
                 slide.ungrabL();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
-                drive.rotateAndMoveInches(90, 20, -5, 0.5, 0.5);
-                drive.rotateAndMoveInches(90, 0, -10, 0.5, 0.5);
+                //Go to get 2 White pixels
+                //Go Under Gate
+                drive.rotateAndMoveInches(90, 21, -15, 0.5, 0.5);
+//                drive.rotateAndMoveInches(90, 0, -10, 0.5, 0.5);
                 slide.setArmPos(0,slide.MEDIUM_ROT);
                 slide.turnFloor();
                 drive.rotateAndMoveInches(90, 0, -60, 0.9, 0.5);
-                slide.setArmPos(80,0);
-                drive.rotateAndMoveInches(90, -5, -30, 0.7, 0.5);
+                slide.setArmPos(170,0);
+                drive.rotateAndMoveInches(90, 0, -30, 0.7, 0.5);
                 timer.reset();
+                //Pick up White Pixel
                 while (timer.time() < 2) {idle();}
-                drive.rotateAndMoveInches(90, 0, -17, 0.1, 0.5);
+                drive.rotateAndMoveInches(90, 0, -12, 0.1, 0.5);
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
-                slide.grabR();
+                slide.grabL();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
-                drive.rotateAndMoveInches(90, 0, 5, 0.5, 0.5);
+                //Go Back to Wall
+                drive.rotateAndMoveInches(90, 0, 7, 0.5, 0.5);
                 slide.setArmPos(0,slide.MEDIUM_ROT);
                 timer.reset();
                 while (timer.time() < 2) {idle();}
-                drive.rotateAndMoveInches(90, 10, 20, 0.5, 0.5);
+                drive.rotateAndMoveInches(90, 0, 55, 0.5, 0.5);
 
-                drive.rotateAndMoveInches(90, 0, 60, 0.5, 0.5);
+                drive.rotateAndMoveInches(90, -30, 30, 0.5, 0.5);
+                while (timer.time() < 0.5) {idle();}
+                //Move to Wall to place Yellow Pixel
+                drive.rotateAndMoveInches(90, 0, 20, 0.5, 0.5);
+                slide.setArmPos(80, slide.LOW_ROT + 20);
+                while (timer.time() < 0.25) {idle();}
+                timer.reset();
+                slide.turnPlaceEx();
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
+                slide.ungrabL();
+                timer.reset();
+                while (timer.time() < 0.5) {idle();}
+                timer.reset();
                 break;
             case RIGHT:
                 slide.turnFloor();
