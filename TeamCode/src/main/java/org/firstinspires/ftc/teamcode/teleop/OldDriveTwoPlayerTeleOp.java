@@ -198,7 +198,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         }
 
         if (gamepad2.left_trigger > 0.5) {
-            slide.turnRot(slide.droneServo, 0);
+            slide.turnRot(slide.droneServo, 0.60);
         }
 
 

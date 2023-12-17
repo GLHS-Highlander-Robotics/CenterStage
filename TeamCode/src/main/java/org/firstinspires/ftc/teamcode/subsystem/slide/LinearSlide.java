@@ -108,23 +108,23 @@ public class LinearSlide {
         setArmPos(armMotorSteps,rotstep);
         ElapsedTime safetime = new ElapsedTime();
         safetime.reset();
-        while (rotMotor.isBusy() && safetime.time() < 5) {
+        while (rotMotor.isBusy() && safetime.time() < 3) {
 
             if (rotMotorSteps == MIN_ROT && rotMotor.getCurrentPosition() > MIN_ROT){
                 if (rotMotor.getCurrentPosition() < 100) {
-                    rotMotor.setPower(MIN_POWER_ROT);
+                    rotMotor.setPower(MAX_POWER_ROT);
                 } else {
                     rotMotor.setPower(MAX_POWER_ROT);
                 }
             } else if (rotMotorSteps == MEDIUM_ROT && rotMotor.getCurrentPosition() < MEDIUM_ROT) {
                 if (rotMotor.getCurrentPosition() > 400) {
-                    rotMotor.setPower(MIN_POWER_ROT);
+                    rotMotor.setPower(MAX_POWER_ROT);
                 } else {
                     rotMotor.setPower(MAX_POWER_ROT);
                 }
             } else if (rotMotorSteps < LOW_ROT && rotMotorSteps > MIN_ROT && rotMotor.getCurrentPosition() < LOW_ROT) {
                 if (rotMotor.getCurrentPosition() > 300) {
-                    rotMotor.setPower(MIN_POWER_ROT);
+                    rotMotor.setPower(MAX_POWER_ROT);
                 } else {
                     rotMotor.setPower(MAX_POWER_ROT);
                 }
