@@ -94,45 +94,46 @@ public class NewAutoBlueClose extends LinearOpMode{
                 drive.rotateAndMoveInches(-90,0,-5,0.25,0.25);
                 timer.reset();
                 while(timer.time()<0.2){idle();}
-                drive.rotateAndMoveInches(90, 14, -45, 0.5, 0.25);
+                drive.rotateAndMoveInches(-90, 14, -45, 0.5, 0.25);
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
                 slide.ungrabR();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
-                drive.rotateAndMoveInches(90, 21, 15, 0.5, 0.25);
+                drive.rotateAndMoveInches(-90, 21, 15, 0.5, 0.25);
 
                 break;
             case LEFT:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(90, 30, -32, 0.5, 0.2);
+                drive.rotateAndMoveInches(-90, 30, -32, 0.5, 0.2);
                 slide.setArmPos(150,0);
                 slide.ungrabL();
-                slide.setArmPos(0, slide.LOW_ROT + 10);
+                slide.setArmPos(0, slide.LOW_ROT + 25);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, -3, -27, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, -3, -27, 0.5, 0.5);
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
                 slide.ungrabR();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
-                drive.rotateAndMoveInches(90, 34, 15, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, 34, 15, 0.5, 0.5);
                 break;
             case CENTER:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(0, 31, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(0, 28, 0, 0.5, 0.2);
                 slide.setArmPos(150,0);
                 slide.ungrabL();
                 timer.reset();
                 while (timer.time() < 0.5) {idle();}
-                slide.setArmPos(0, slide.LOW_ROT);
+                slide.setArmPos(0, slide.LOW_ROT +10);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, 3, -50, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, 3, -50, 0.5, 0.5);
                 slide.ungrabR();
                 timer.reset();
-                while (timer.time() < 0.5) {idle();}
-                slide.setAutoPos(0,0);
-                drive.rotateAndMoveInches(90, 31, 15, 0.5, 0.5);
+                while (timer.time() < 0.25) {idle();}
+                slide.setArmPos(0,slide.MEDIUM_ROT+ 20);
+                drive.rotateAndMoveInches(-90, 0, 3, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, 25, 10, 0.5, 0.5);
 
                 break;
             default:
@@ -145,13 +146,13 @@ public class NewAutoBlueClose extends LinearOpMode{
 //                drive.rotateAndMoveInches(90, 0, -10, 0.5, 0.5);
         slide.setArmPos(0,slide.MEDIUM_ROT+ 20);
         slide.turnFloor();
-        drive.rotateAndMoveInches(90, 0, 60, 0.6, 0.25);
+        drive.rotateAndMoveInches(-90, 0, 60, 0.6, 0.25);
         slide.setArmPos(100,0);
-        drive.rotateAndMoveInches(90, 7, 31, 0.5, 0.25);
+        drive.rotateAndMoveInches(-90, 3.5, 31, 0.5, 0.25);
         timer.reset();
         //Pick up White Pixel
         while (timer.time() < 2) {idle();}
-        drive.rotateAndMoveInches(90, 2, 16.75, 0.2, 0.25);
+        drive.rotateAndMoveInches(-90, 2, 16.75, 0.2, 0.25);
         timer.reset();
         while (timer.time() < 0.5) {idle();}
         slide.grabL();
@@ -160,30 +161,30 @@ public class NewAutoBlueClose extends LinearOpMode{
         timer.reset();
         while (timer.time() < 0.5) {idle();}
         //Go Back to Wall
-        drive.rotateAndMoveInches(90, 0, -8.5, 0.7, 0.25);
+        drive.rotateAndMoveInches(-90, 0, -8.5, 0.7, 0.25);
         slide.setArmPos(0,slide.MEDIUM_ROT);
         timer.reset();
         while (timer.time() < 2) {idle();}
-        drive.rotateAndMoveInches(90, 0, -75, 1.0, 0.25);
+        drive.rotateAndMoveInches(-90, 0, -75, 1.0, 0.25);
 
-        drive.rotateAndMoveInches(90, -50, -20, 0.95, 0.25);
+        drive.rotateAndMoveInches(-90, -40, -20, 0.95, 0.25);
         timer.reset();
         while (timer.time() < 0.5) {idle();}
         //Move to Wall to place White Pixel
 
-        slide.setArmPos(80, slide.LOW_ROT);
+        slide.setArmPos(150, slide.LOW_ROT - 20);
         timer.reset();
         while (timer.time() < 1) {idle();}
         slide.turnPlaceEx();
         timer.reset();
         while (timer.time() < 0.5) {idle();}
-        drive.rotateAndMoveInches(90, 0, -35, 0.5, 0.25);
-        drive.rotateAndMoveInches(90, 0, -2, 0.5, 0.25);
+        drive.rotateAndMoveInches(-90, 0, -35, 0.5, 0.25);
+        drive.rotateAndMoveInches(-90, 0, -2, 0.5, 0.25);
         slide.ungrabR();
         timer.reset();
         while (timer.time() < 0.5) {idle();}
         slide.setAutoPos(0,0);
-        drive.rotateAndMoveInches(90, 0, 7, 0.3, 0.25);
+        drive.rotateAndMoveInches(-90, 0, 7, 0.3, 0.25);
 
 
 
