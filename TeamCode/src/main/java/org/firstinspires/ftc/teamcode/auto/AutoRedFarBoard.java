@@ -31,14 +31,12 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import android.util.Size;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.subsystem.drive.OldDrive;
 import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
@@ -56,7 +54,7 @@ public class AutoRedFarBoard extends LinearOpMode{
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Telemetry multTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
+
         AutoMods.teamRed = true;
         AutoMods.isFar = true;
         slide = new LinearSlide(hardwareMap);
@@ -91,9 +89,9 @@ public class AutoRedFarBoard extends LinearOpMode{
                 slide.ungrabR();
                 timer.reset();
                 while (timer.time() < 1) {idle();}
-                slide.setAutoPos(0, slide.MEDIUM_ROT);
+                slide.setAutoPos(0, LinearSlide.MEDIUM_ROT);
                 forwardDist = 13;
-                rotDist = slide.LOW_ROT - 10;
+                rotDist = LinearSlide.LOW_ROT - 10;
                 break;
             case RIGHT:
                 slide.turnFloor();
@@ -104,10 +102,10 @@ public class AutoRedFarBoard extends LinearOpMode{
                 timer.reset();
                 while (timer.time() < 1) {idle();}
                 drive.rotateAndMoveInches(90, 0, 24, 0.5, 0.2);
-                slide.setAutoPos(0, slide.MEDIUM_ROT);
+                slide.setAutoPos(0, LinearSlide.MEDIUM_ROT);
 
                 forwardDist = -5;
-                rotDist = slide.LOW_ROT + 30;
+                rotDist = LinearSlide.LOW_ROT + 30;
                 rightDist = 35;
                 break;
             case CENTER:
@@ -119,11 +117,11 @@ public class AutoRedFarBoard extends LinearOpMode{
                 drive.rotateAndMoveInches(-90, 2, 0, 0.5, 0.75);
                 drive.rotateAndMoveInches(-90, 0,40, 0.5, 0.2);
                 slide.turnPlace();
-                slide.setRot(slide.LOW_ROT);
+                slide.setRot(LinearSlide.LOW_ROT);
                 drive.rotateAndMoveInches(90, 0,0, 0.5, 0.75);
                 drive.rotateAndMoveInches(90, -20, 40, 0.3, 0.2);
                 forwardDist = 5;
-                rotDist = slide.LOW_ROT;
+                rotDist = LinearSlide.LOW_ROT;
                 break;
             default:
                 break;

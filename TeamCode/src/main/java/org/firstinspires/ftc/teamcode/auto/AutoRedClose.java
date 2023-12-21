@@ -31,13 +31,12 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import android.util.Size;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.constants.AutoMods;
 import org.firstinspires.ftc.teamcode.subsystem.drive.OldDrive;
@@ -55,7 +54,6 @@ public class AutoRedClose extends LinearOpMode{
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Telemetry multTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         AutoMods.teamRed = true;
         AutoMods.isFar = false;
         slide = new LinearSlide(hardwareMap);
@@ -91,7 +89,7 @@ public class AutoRedClose extends LinearOpMode{
                 timer.reset();
                 while (timer.time() < 0.25) {idle();}
                 //Move to Wall to place Yellow Pixel
-                slide.setArmPos(0, slide.LOW_ROT + 25);
+                slide.setArmPos(0, LinearSlide.LOW_ROT + 25);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90,0,-5,0.4,0.25);
                 timer.reset();
@@ -110,7 +108,7 @@ public class AutoRedClose extends LinearOpMode{
                 drive.rotateAndMoveInches(90, 30, 32, 0.5, 0.2);
                 slide.setArmPos(150,0);
                 slide.ungrabR();
-                slide.setArmPos(0, slide.LOW_ROT + 25);
+                slide.setArmPos(0, LinearSlide.LOW_ROT + 25);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90, -3, 27, 0.5, 0.5);
                 timer.reset();
@@ -127,16 +125,14 @@ public class AutoRedClose extends LinearOpMode{
                 slide.ungrabR();
                 timer.reset();
                 while (timer.time() < 0.25) {idle();}
-                slide.setArmPos(0, slide.LOW_ROT+10);
+                slide.setArmPos(0, LinearSlide.LOW_ROT +10);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90, 3, 50, 0.5, 0.5);
                 slide.ungrabL();
                 timer.reset();
                 while (timer.time() < 0.25) {idle();}
-                slide.setArmPos(0,slide.MEDIUM_ROT+ 20);
+                slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 20);
                 drive.rotateAndMoveInches(90, 25, -10, 0.5, 0.5);
-//                slide.setArmPos(0,slide.MEDIUM_ROT+ 20);
-//                while (timer.time() < 1) {idle();}
 
                 break;
             default:
@@ -145,9 +141,7 @@ public class AutoRedClose extends LinearOpMode{
 
         //Go to get 2 White pixels
         //Go Under Gate
-//        drive.rotateAndMoveInches(90, 21, -15, 0.5, 0.25);
-//                drive.rotateAndMoveInches(90, 0, -10, 0.5, 0.5);
-        slide.setArmPos(0,slide.MEDIUM_ROT+ 20);
+        slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 20);
         slide.turnFloor();
         drive.rotateAndMoveInches(90, 0, -60, 0.6, 0.25);
         slide.setArmPos(100,0);
@@ -165,7 +159,7 @@ public class AutoRedClose extends LinearOpMode{
         while (timer.time() < 0.5) {idle();}
         //Go Back to Wall
         drive.rotateAndMoveInches(90, 0, 8.5, 0.7, 0.25);
-        slide.setArmPos(0,slide.MEDIUM_ROT);
+        slide.setArmPos(0, LinearSlide.MEDIUM_ROT);
         timer.reset();
         while (timer.time() < 2) {idle();}
         drive.rotateAndMoveInches(90, 0, 75, 1.0, 0.25);
@@ -175,7 +169,7 @@ public class AutoRedClose extends LinearOpMode{
         while (timer.time() < 0.5) {idle();}
         //Move to Wall to place White Pixel
 
-        slide.setArmPos(150, slide.LOW_ROT-20);
+        slide.setArmPos(150, LinearSlide.LOW_ROT -20);
         timer.reset();
         while (timer.time() < 1) {idle();}
         slide.turnPlaceEx();

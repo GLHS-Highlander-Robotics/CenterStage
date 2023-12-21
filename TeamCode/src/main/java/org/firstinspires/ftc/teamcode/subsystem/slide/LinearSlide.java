@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystem.slide;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -158,42 +157,8 @@ public class LinearSlide {
                 slideMotor.setPower(MIN_POWER_SLIDE);
             }
         }
-//        if (rotMotor.isBusy()) {
-//            if (rotMotorSteps == MIN_ROT && rotMotor.getCurrentPosition() > MIN_ROT){
-//                if (rotMotor.getCurrentPosition() < 100) {
-//                    rotMotor.setPower(MIN_POWER_ROT);
-//                } else {
-//                    rotMotor.setPower(MAX_POWER_ROT);
-//                }
-//            } else if (rotMotorSteps == HIGH_ROT && rotMotor.getCurrentPosition() < HIGH_ROT) {
-//                if (rotMotor.getCurrentPosition() > 400) {
-//                    rotMotor.setPower(MIN_POWER_ROT);
-//                } else {
-//                    rotMotor.setPower(MAX_POWER_ROT);
-//                }
-//            } else if (rotMotorSteps == MEDIUM_ROT && rotMotor.getCurrentPosition() < MEDIUM_ROT) {
-//                if (rotMotor.getCurrentPosition() > 300) {
-//                    rotMotor.setPower(MIN_POWER_ROT);
-//                } else {
-//                    rotMotor.setPower(MAX_POWER_ROT);
-//                }
-//            } else if(rotMotorSteps == LOW_ROT && rotMotor.getCurrentPosition()>LOW_ROT){
-//                if(rotMotor.getCurrentPosition()<175){
-//                    rotMotor.setPower(MIN_POWER_ROT);
-//                }else{
-//                    rotMotor.setPower(MAX_POWER_ROT);
-//                }
-//            }else {
-//                rotMotor.setPower(MAX_POWER_ROT);
-//            }
-//        } else {
-//            rotMotor.setPower(HOLD_POWER_ROT);
-//            if (rotMotor.getCurrentPosition() == MIN_ROT) {
-//                rotMotor.setPower(MIN_POWER_ROT);
-//            }
-//        }
 
-        if (place == false) {
+        if (!place) {
             turnFloor();
         } else {
             turnPlaceEx();
@@ -212,6 +177,7 @@ public class LinearSlide {
     public void grabR() {
         rightGripper.setPosition(RCLOSE);
     }
+
     public void ungrabAll() {
         ungrabL();
         ungrabR();

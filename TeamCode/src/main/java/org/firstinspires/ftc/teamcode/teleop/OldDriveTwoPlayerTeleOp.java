@@ -53,7 +53,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
     int rotMotorSteps = 0;
 
     boolean leftStickPressed = false;
-    boolean rightStickPressed = false;
+
     boolean leftGrabbed = false;
     boolean rightGrabbed = false;
     boolean detectedR = false;
@@ -61,11 +61,9 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
     boolean detectedRot = false;
     boolean detectedRotTrig = false;
     boolean rotTrigged = false;
-    boolean detectedResetTrig = false;
-    boolean resetTrigged = false;
+
     @Override
     public void runOpMode() throws InterruptedException {
-        Telemetry multTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         drive = new OldDrive(hardwareMap, this);
         slide = new LinearSlide(hardwareMap);
@@ -201,27 +199,6 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
             slide.turnRot(slide.droneServo, 0.60);
         }
 
-
-//        if (!detectedResetTrig) {
-//            if (gamepad2.left_trigger > 0.5 && resetTrigged) {
-//                slide.rotMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-//                detectedResetTrig = true;
-//                resetTrigged = false;
-//
-//            } else if (gamepad2.left_trigger > 0.5 && !resetTrigged) {
-//                slide.rotMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-//                slide.rotMotor.setPower(MAX_POWER_ROT);
-//                detectedResetTrig = true;
-//                resetTrigged = true;
-//
-//            }
-//        } else {
-//            if (gamepad2.left_trigger < 0.5) {
-//                detectedResetTrig = false;
-//            }
-//
-//
-//        }
     }
 
 

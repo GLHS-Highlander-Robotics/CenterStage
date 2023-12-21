@@ -31,13 +31,11 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import android.util.Size;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.constants.AutoMods;
 import org.firstinspires.ftc.teamcode.subsystem.drive.OldDrive;
@@ -55,7 +53,6 @@ public class AutoBlueFarStay extends LinearOpMode{
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Telemetry multTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         AutoMods.teamRed = false;
         AutoMods.isFar = true;
         slide = new LinearSlide(hardwareMap);
