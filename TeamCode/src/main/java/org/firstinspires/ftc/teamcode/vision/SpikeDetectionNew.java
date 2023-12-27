@@ -26,16 +26,11 @@ public class SpikeDetectionNew implements VisionProcessor {
 
     public static Size BOXSIZEC = new Size(50,20);
 
-    private Scalar left;
-    private Scalar center;
-    private Scalar right;
-
     private Rect leftRect;
     private Rect centerRect;
     private Rect rightRect;
 
     private double thresh;
-    public double testval = 0;
 
     Mat modMat = new Mat();
     Mat leftMat;
@@ -51,7 +46,7 @@ public class SpikeDetectionNew implements VisionProcessor {
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
-        thresh = AutoMods.teamRed ? 1 : 1;
+        thresh = 1;
 //        lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
         if ((AutoMods.isFar && AutoMods.teamRed) || (!AutoMods.isFar && !AutoMods.teamRed)) {
 
@@ -69,7 +64,7 @@ public class SpikeDetectionNew implements VisionProcessor {
 
 
     public Position getPos() {
-        return this.pos;
+        return pos;
     }
 
     @Override
@@ -82,9 +77,9 @@ public class SpikeDetectionNew implements VisionProcessor {
         centerMat = modMat.submat(centerRect);
         rightMat = modMat.submat(rightRect);
 
-        left = Core.sumElems(leftMat);
-        center = Core.sumElems(centerMat);
-        right = Core.sumElems(rightMat);
+        Scalar left = Core.sumElems(leftMat);
+        Scalar center = Core.sumElems(centerMat);
+        Scalar right = Core.sumElems(rightMat);
 
 
         if (left.val[1] / 100000.0 > thresh) {
@@ -111,10 +106,6 @@ public class SpikeDetectionNew implements VisionProcessor {
             Imgproc.rectangle(input, centerRect, new Scalar (0, 0, 0), 2);
         }
 
-
-//        Bitmap b = Bitmap.createBitmap(modMat.width(), modMat.height(), Bitmap.Config.RGB_565);
-//        Utils.matToBitmap(modMat, b);
-//        lastFrame.set(b);
 
         leftMat.release();
         centerMat.release();

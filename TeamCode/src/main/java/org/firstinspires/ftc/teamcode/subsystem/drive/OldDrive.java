@@ -22,11 +22,6 @@ public class OldDrive {
     static final double INCHES_PER_TICK =  WHEEL_CIRCUMFERENCE / GEARED_TICKS_PER_ROTATION;
     static final double MAX_SPEED = (9.0/12.0) * WHEEL_CIRCUMFERENCE * (GEARED_MOTOR_RPM / 60.0);
 
-    //Constants that you can Change
-    static final double HIGH_POWER = 0.85;
-    static final double LOW_POWER = 0.35;
-    static final double DEAD_ZONE_P1 = 0.05;
-    static final double DEAD_ZONE_P2 = 0.05;
 
     /* -------Variables------- */
 
@@ -38,8 +33,6 @@ public class OldDrive {
 
     //Misc Variables
     public double botHeading;
-    private double limiter = HIGH_POWER;
-    private boolean field = false;
 
     /* -------Constructor------- */
 

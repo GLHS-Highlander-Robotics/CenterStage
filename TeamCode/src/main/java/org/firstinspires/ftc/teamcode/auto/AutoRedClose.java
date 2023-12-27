@@ -36,7 +36,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.constants.AutoMods;
 import org.firstinspires.ftc.teamcode.subsystem.drive.OldDrive;
@@ -74,7 +73,6 @@ public class AutoRedClose extends LinearOpMode{
 
 
         waitForStart();
-        ElapsedTime timer = new ElapsedTime();
         drive.imu.resetYaw();
         SpikeDetectionNew.Position position = spikeDetect.getPos();
         portal.close();
@@ -83,23 +81,18 @@ public class AutoRedClose extends LinearOpMode{
                 //Place First Purple Pixel
                 slide.turnFloor();
                 drive.rotateAndMoveInches(90, 30, 5, 0.5, 0.2);
-                timer.reset();
                 slide.setArmPos(150,0);
                 slide.ungrabR();
-                timer.reset();
-                while (timer.time() < 0.25) {idle();}
+                wait(0.25);
                 //Move to Wall to place Yellow Pixel
                 slide.setArmPos(0, LinearSlide.LOW_ROT + 25);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90,0,-5,0.4,0.25);
-                timer.reset();
-                while(timer.time()<0.2){idle();}
+                wait(0.2);
                 drive.rotateAndMoveInches(90, 14, 45, 0.5, 0.25);
-                timer.reset();
-                while (timer.time() < 0.25) {idle();}
+                wait(0.25);
                 slide.ungrabL();
-                timer.reset();
-                while (timer.time() < 0.25) {idle();}
+                wait(0.25);
                 drive.rotateAndMoveInches(90, 21, -15, 0.5, 0.25);
 
                 break;
@@ -111,11 +104,9 @@ public class AutoRedClose extends LinearOpMode{
                 slide.setArmPos(0, LinearSlide.LOW_ROT + 25);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90, -3, 27, 0.5, 0.5);
-                timer.reset();
-                while (timer.time() < 0.5) {idle();}
+                wait(0.5);
                 slide.ungrabL();
-                timer.reset();
-                while (timer.time() < 0.25) {idle();}
+                wait(0.25);
                 drive.rotateAndMoveInches(90, 34, -15, 0.5, 0.5);
                 break;
             case CENTER:
@@ -123,22 +114,21 @@ public class AutoRedClose extends LinearOpMode{
                 drive.rotateAndMoveInches(0, 28, 0, 0.5, 0.2);
                 slide.setArmPos(150,0);
                 slide.ungrabR();
-                timer.reset();
-                while (timer.time() < 0.25) {idle();}
+                wait(0.25);
                 slide.setArmPos(0, LinearSlide.LOW_ROT +10);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90, 3, 50, 0.5, 0.5);
                 slide.ungrabL();
-                timer.reset();
-                while (timer.time() < 0.25) {idle();}
+                wait(0.25);
                 slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 20);
+                drive.rotateAndMoveInches(90, 0, -3, 0.5, 0.5);
                 drive.rotateAndMoveInches(90, 25, -10, 0.5, 0.5);
 
                 break;
             default:
                 break;
         }
-
+        //Discrepancy Line 154, 142
         //Go to get 2 White pixels
         //Go Under Gate
         slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 20);
@@ -146,47 +136,41 @@ public class AutoRedClose extends LinearOpMode{
         drive.rotateAndMoveInches(90, 0, -60, 0.6, 0.25);
         slide.setArmPos(100,0);
         drive.rotateAndMoveInches(90, 3.5, -31, 0.5, 0.25);
-        timer.reset();
+
         //Pick up White Pixel
-        while (timer.time() < 2) {idle();}
+        wait(2.0);
         drive.rotateAndMoveInches(90, 2, -14.75, 0.2, 0.25);
-        timer.reset();
-        while (timer.time() < 0.5) {idle();}
+        wait(0.5);
         slide.grabL();
         slide.grabR();
 
-        timer.reset();
-        while (timer.time() < 0.5) {idle();}
+        wait(0.5);
         //Go Back to Wall
         drive.rotateAndMoveInches(90, 0, 8.5, 0.7, 0.25);
         slide.setArmPos(0, LinearSlide.MEDIUM_ROT);
-        timer.reset();
-        while (timer.time() < 2) {idle();}
+        wait(2.0);
         drive.rotateAndMoveInches(90, 0, 75, 1.0, 0.25);
 
         drive.rotateAndMoveInches(90, -45, 20, 0.95, 0.25);
-        timer.reset();
-        while (timer.time() < 0.5) {idle();}
+        wait(0.5);
         //Move to Wall to place White Pixel
 
-        slide.setArmPos(150, LinearSlide.LOW_ROT -20);
-        timer.reset();
-        while (timer.time() < 1) {idle();}
+        slide.setArmPos(150, LinearSlide.LOW_ROT - 20);
+        wait(1.0);
         slide.turnPlaceEx();
-        timer.reset();
-        while (timer.time() < 0.5) {idle();}
+        wait(0.5);
         drive.rotateAndMoveInches(90, 0, 35, 0.5, 0.25);
         drive.rotateAndMoveInches(90, 0, 2, 0.5, 0.25);
         slide.ungrabL();
-        timer.reset();
-        while (timer.time() < 0.5) {idle();}
+        wait(0.5);
         slide.setAutoPos(0,0);
         drive.rotateAndMoveInches(90, 0, -7, 0.3, 0.25);
 
+    }
 
-
-
-
-
+    public void wait (double t) {
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (timer.time() < t) {idle();}
     }
 }
