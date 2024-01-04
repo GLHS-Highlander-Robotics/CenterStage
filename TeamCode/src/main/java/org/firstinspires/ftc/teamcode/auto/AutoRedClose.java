@@ -101,13 +101,15 @@ public class AutoRedClose extends LinearOpMode{
                 drive.rotateAndMoveInches(90, 30, 32, 0.5, 0.2);
                 slide.setArmPos(150,0);
                 slide.ungrabR();
+                wait(0.25);
+                //Move to Wall to place Yellow Pixel
                 slide.setArmPos(0, LinearSlide.LOW_ROT + 25);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90, -3, 27, 0.5, 0.5);
                 wait(0.5);
                 slide.ungrabL();
                 wait(0.25);
-                drive.rotateAndMoveInches(90, 34, -15, 0.5, 0.5);
+                drive.rotateAndMoveInches(90, 34, -5, 0.5, 0.5);
                 break;
             case CENTER:
                 slide.turnFloor();
@@ -139,7 +141,9 @@ public class AutoRedClose extends LinearOpMode{
 
         //Pick up White Pixel
         wait(2.0);
-        drive.rotateAndMoveInches(90, 2, -14.75, 0.2, 0.25);
+        drive.rotateAndMoveInches(90, 0, -14.75, 0.2, 0.25);
+
+//        drive.rotateAndMoveInches(90, 2, -14.75, 0.2, 0.25);
         wait(0.5);
         slide.grabL();
         slide.grabR();
@@ -148,6 +152,7 @@ public class AutoRedClose extends LinearOpMode{
         //Go Back to Wall
         drive.rotateAndMoveInches(90, 0, 8.5, 0.7, 0.25);
         slide.setArmPos(0, LinearSlide.MEDIUM_ROT);
+        slide.turnPlaceEx();
         wait(2.0);
         drive.rotateAndMoveInches(90, 0, 75, 1.0, 0.25);
 
@@ -157,8 +162,8 @@ public class AutoRedClose extends LinearOpMode{
 
         slide.setArmPos(150, LinearSlide.LOW_ROT - 20);
         wait(1.0);
-        slide.turnPlaceEx();
-        wait(0.5);
+//        slide.turnPlaceEx();
+//        wait(0.5);
         drive.rotateAndMoveInches(90, 0, 35, 0.5, 0.25);
         drive.rotateAndMoveInches(90, 0, 2, 0.5, 0.25);
         slide.ungrabL();
