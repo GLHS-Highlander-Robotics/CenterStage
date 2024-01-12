@@ -103,8 +103,11 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         } else if (gamepad2.y) {
             rotMotorSteps =HIGH_ROT;
             armMotorSteps = MIN_HEIGHT;
+        }else
+        if(gamepad2.dpad_left){
+            rotMotorSteps = 560;
+            armMotorSteps=MIN_HEIGHT;
         }
-
         // Increase arm and rotation steps by increments using p2 sticks
         if (-gamepad2.left_stick_y > DEAD_ZONE_P2) {
             armMotorSteps += INCREMENT_STEPS_SLIDE;

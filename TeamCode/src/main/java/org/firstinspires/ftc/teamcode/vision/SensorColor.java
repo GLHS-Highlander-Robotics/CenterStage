@@ -24,34 +24,42 @@ public class SensorColor {
     }
 
     public float getHue() {
-        return 0;
+        update();
+        return hsvValues[0];
     }
 
     public float getSaturation() {
-        return 0;
+        update();
+        return hsvValues[1];
     }
 
     public float getValue() {
-        return 0;
+        update();
+        return hsvValues[2];
     }
 
     public float getRed() {
-        return 0;
+        update();
+        return colors.red;
     }
 
     public float getBlue() {
-        return 0;
+        update();
+        return colors.blue;
     }
 
     public float getGreen() {
-        return 0;
+        update();
+        return colors.green;
     }
 
     public float getAlpha() {
-        return 0;
+        update();
+        return colors.alpha;
     }
 
     public float getGain() {
-        return 0;
+        update();
+        return colorSensor.getGain();
     }
 }
