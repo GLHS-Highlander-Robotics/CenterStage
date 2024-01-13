@@ -87,7 +87,7 @@ public class AutoBlueClose extends LinearOpMode{
                 //Move to Wall to place Yellow Pixel
                 slide.setArmPos(0, LinearSlide.LOW_ROT + 25);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(-90,0,-5,0.4,0.25);
+                drive.rotateAndMoveInches(-90,0,5,0.4,0.25);
                 wait(0.2);
                 drive.rotateAndMoveInches(-90, 14, -45, 0.5, 0.25);
                 wait(0.25);
@@ -101,28 +101,32 @@ public class AutoBlueClose extends LinearOpMode{
                 drive.rotateAndMoveInches(-90, 30, -32, 0.5, 0.2);
                 slide.setArmPos(150,0);
                 slide.ungrabL();
+                wait(0.25);
+                //Move to Wall to place Yellow Pixel
                 slide.setArmPos(0, LinearSlide.LOW_ROT + 25);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(-90, -3, -27, 0.5, 0.5);
                 wait(0.5);
                 slide.ungrabR();
-                wait(0.25);
-                drive.rotateAndMoveInches(-90, 34, 15, 0.5, 0.5);
+                wait(0.35);
+                drive.rotateAndMoveInches(-90, 0, 12, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, 32, 0, 0.5, 0.5);
+//                drive.rotateAndMoveInches(90, 34, -7, 0.5, 0.5);
                 break;
             case CENTER:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(0, 28, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(0, 30, 0, 0.5, 0.2);
                 slide.setArmPos(150,0);
                 slide.ungrabL();
-                wait(0.25);
+                wait(0.4);
                 slide.setArmPos(0, LinearSlide.LOW_ROT +10);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(-90, 3, -50, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, 0, -50, 0.5, 0.5);
                 slide.ungrabR();
-                wait(0.25);
+                wait(0.4);
+                drive.rotateAndMoveInches(-90, 0, 13, 0.5, 0.5);
                 slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 20);
-                drive.rotateAndMoveInches(-90, 0, 3, 0.5, 0.5);
-                drive.rotateAndMoveInches(-90, 25, 10, 0.5, 0.5);
+                drive.rotateAndMoveInches(-90, 28, 0, 0.5, 0.5);
 
                 break;
             default:
@@ -135,11 +139,11 @@ public class AutoBlueClose extends LinearOpMode{
         slide.turnFloor();
         drive.rotateAndMoveInches(-90, 0, 60, 0.6, 0.25);
         slide.setArmPos(100,0);
-        drive.rotateAndMoveInches(-90, 3.5, 31, 0.5, 0.25);
+        drive.rotateAndMoveInches(-90, 2.75, 31, 0.5, 0.25);
 
         //Pick up White Pixel
         wait(2.0);
-        drive.rotateAndMoveInches(-90, 2, 16.75, 0.2, 0.25);
+        drive.rotateAndMoveInches(-90, 0, 14.75, 0.2, 0.25);
         wait(0.5);
         slide.grabL();
         slide.grabR();
@@ -147,24 +151,26 @@ public class AutoBlueClose extends LinearOpMode{
         wait(0.5);
         //Go Back to Wall
         drive.rotateAndMoveInches(-90, 0, -8.5, 0.7, 0.25);
-        slide.setArmPos(0, LinearSlide.MEDIUM_ROT);
+        slide.setArmPos(0, LinearSlide.MEDIUM_ROT+20);
+        slide.turnPlaceEx();
         wait(2.0);
-        drive.rotateAndMoveInches(-90, 0, -75, 1.0, 0.25);
+        drive.rotateAndMoveInches(-90, 0, -80, 1.0, 0.25);
 
-        drive.rotateAndMoveInches(-90, -40, -20, 0.95, 0.25);
+        drive.rotateAndMoveInches(-90, -46, -15, 0.95, 0.25);
         wait(0.5);
         //Move to Wall to place White Pixel
 
-        slide.setArmPos(150, LinearSlide.LOW_ROT - 20);
+        slide.setArmPos(200, LinearSlide.LOW_ROT - 20);
         wait(1.0);
-        slide.turnPlaceEx();
-        wait(0.5);
+//        slide.turnPlaceEx();
+//        wait(0.5);
         drive.rotateAndMoveInches(-90, 0, -35, 0.5, 0.25);
         drive.rotateAndMoveInches(-90, 0, -2, 0.5, 0.25);
         slide.ungrabR();
         wait(0.5);
         slide.setAutoPos(0,0);
         drive.rotateAndMoveInches(-90, 0, 7, 0.3, 0.25);
+        slide.setAutoPos(0,0);
 
     }
 

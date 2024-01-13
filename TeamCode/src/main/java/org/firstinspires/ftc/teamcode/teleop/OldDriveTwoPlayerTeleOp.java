@@ -120,11 +120,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         }
 
         // Raise Slide to Presets
-        if (gamepad2.left_bumper) {
-            armMotorSteps = LOW_HEIGHT;
-        } else if (gamepad2.right_bumper) {
-            armMotorSteps = MEDIUM_HEIGHT;
-        }
+
 
         //incremental rotation with p2 dpad
 
