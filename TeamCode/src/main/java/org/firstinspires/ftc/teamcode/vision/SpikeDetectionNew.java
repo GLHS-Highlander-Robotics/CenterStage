@@ -46,7 +46,7 @@ public class SpikeDetectionNew implements VisionProcessor {
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
-        thresh = 1;
+        if (AutoMods.teamRed) {thresh = 1;} else {thresh = 1;}
 //        lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
         if ((AutoMods.isFar && AutoMods.teamRed) || (!AutoMods.isFar && !AutoMods.teamRed)) {
 

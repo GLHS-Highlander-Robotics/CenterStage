@@ -96,7 +96,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
             slide.turnPlaceEx();
             slide.place=true;
         } else if (gamepad2.x) {
-            rotMotorSteps = MEDIUM_ROT;
+            rotMotorSteps = MEDIUM_ROT+100;
             armMotorSteps = MIN_HEIGHT;
             slide.turnPlaceEx();
             slide.place=true;
@@ -105,7 +105,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
             armMotorSteps = MIN_HEIGHT;
         }else
         if(gamepad2.dpad_left){
-            rotMotorSteps = 560;
+            rotMotorSteps = 500;
             armMotorSteps=MIN_HEIGHT;
         }
         // Increase arm and rotation steps by increments using p2 sticks

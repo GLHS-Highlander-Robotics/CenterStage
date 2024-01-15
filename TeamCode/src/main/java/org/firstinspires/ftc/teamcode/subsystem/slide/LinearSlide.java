@@ -31,7 +31,7 @@ public class LinearSlide {
     public static int MIN_ROT = 0;
     public static int LOW_ROT = 1100;
     public static int MEDIUM_ROT = 1295;
-    public static int HIGH_ROT = 760;
+    public static int HIGH_ROT = 840;
     public static int MAX_ROT = 2106;
     public static int INCREMENT_ROT = 10;
     public static int TICKSPERROT = 2520;
