@@ -13,14 +13,14 @@ public class FixedDrive {
     static final double RAW_TICKS_PER_ROTATION = 28;
     static final double MAX_MOTOR_RPM = 6000;
     static final double GEAR_RATIO = 1.0/18.9; //output divided by input
-    static final double WHEEL_DIAMETER = 3.0; //inches
+    static final double WHEEL_DIAMETER = 2.952756; //inches
 
     //Calculated Constants
     static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
     static final double GEARED_TICKS_PER_ROTATION = RAW_TICKS_PER_ROTATION / GEAR_RATIO;
     static final double GEARED_MOTOR_RPM = MAX_MOTOR_RPM * GEAR_RATIO;
     static final double INCHES_PER_TICK =  WHEEL_CIRCUMFERENCE / GEARED_TICKS_PER_ROTATION;
-    static final double MAX_SPEED = (9.0/12.0) * WHEEL_CIRCUMFERENCE * (GEARED_MOTOR_RPM / 60.0);
+    static final double MAX_SPEED_SECONDS = WHEEL_CIRCUMFERENCE * (GEARED_MOTOR_RPM / 60.0);
 
 
     /* -------Variables------- */
@@ -73,7 +73,7 @@ public class FixedDrive {
 
     //Converts distance to time based on the velocity of the robot
     public static double distToTime(double inches, double power) {
-        return Math.round(((inches - 2) / (MAX_SPEED * power)) * 100) / 100.0;
+        return Math.round(((inches) / (MAX_SPEED_SECONDS * power)) * 100) / 100.0;
     }
 
     /* -------Update Heading------- */
@@ -206,7 +206,7 @@ public class FixedDrive {
         updateHeadingDeg();
         double oghead = botHeading;
         setModes(DcMotor.RunMode.RUN_USING_ENCODER);
-        while (timer.time() < seconds && (botHeading < rotateTarget - 5 || botHeading > rotateTarget + 5)) {
+        while (timer.time() < seconds && (botHeading < rotateTarget - 1 || botHeading > rotateTarget + 1)) {
             updateHeadingRad();
             fieldForward = strafePower * Math.sin(-botHeading) + forwardPower * Math.cos(-botHeading);
             fieldStrafe = strafePower * Math.cos(-botHeading) - forwardPower * Math.sin(-botHeading);
@@ -215,8 +215,10 @@ public class FixedDrive {
             opMode.telemetry.update();
             if (oghead - rotateTarget < 0) {
                 driveBot(fieldForward, fieldStrafe, -rotatePower);
-            } else {
+            } else if (oghead - rotateTarget > 0) {
                 driveBot(fieldForward, fieldStrafe, rotatePower);
+            } else {
+                driveBot(fieldForward, fieldStrafe, 0);
             }
 
         }
@@ -226,9 +228,9 @@ public class FixedDrive {
             fieldForward = strafePower * Math.sin(-botHeading) + forwardPower * Math.cos(-botHeading);
             fieldStrafe = strafePower * Math.cos(-botHeading) - forwardPower * Math.sin(-botHeading);
             updateHeadingDeg();
-            if (botHeading < rotateTarget - 5) {
+            if (botHeading < rotateTarget - 1) {
                 driveBot(fieldForward, fieldStrafe, -rotatePower * 0.5);
-            } else if (botHeading > rotateTarget + 5) {
+            } else if (botHeading > rotateTarget + 1) {
                 driveBot(fieldForward, fieldStrafe, rotatePower * 0.5);
             } else {
                 driveBot(fieldForward, fieldStrafe, 0);
@@ -238,10 +240,10 @@ public class FixedDrive {
 
         }
 
-        while (botHeading < rotateTarget - 5 || botHeading > rotateTarget + 5) {
-            if (botHeading <= rotateTarget - 5) {
+        while (botHeading < rotateTarget - 1 || botHeading > rotateTarget + 1) {
+            if (botHeading <= rotateTarget - 1) {
                 driveBot(0, 0, -rotatePower * 0.5);
-            } else if (botHeading >= rotateTarget + 5) {
+            } else if (botHeading >= rotateTarget + 1) {
                 driveBot(0, 0, rotatePower * 0.5);
             } else {
                 driveBot(0, 0, 0);

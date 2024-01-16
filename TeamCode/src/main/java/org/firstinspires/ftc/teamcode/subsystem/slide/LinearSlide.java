@@ -159,7 +159,7 @@ public class LinearSlide {
         }
 
         if (!place) {
-            turnFloor();
+            turnFloorEx();
         } else {
             turnPlaceEx();
         }
@@ -209,6 +209,15 @@ public class LinearSlide {
             turnRot(leftRot, LPLACE - (DEGPERTICK * (1.0/270.0) * (rotMotor.getCurrentPosition() - (1090))));
         } else {
             turnPlace();
+        }
+    }
+
+    public void turnFloorEx() {
+        if (rotMotor.getCurrentPosition() < HIGH_ROT) {
+            turnRot(rightRot, RFLOOR + (DEGPERTICK * (1.0/270.0) * (rotMotor.getCurrentPosition() - (0))));
+            turnRot(leftRot, LFLOOR - (DEGPERTICK * (1.0/270.0) * (rotMotor.getCurrentPosition() - (0))));
+        } else {
+            turnFloor();
         }
     }
     public void turnPlaceAuto() {
