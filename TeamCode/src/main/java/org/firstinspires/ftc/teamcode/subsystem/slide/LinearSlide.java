@@ -37,10 +37,10 @@ public class LinearSlide {
     public static int TICKSPERROT = 2520;
     public static double DEGPERTICK = 360.0/TICKSPERROT;
     //Grip pos
-    public static double RFLOOR = 0.9;
-    public static double LFLOOR = 0.29;
-    public static double RPLACE = 0.43;
-    public static double LPLACE = 0.73;
+    public static double RFLOOR = 0.85;
+    public static double LFLOOR = 0.30;
+    public static double RPLACE = 0.37;
+    public static double LPLACE = 0.78;
     public static double RCLOSE = 0.685;
     public static double ROPEN = 0.5;
     public static double LCLOSE = 0;
@@ -214,8 +214,8 @@ public class LinearSlide {
 
     public void turnFloorEx() {
         if (rotMotor.getCurrentPosition() < HIGH_ROT) {
-            turnRot(rightRot, RFLOOR + (DEGPERTICK * (1.0/270.0) * (rotMotor.getCurrentPosition() - (0))));
-            turnRot(leftRot, LFLOOR - (DEGPERTICK * (1.0/270.0) * (rotMotor.getCurrentPosition() - (0))));
+            turnRot(rightRot, RFLOOR + (DEGPERTICK * (1.0/270.0) * (rotMotor.getCurrentPosition())));
+            turnRot(leftRot, LFLOOR - (DEGPERTICK * (1.0/270.0) * (rotMotor.getCurrentPosition())));
         } else {
             turnFloor();
         }

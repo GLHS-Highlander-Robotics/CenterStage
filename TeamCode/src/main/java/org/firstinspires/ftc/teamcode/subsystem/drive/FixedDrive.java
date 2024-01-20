@@ -20,7 +20,8 @@ public class FixedDrive {
     static final double GEARED_TICKS_PER_ROTATION = RAW_TICKS_PER_ROTATION / GEAR_RATIO;
     static final double GEARED_MOTOR_RPM = MAX_MOTOR_RPM * GEAR_RATIO;
     static final double INCHES_PER_TICK =  WHEEL_CIRCUMFERENCE / GEARED_TICKS_PER_ROTATION;
-    static final double MAX_SPEED_SECONDS = WHEEL_CIRCUMFERENCE * (GEARED_MOTOR_RPM / 60.0);
+    static final double LOAD_COMPENSATION = (15.0/24.0)*(13.0/12.0)*(34.0/30.0)*(10.0/12.0)*(26.5/22);
+    static final double MAX_SPEED_SECONDS = WHEEL_CIRCUMFERENCE * (GEARED_MOTOR_RPM / 60.0) * LOAD_COMPENSATION;
 
 
     /* -------Variables------- */
@@ -196,7 +197,7 @@ public class FixedDrive {
         turnToAbs(target, power);
     }
 
-    //Complex time based gyro movement- movement is absolute
+    //Complex time based gyro movement- movement is absolute, rotation is relative
     public void rotateAndMove(double seconds, double rotateTarget, double forwardPower, double strafePower, double rotatePower) {
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
@@ -253,7 +254,7 @@ public class FixedDrive {
         setPowers(0);
     }
 
-    //Complex gyro based movement in terms of distance instead of time- Also has added functionality for easy diagonal movement (AT LEAST ONE OF forwardDist OR strafeDist MUST BE != 0)
+    //Complex gyro based movement in terms of distance instead of time- Also has added functionality for easy diagonal movement
     public void rotateAndMoveInches(double rotateTarget, double forwardDist, double strafeDist, double maxMovePower, double rotatePower) {
         double maxDist = Math.max(Math.abs(forwardDist), Math.abs(strafeDist));
         double forwardPower;

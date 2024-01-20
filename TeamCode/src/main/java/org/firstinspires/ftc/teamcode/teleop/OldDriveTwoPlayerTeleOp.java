@@ -159,7 +159,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         }
 
         if (extendoOn) {
-            rotMotorSteps = Range.clip((int)((( Math.toDegrees(Math.acos(9/(9 + 4 + (4 * Range.clip(armMotorSteps - 300, 0, 1000000000)/340.0)))))-50)/(slide.DEGPERTICK) ), 0, 500);
+            rotMotorSteps = Range.clip((int)((( Math.toDegrees(Math.acos(9/(9 + 4 + (4 * Range.clip(armMotorSteps - 300, 0, 1000000000)/340.0)))))-50)/(LinearSlide.DEGPERTICK) ), 0, 500);
         }
 
         armMotorSteps = Range.clip(armMotorSteps, MIN_HEIGHT, MAX_HEIGHT);
