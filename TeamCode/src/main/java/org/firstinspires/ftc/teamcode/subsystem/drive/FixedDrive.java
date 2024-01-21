@@ -207,7 +207,7 @@ public class FixedDrive {
         updateHeadingDeg();
         double oghead = botHeading;
         setModes(DcMotor.RunMode.RUN_USING_ENCODER);
-        while (timer.time() < seconds && (botHeading < rotateTarget - 1 || botHeading > rotateTarget + 1)) {
+        while (timer.time() < seconds && (botHeading < rotateTarget - 2 || botHeading > rotateTarget + 2)) {
             updateHeadingRad();
             fieldForward = strafePower * Math.sin(-botHeading) + forwardPower * Math.cos(-botHeading);
             fieldStrafe = strafePower * Math.cos(-botHeading) - forwardPower * Math.sin(-botHeading);

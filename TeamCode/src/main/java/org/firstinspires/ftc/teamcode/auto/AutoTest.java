@@ -42,7 +42,7 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "Test")
+@Autonomous(name = "Auto Red Far")
 public class AutoTest extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
@@ -70,13 +70,171 @@ public class AutoTest extends LinearOpMode{
         slide.grabAll();
         slide.turnRot(slide.droneServo, 1);
 
+        while(opModeInInit()){
+            telemetry.addData("Right Claw","Purple Pixel");
+            telemetry.addData("Left Claw","Yellow Pixel");
+            telemetry.addData("Block Location", spikeDetect.getPos());
+            telemetry.update();
+        }
 
         waitForStart();
         drive.imu.resetYaw();
-        drive.rotateAndMoveInches(0, 30,0,0.5,0.5);
+        SpikeDetectionNew.Position position = spikeDetect.getPos();
+        portal.close();
+
+        switch (position) {
+            case RIGHT:
+                //Move and place purple pixel
+                slide.turnFloor();
+                drive.rotateAndMoveInches(-90,35.5,-10,0.5,0.4);
+                slide.setArmPos(200,0);
+                drive.rotateAndMoveInches(-90,0,4,0.2,0.2);
+                slide.ungrabR();
+                slide.setArmPos(50,0);
+                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
+                wait(0.25);
+
+                //Go to white stack
+                drive.rotateAndMoveInches(90, -6, -24, 0.5,0.5);
+                wait(0.25);
+                drive.rotateAndMoveInches(90, 0, -7.5, 0.2,0.2);
+                slide.grabR();
+                wait(0.25);
+                drive.rotateAndMoveInches(90,0,4,0.2,0.2);
+
+                //Position to get ready to go under the gate
+                slide.setArmPos(0,0);
+                drive.rotateAndMoveInches(90,0,16,0.5,0.4);
+                drive.rotateAndMoveInches(90,-20,6,0.5,0.4);
+
+                //End Position (90, 5, -5.5)
+                break;
+            case LEFT:
+                //Move and place purple pixel
+                slide.turnFloor();
+                drive.rotateAndMoveInches(90,35,6,0.5,0.4);
+                slide.setArmPos(200,0);
+                slide.ungrabR();
+                slide.setArmPos(50,0);
+                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
+                wait(0.25);
+
+                //Go to white stack
+                drive.rotateAndMoveInches(90, -10, 0, 0.5,0.5);
+                drive.rotateAndMoveInches(90,0,-20,0.5,0.25);
+                wait(0.25);
+                drive.rotateAndMoveInches(90, 0, -7.5, 0.2,0.2);
+                slide.grabR();
+                wait(0.25);
+                drive.rotateAndMoveInches(90,0,4,0.2,0.2);
+
+                //Position to get ready to go under the gate
+                slide.setArmPos(0,0);
+                drive.rotateAndMoveInches(90,0,16,0.5,0.4);
+                drive.rotateAndMoveInches(90,-20,6,0.5,0.4);
+
+                //End Position (90, 5, -5.5)
+                break;
+            case CENTER:
+                //Move and place purple pixel
+                slide.turnFloor();
+                drive.rotateAndMoveInches(0, 30, 0, 0.5, 0.2);
+                slide.setArmPos(200,0);
+//                drive.rotateAndMoveInches(0,2,0, 0.2,0.2);
+                slide.ungrabR();
+                slide.setArmPos(50,0);
+                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
+                wait(0.25);
+
+                //Go to white stack
+                drive.rotateAndMoveInches(90, -3, -24,0.5,0.5);
+                wait(0.25);
+                drive.rotateAndMoveInches(90,0,-7.5,0.2,0.2);
+                slide.grabR();
+                wait(0.25);
+                drive.rotateAndMoveInches(90,0,4,0.2,0.2);
+                //Stack Position: (90, 27, -27.5)
+
+                //Position to get ready to go under the gate
+                slide.setArmPos(0,0);
+                drive.rotateAndMoveInches(90,0,16,0.5,0.4);
+                drive.rotateAndMoveInches(90,-22,6,0.5,0.4);
+
+                //End Position (90, 5, -5.5)
+                break;
+            default:
+                break;
+        }
+        //Go under the gate and rotate the arm (DEFINITELY CHANGE THIS CODE FOR DIFFERENT TEAMS)
+        drive.rotateAndMoveInches(90, 0,66,0.5,0.2);
+        slide.setArmPos(75, LinearSlide.LOW_ROT);
+        slide.turnPlaceEx();
+        wait(0.5);
 
 
 
+        switch (position){
+            case LEFT:
+                //Move to in front of the backboard (PROBABLY CHANGE THIS CODE FOR DIFFERENT TEAMS)
+                drive.rotateAndMoveInches(90, 34, 0, 0.5, 0.2);
 
+                //Move into the backboard and release
+                drive.rotateAndMoveInches(90,0,20,0.25,0.2);
+                slide.ungrabL();
+                wait(0.25);
+                drive.rotateAndMoveInches(90,-20,-12,0.25,0.25);
+                wait(0.25);
+                drive.rotateAndMoveInches(90,0,16,0.25,0.25);
+                slide.ungrabR();
+                wait(0.5);
+                slide.setArmPos(0,0);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90,0,-4,0.25,0.2);
+                drive.rotateAndMoveInches(90,-16, 0,0.25,0.25);
+                slide.setAutoPos(0,0);
+                break;
+
+            case RIGHT:
+                //Move to in front of the backboard (PROBABLY CHANGE THIS CODE FOR DIFFERENT TEAMS)
+                drive.rotateAndMoveInches(90, 24, 0, 0.5, 0.2);
+
+                //Move into the backboard and release
+                drive.rotateAndMoveInches(90,0,20,0.25,0.2);
+                slide.ungrabAll();
+                wait(0.5);
+                slide.setArmPos(0,0);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90,0,-6,0.25,0.2);
+                drive.rotateAndMoveInches(90,-24, 0,0.25,0.25);
+                slide.setAutoPos(0,0);
+                break;
+            case CENTER:
+                //Move to in front of the backboard (PROBABLY CHANGE THIS CODE FOR DIFFERENT TEAMS)
+                drive.rotateAndMoveInches(90, 27.5, 0, 0.5, 0.2);
+
+                //Move into the backboard and release
+                drive.rotateAndMoveInches(90,0,20,0.25,0.2);
+                slide.ungrabL();
+                slide.setArmPos(150,LinearSlide.LOW_ROT);
+                wait(0.25);
+                drive.rotateAndMoveInches(90,-6,0,0.25,0.25);
+                wait(0.25);
+                slide.ungrabR();
+                wait(0.5);
+                slide.setArmPos(0,0);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90,0,-4,0.25,0.2);
+                drive.rotateAndMoveInches(90,-24, 0,0.25,0.25);
+                slide.setAutoPos(0,0);
+                break;
+            default:
+        }
+
+
+    }
+    public void wait (double t) {
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (timer.time() < t) {idle();}
     }
 }

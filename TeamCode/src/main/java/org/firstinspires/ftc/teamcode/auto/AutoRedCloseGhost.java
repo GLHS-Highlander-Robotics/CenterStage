@@ -98,7 +98,7 @@ public class AutoRedCloseGhost extends LinearOpMode{
                 slide.ungrabR();
                 wait(0.25);
 
-                //Go under the the gclose ate
+                //Go under the the close gate
                 slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 25);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90, -27, -5, 0.5,0.25);

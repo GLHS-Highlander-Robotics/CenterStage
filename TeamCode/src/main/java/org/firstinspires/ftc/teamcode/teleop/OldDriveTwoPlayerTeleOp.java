@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 @Config
 @TeleOp (name = "OGTwoPlayerTeleop")
 public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
-    public static double HIGH_POWER = 0.80;
+    public static double HIGH_POWER = 1.0;
     public static double LOW_POWER = 0.35;
     public static double DEAD_ZONE_P1 = 0.05;
     public static double DEAD_ZONE_P2 = 0.05;
