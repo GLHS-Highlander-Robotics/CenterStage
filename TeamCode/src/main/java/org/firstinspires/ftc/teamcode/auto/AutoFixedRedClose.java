@@ -42,8 +42,8 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "Auto Red Far")
-public class AutoTest extends LinearOpMode{
+@Autonomous(name = "Auto Red Close")
+public class AutoFixedRedClose extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;
@@ -53,7 +53,7 @@ public class AutoTest extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         AutoMods.teamRed = true;
-        AutoMods.isFar = true;
+        AutoMods.isFar = false;
         slide = new LinearSlide(hardwareMap);
         drive = new FixedDrive(hardwareMap, this);
         drive.botHeading = 0;
@@ -71,8 +71,8 @@ public class AutoTest extends LinearOpMode{
         slide.turnRot(slide.droneServo, 1);
 
         while(opModeInInit()){
-            telemetry.addData("Right Claw","Purple Pixel");
-            telemetry.addData("Left Claw","Yellow Pixel");
+            telemetry.addData("Right Claw","Yellow Pixel");
+            telemetry.addData("Left Claw","Purple Pixel");
             telemetry.addData("Block Location", spikeDetect.getPos());
             telemetry.update();
         }
@@ -114,26 +114,21 @@ public class AutoTest extends LinearOpMode{
                 slide.turnFloor();
                 drive.rotateAndMoveInches(90,35,6,0.5,0.4);
                 slide.setArmPos(200,0);
+                slide.ungrabL();
+                slide.setArmPos(0, LinearSlide.LOW_ROT);
+                wait(0.25);
+                slide.turnPlaceEx();
+
+                //Move and place yellow pixel on board
+                drive.rotateAndMoveInches(90,4,48,0.5,0.4);
                 slide.ungrabR();
-                slide.setArmPos(50,0);
-                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
-                wait(0.25);
 
-                //Go to white stack
-                drive.rotateAndMoveInches(90, -10, 0, 0.5,0.5);
-                drive.rotateAndMoveInches(90,0,-20,0.5,0.25);
-                wait(0.25);
-                drive.rotateAndMoveInches(90, 0, -7.5, 0.2,0.2);
-                slide.grabR();
-                wait(0.25);
-                drive.rotateAndMoveInches(90,0,4,0.2,0.2);
+                //Position to go under gate
+                drive.rotateAndMoveInches(90,0,-12,0.5,0.4);
+                slide.setArmPos(0, LinearSlide.MEDIUM_ROT);
 
-                //Position to get ready to go under the gate
-                slide.setArmPos(0,0);
-                drive.rotateAndMoveInches(90,0,16,0.5,0.4);
-                drive.rotateAndMoveInches(90,-20,6,0.5,0.4);
 
-                //End Position (90, 5, -5.5)
+
                 break;
             case CENTER:
                 //Move and place purple pixel
@@ -166,37 +161,19 @@ public class AutoTest extends LinearOpMode{
                 break;
         }
         //Go under the gate and rotate the arm (DEFINITELY CHANGE THIS CODE FOR DIFFERENT TEAMS)
-        drive.rotateAndMoveInches(90, 0,66,0.5,0.2);
-        slide.setArmPos(75, LinearSlide.LOW_ROT);
-        slide.turnPlaceEx();
-        wait(0.5);
+
 
 
 
         switch (position){
             case LEFT:
                 //Move to in front of the backboard (PROBABLY CHANGE THIS CODE FOR DIFFERENT TEAMS)
-                drive.rotateAndMoveInches(90, 34, 0, 0.5, 0.2);
-
-                //Move into the backboard and release
-                drive.rotateAndMoveInches(90,0,20,0.25,0.2);
-                slide.ungrabL();
-                wait(0.25);
-                drive.rotateAndMoveInches(90,-20,-12,0.25,0.25);
-                wait(0.25);
-                drive.rotateAndMoveInches(90,0,16,0.25,0.25);
-                slide.ungrabR();
-                wait(0.5);
-                slide.setArmPos(0,0);
-                slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90,0,-4,0.25,0.2);
-                drive.rotateAndMoveInches(90,-16, 0,0.25,0.25);
-                slide.setAutoPos(0,0);
+               wait(5.0);
                 break;
 
             case RIGHT:
                 //Move to in front of the backboard (PROBABLY CHANGE THIS CODE FOR DIFFERENT TEAMS)
-                drive.rotateAndMoveInches(90, 24, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(90, 20, 0, 0.5, 0.2);
 
                 //Move into the backboard and release
                 drive.rotateAndMoveInches(90,0,20,0.25,0.2);

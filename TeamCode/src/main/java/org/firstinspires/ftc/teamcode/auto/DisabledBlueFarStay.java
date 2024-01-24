@@ -31,8 +31,7 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import android.util.Size;
 
-
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -43,8 +42,8 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "BlueSpawn")
-public class AutoBlueFarStay extends LinearOpMode{
+@Disabled
+public class DisabledBlueFarStay extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;

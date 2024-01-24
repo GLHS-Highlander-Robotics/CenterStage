@@ -44,7 +44,7 @@ import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous(name = "BlueBoard")
-public class AutoBlueClose extends LinearOpMode{
+public class AutoBlueBoard extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;

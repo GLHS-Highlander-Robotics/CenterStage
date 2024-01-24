@@ -32,19 +32,20 @@ package org.firstinspires.ftc.teamcode.auto;
 import android.util.Size;
 
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.constants.AutoMods;
 import org.firstinspires.ftc.teamcode.subsystem.drive.OldDrive;
 import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.teamcode.constants.AutoMods;
 
-@Autonomous(name = "RedSpawn")
-public class AutoRedFarStay extends LinearOpMode{
+@Disabled
+public class DisabledRedFarBoard extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;
@@ -53,6 +54,7 @@ public class AutoRedFarStay extends LinearOpMode{
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         AutoMods.teamRed = true;
         AutoMods.isFar = true;
         slide = new LinearSlide(hardwareMap);
@@ -74,6 +76,9 @@ public class AutoRedFarStay extends LinearOpMode{
 
         waitForStart();
         ElapsedTime timer = new ElapsedTime();
+        int forwardDist = 0;
+        int rotDist = 0;
+        int rightDist = 50;
         drive.imu.resetYaw();
         SpikeDetectionNew.Position position = spikeDetect.getPos();
         portal.close();
@@ -84,27 +89,53 @@ public class AutoRedFarStay extends LinearOpMode{
                 slide.ungrabR();
                 timer.reset();
                 while (timer.time() < 1) {idle();}
-
+                slide.setAutoPos(0, LinearSlide.MEDIUM_ROT);
+                forwardDist = 13;
+                rotDist = LinearSlide.LOW_ROT - 10;
                 break;
             case RIGHT:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(-90, 36, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(0, 6, 29, 0.5, 0.2);
+                drive.rotateAndMoveInches(0, 23, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(90, 0, -8, 0.5, 0.5);
                 slide.ungrabR();
                 timer.reset();
                 while (timer.time() < 1) {idle();}
+                drive.rotateAndMoveInches(90, 0, 24, 0.5, 0.2);
+                slide.setAutoPos(0, LinearSlide.MEDIUM_ROT);
+
+                forwardDist = -5;
+                rotDist = LinearSlide.LOW_ROT + 30;
+                rightDist = 35;
                 break;
             case CENTER:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(0, 32, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(180, 44, 0, 0.5, 0.75);
                 slide.ungrabR();
                 timer.reset();
                 while (timer.time() < 1) {idle();}
-
+                drive.rotateAndMoveInches(-90, 2, 0, 0.5, 0.75);
+                drive.rotateAndMoveInches(-90, 0,40, 0.5, 0.2);
+                slide.turnPlace();
+                slide.setRot(LinearSlide.LOW_ROT);
+                drive.rotateAndMoveInches(90, 0,0, 0.5, 0.75);
+                drive.rotateAndMoveInches(90, -20, 40, 0.3, 0.2);
+                forwardDist = 5;
+                rotDist = LinearSlide.LOW_ROT;
                 break;
             default:
                 break;
         }
 
+        drive.rotateAndMoveInches(90, 0, rightDist, 0.5, 0.5);
+        slide.setAutoPos(0, rotDist);
+        slide.turnPlaceEx();
+        drive.rotateAndMoveInches(90, forwardDist, 20, 0.3, 0.5);
+        slide.ungrabL();
+        timer.reset();
+        while (timer.time() < 1) {idle();}
+        drive.rotateAndMoveInches(90, 0, -10, 0.3, 0.5);
+        slide.setAutoPos(0,0);
 
 
 

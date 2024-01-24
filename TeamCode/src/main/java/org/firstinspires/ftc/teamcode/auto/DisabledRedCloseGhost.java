@@ -31,8 +31,7 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import android.util.Size;
 
-
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -43,8 +42,8 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "RedBoard")
-public class AutoRedClose extends LinearOpMode{
+@Disabled
+public class DisabledRedCloseGhost extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;
@@ -80,106 +79,61 @@ public class AutoRedClose extends LinearOpMode{
             case LEFT:
                 //Place First Purple Pixel
                 slide.turnFloor();
-                drive.rotateAndMoveInches(90, 30, 5, 0.5, 0.2);
+                drive.rotateAndMoveInches(90, 30, -5, 0.5, 0.2);
                 slide.setArmPos(150,0);
-                drive.rotateAndMoveInches(90, 0, -2, 0.25, 0.25);
-                drive.rotateAndMoveInches(90, 0, 2, 0.25, 0.25);
                 slide.ungrabR();
                 wait(0.25);
-                //Move to Wall to place Yellow Pixel
-                slide.setArmPos(0, LinearSlide.LOW_ROT + 25);
+                slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 20);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90,0,-5,0.4,0.25);
-                wait(0.3);
-                drive.rotateAndMoveInches(90, 14, 45, 0.5, 0.25);
-                wait(0.25);
-                slide.ungrabL();
-                wait(0.25);
-                drive.rotateAndMoveInches(90, 21, -15, 0.5, 0.25);
+                drive.rotateAndMoveInches(90, -27, 10, 0.5, 0.25);
 
+                //Go Under the close gate
+                //THIS CODE WILL NEED TO BE CHANGED BASED ON WHICH TEAM WE ARE PLAYING WITH
+                drive.rotateAndMoveInches(90, 0, 40, 0.5,0.25);
                 break;
             case RIGHT:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(90, 30, 31, 0.5, 0.2);
+                drive.rotateAndMoveInches(-90, 30, 5, 0.5, 0.2);
                 slide.setArmPos(150,0);
-                drive.rotateAndMoveInches(90, 0, -2, 0.25, 0.25);
-                drive.rotateAndMoveInches(90, 0, 2, 0.25, 0.25);
                 slide.ungrabR();
                 wait(0.25);
-                //Move to Wall to place Yellow Pixel
-                slide.setArmPos(0, LinearSlide.LOW_ROT + 25);
-                slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, -3, 27, 0.5, 0.5);
-                wait(0.75);
-                slide.ungrabL();
-                wait(0.35);
-                drive.rotateAndMoveInches(90, 0, -13, 0.5, 0.5);
-                drive.rotateAndMoveInches(90, 31.5, -0, 0.5, 0.5);
 
+                //Go under the the close gate
+                slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 25);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90, -27, -5, 0.5,0.25);
+
+                //THIS CODE WILL NEED TO BE CHANGED BASED ON WHICH TEAM WE ARE PLAYING WITH
+                drive.rotateAndMoveInches(90, 0, 50, 0.5, 0.25);
                 break;
             case CENTER:
+                //Place Purple Pixel
                 slide.turnFloor();
                 drive.rotateAndMoveInches(0, 30, 0, 0.5, 0.2);
                 slide.setArmPos(150,0);
-                drive.rotateAndMoveInches(90, 2, 0, 0.25, 0.25);
-                drive.rotateAndMoveInches(90, -2, 0, 0.25, 0.25);
                 slide.ungrabR();
                 wait(0.4);
-                slide.setArmPos(0, LinearSlide.LOW_ROT +10);
+                slide.setArmPos(0, LinearSlide.MEDIUM_ROT+20);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, 3, 50, 0.5, 0.5);
-                slide.ungrabL();
-                wait(0.4);
-                drive.rotateAndMoveInches(90, 0, -13, 0.5, 0.5);
-                slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 20);
-                drive.rotateAndMoveInches(90, 27, 0, 0.5, 0.5);
+                drive.rotateAndMoveInches(90,-27,0,0.5,0.2);
 
+                //Go under the gate
+                //THIS CODE WILL NEED TO BE CHANGED BASED ON WHICH TEAM WE ARE PLAYING WITH
+                drive.rotateAndMoveInches(90, 0, 45, 0.5, 0.25);
                 break;
             default:
                 break;
         }
-        //Discrepancy Line 154, 142
-        //Go to get 2 White pixels
-        //Go Under Gate
-        slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 20);
-        slide.turnFloor();
-        drive.rotateAndMoveInches(90, 0, -60, 0.6, 0.25);
-        slide.setArmPos(100,0);
-        drive.rotateAndMoveInches(90, 0.5, -31, 0.5, 0.25);
-
-        //Pick up White Pixel
-        wait(2.0);
-        drive.rotateAndMoveInches(90, 0, -14.75, 0.2, 0.25);
-
-//        drive.rotateAndMoveInches(90, 2, -14.75, 0.2, 0.25);
-        wait(0.5);
-        slide.grabL();
-        slide.grabR();
-
-        wait(0.5);
-        //Go Back to Wall
-        drive.rotateAndMoveInches(90, 0, 8.5, 0.7, 0.25);
-        slide.setArmPos(0, LinearSlide.MEDIUM_ROT+20);
+        //Place the yellow pixel
+        drive.rotateAndMoveInches(90,27,0,0.5,0.25);
+        slide.setAutoPos(0, LinearSlide.LOW_ROT+10);
         slide.turnPlaceEx();
-        wait(2.0);
-        drive.rotateAndMoveInches(90, 0, 80, 1.0, 0.25);
-
-        drive.rotateAndMoveInches(90, -46, 15, 0.95, 0.25);
+        drive.rotateAndMoveInches(90,0,15,0.5,0.25);
         wait(0.5);
-        //Move to Wall to place White Pixel
 
-        slide.setArmPos(200, LinearSlide.LOW_ROT - 20);
-        wait(1.0);
-//        slide.turnPlaceEx();
-//        wait(0.5);
-        drive.rotateAndMoveInches(90, 0, 35, 0.5, 0.25);
-        drive.rotateAndMoveInches(90, 0, 2, 0.5, 0.25);
         slide.ungrabL();
-        wait(0.5);
-        slide.setAutoPos(0,0);
-        drive.rotateAndMoveInches(90, 0, -7, 0.3, 0.25);
-        slide.setAutoPos(0,0);
-
+        wait(0.25);
+        slide.setAutoPos(0, 0);
     }
 
     public void wait (double t) {

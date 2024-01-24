@@ -31,7 +31,8 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import android.util.Size;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -42,8 +43,8 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "Ghost Far Red")
-public class AutoRedCloseGhost extends LinearOpMode{
+@Disabled
+public class DisabledRedFarStay extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;
@@ -53,7 +54,7 @@ public class AutoRedCloseGhost extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         AutoMods.teamRed = true;
-        AutoMods.isFar = false;
+        AutoMods.isFar = true;
         slide = new LinearSlide(hardwareMap);
         drive = new OldDrive(hardwareMap, this);
         drive.botHeading = 0;
@@ -72,73 +73,40 @@ public class AutoRedCloseGhost extends LinearOpMode{
 
 
         waitForStart();
+        ElapsedTime timer = new ElapsedTime();
         drive.imu.resetYaw();
         SpikeDetectionNew.Position position = spikeDetect.getPos();
         portal.close();
         switch (position) {
             case LEFT:
-                //Place First Purple Pixel
                 slide.turnFloor();
-                drive.rotateAndMoveInches(90, 30, -5, 0.5, 0.2);
-                slide.setArmPos(150,0);
+                drive.rotateAndMoveInches(90, 32, 4, 0.5, 0.2);
                 slide.ungrabR();
-                wait(0.25);
-                slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 20);
-                slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, -27, 10, 0.5, 0.25);
+                timer.reset();
+                while (timer.time() < 1) {idle();}
 
-                //Go Under the close gate
-                //THIS CODE WILL NEED TO BE CHANGED BASED ON WHICH TEAM WE ARE PLAYING WITH
-                drive.rotateAndMoveInches(90, 0, 40, 0.5,0.25);
                 break;
             case RIGHT:
                 slide.turnFloor();
-                drive.rotateAndMoveInches(-90, 30, 5, 0.5, 0.2);
-                slide.setArmPos(150,0);
+                drive.rotateAndMoveInches(-90, 36, 0, 0.5, 0.2);
                 slide.ungrabR();
-                wait(0.25);
-
-                //Go under the the close gate
-                slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 25);
-                slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90, -27, -5, 0.5,0.25);
-
-                //THIS CODE WILL NEED TO BE CHANGED BASED ON WHICH TEAM WE ARE PLAYING WITH
-                drive.rotateAndMoveInches(90, 0, 50, 0.5, 0.25);
+                timer.reset();
+                while (timer.time() < 1) {idle();}
                 break;
             case CENTER:
-                //Place Purple Pixel
                 slide.turnFloor();
-                drive.rotateAndMoveInches(0, 30, 0, 0.5, 0.2);
-                slide.setArmPos(150,0);
+                drive.rotateAndMoveInches(0, 32, 0, 0.5, 0.2);
                 slide.ungrabR();
-                wait(0.4);
-                slide.setArmPos(0, LinearSlide.MEDIUM_ROT+20);
-                slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90,-27,0,0.5,0.2);
+                timer.reset();
+                while (timer.time() < 1) {idle();}
 
-                //Go under the gate
-                //THIS CODE WILL NEED TO BE CHANGED BASED ON WHICH TEAM WE ARE PLAYING WITH
-                drive.rotateAndMoveInches(90, 0, 45, 0.5, 0.25);
                 break;
             default:
                 break;
         }
-        //Place the yellow pixel
-        drive.rotateAndMoveInches(90,27,0,0.5,0.25);
-        slide.setAutoPos(0, LinearSlide.LOW_ROT+10);
-        slide.turnPlaceEx();
-        drive.rotateAndMoveInches(90,0,15,0.5,0.25);
-        wait(0.5);
 
-        slide.ungrabL();
-        wait(0.25);
-        slide.setAutoPos(0, 0);
-    }
 
-    public void wait (double t) {
-        ElapsedTime timer = new ElapsedTime();
-        timer.reset();
-        while (timer.time() < t) {idle();}
+
+
     }
 }
