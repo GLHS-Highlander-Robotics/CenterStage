@@ -112,7 +112,8 @@ public class AutoFixedRedClose extends LinearOpMode{
             case LEFT:
                 //Move and place purple pixel
                 slide.turnFloor();
-                drive.rotateAndMoveInches(90,35,6,0.5,0.4);
+                drive.rotateAndMoveInches(90,35.5,10,0.5,0.4);
+                drive.rotateAndMoveInches(90,0,-5,0.2,0.4);
                 slide.setArmPos(200,0);
                 slide.ungrabL();
                 slide.setArmPos(0, LinearSlide.LOW_ROT);
@@ -120,8 +121,9 @@ public class AutoFixedRedClose extends LinearOpMode{
                 slide.turnPlaceEx();
 
                 //Move and place yellow pixel on board
-                drive.rotateAndMoveInches(90,4,48,0.5,0.4);
+                drive.rotateAndMoveInches(90,-3,48,0.5,0.4);
                 slide.ungrabR();
+                wait(0.25);
 
                 //Position to go under gate
                 drive.rotateAndMoveInches(90,0,-12,0.5,0.4);

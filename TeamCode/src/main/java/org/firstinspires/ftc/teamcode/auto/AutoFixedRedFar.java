@@ -88,14 +88,14 @@ public class AutoFixedRedFar extends LinearOpMode{
                 slide.turnFloor();
                 drive.rotateAndMoveInches(-90,35.5,-10,0.5,0.4);
                 slide.setArmPos(200,0);
-                drive.rotateAndMoveInches(-90,0,4,0.2,0.2);
+                drive.rotateAndMoveInches(-90,0,5,0.2,0.2);
                 slide.ungrabR();
                 slide.setArmPos(50,0);
                 slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
                 wait(0.25);
 
                 //Go to white stack
-                drive.rotateAndMoveInches(90, -6, -24, 0.5,0.5);
+                drive.rotateAndMoveInches(90, -4, -25, 0.5,0.5);
                 wait(0.25);
                 drive.rotateAndMoveInches(90, 0, -7.5, 0.2,0.2);
                 slide.grabR();
@@ -167,7 +167,7 @@ public class AutoFixedRedFar extends LinearOpMode{
         }
         //Go under the gate and rotate the arm (DEFINITELY CHANGE THIS CODE FOR DIFFERENT TEAMS)
         drive.rotateAndMoveInches(90, 0,66,0.5,0.2);
-        slide.setArmPos(75, LinearSlide.LOW_ROT);
+        slide.setArmPos(150, LinearSlide.LOW_ROT - 20);
         slide.turnPlaceEx();
         wait(0.5);
 
@@ -176,7 +176,7 @@ public class AutoFixedRedFar extends LinearOpMode{
         switch (position){
             case LEFT:
                 //Move to in front of the backboard (PROBABLY CHANGE THIS CODE FOR DIFFERENT TEAMS)
-                drive.rotateAndMoveInches(90, 34, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(90, 35, 0, 0.5, 0.2);
 
                 //Move into the backboard and release
                 drive.rotateAndMoveInches(90,0,20,0.25,0.2);
@@ -210,7 +210,7 @@ public class AutoFixedRedFar extends LinearOpMode{
                 break;
             case CENTER:
                 //Move to in front of the backboard (PROBABLY CHANGE THIS CODE FOR DIFFERENT TEAMS)
-                drive.rotateAndMoveInches(90, 27.5, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(90, 30.5, 0, 0.5, 0.2);
 
                 //Move into the backboard and release
                 drive.rotateAndMoveInches(90,0,20,0.25,0.2);
