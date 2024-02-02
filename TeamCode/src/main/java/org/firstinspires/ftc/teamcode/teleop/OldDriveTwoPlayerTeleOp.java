@@ -100,7 +100,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
             slide.place=true;
             extendoOn = false;
         } else if (gamepad2.x) {
-            rotMotorSteps = MEDIUM_ROT+100;
+            rotMotorSteps = MEDIUM_ROT+30;
             armMotorSteps = MIN_HEIGHT;
             slide.turnPlaceEx();
             slide.place=true;
@@ -159,7 +159,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         }
 
         if (extendoOn) {
-            rotMotorSteps = Range.clip((int)((( Math.toDegrees(Math.acos(9/(9 + 4 + (4 * Range.clip(armMotorSteps - 300, 0, 1000000000)/340.0)))))-50)/(LinearSlide.DEGPERTICK) ), 0, 500);
+            rotMotorSteps = Range.clip((int)((( Math.toDegrees(Math.acos(9/(9 + 4 + (4 * Range.clip(armMotorSteps - 520, 0, 1000000000)/340.0)))))-50)/(LinearSlide.DEGPERTICK) ), 0, 500);
         }
 
         armMotorSteps = Range.clip(armMotorSteps, MIN_HEIGHT, MAX_HEIGHT);
@@ -228,11 +228,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
     public void updateDriveByGamepad() {
         drive.updateHeadingRad();
         botHeading = drive.botHeading;
-        if (gamepad1.a) {
-            limiter = HIGH_POWER;
-        } else if (gamepad1.b) {
-            limiter = LOW_POWER;
-        }
+
 
         if (gamepad1.x) {
             drive.imu.resetYaw();
@@ -245,11 +241,19 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
          strafe = gamepad1.left_stick_x * limiter;
          rotate = gamepad1.right_stick_x * limiter;
 
+
+
         if (Math.abs(gamepad1.left_stick_y) < DEAD_ZONE_P1) { forward = 0; }
 
         if (Math.abs(gamepad1.left_stick_x) < DEAD_ZONE_P1) { strafe = 0; }
 
         if (Math.abs(gamepad1.right_stick_x) < DEAD_ZONE_P1) { rotate = 0; }
+
+        if (gamepad1.a) {
+            forward = LOW_POWER;
+        } else if (gamepad1.b) {
+            forward = -LOW_POWER;
+        }
 
          fieldForward = strafe * Math.sin(-botHeading) + forward * Math.cos(-botHeading);
          fieldStrafe = strafe * Math.cos(-botHeading) - forward * Math.sin(-botHeading);
@@ -265,6 +269,8 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         } else if (gamepad1.dpad_left) {
             rotate = -LOW_POWER;
         }
+
+
 
         if (!fieldCentric) {
             drive.driveBot(forward, strafe, rotate);

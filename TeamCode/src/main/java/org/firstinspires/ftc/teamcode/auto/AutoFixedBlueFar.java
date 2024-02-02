@@ -42,8 +42,8 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "Auto Red Far")
-public class AutoFixedRedFar extends LinearOpMode{
+@Autonomous(name = "Auto Blue Far")
+public class AutoFixedBlueFar extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;
@@ -86,19 +86,19 @@ public class AutoFixedRedFar extends LinearOpMode{
             case RIGHT:
                 //Move and place purple pixel
                 slide.turnFloor();
-                drive.rotateAndMoveInches(-90,35.5,-10,0.5,0.4);
+                drive.rotateAndMoveInches(90,35.5,10,0.5,0.4);
                 slide.setArmPos(200,0);
-                drive.rotateAndMoveInches(-90,0,5,0.2,0.2);
-                slide.ungrabR();
+                drive.rotateAndMoveInches(90,0,-5,0.2,0.2);
+                slide.ungrabL();
                 slide.setArmPos(50,0);
                 slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
                 wait(0.25);
 
                 //Go to white stack
-                drive.rotateAndMoveInches(90, -4, -25, 0.5,0.5);
+                drive.rotateAndMoveInches(-90, -4, 25, 0.5,0.5);
                 wait(0.25);
-                drive.rotateAndMoveInches(90, 0, -7.5, 0.2,0.2);
-                slide.grabR();
+                drive.rotateAndMoveInches(-90, 0, 7.5, 0.2,0.2);
+                slide.grabL();
                 wait(0.25);
                 drive.rotateAndMoveInches(90,0,4,0.2,0.2);
 
@@ -142,12 +142,12 @@ public class AutoFixedRedFar extends LinearOpMode{
                 slide.setArmPos(200,0);
 //                drive.rotateAndMoveInches(0,2,0, 0.2,0.2);
                 slide.ungrabR();
-                slide.setArmPos(75,0);
+                slide.setArmPos(50,0);
                 slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
                 wait(0.25);
 
                 //Go to white stack
-                drive.rotateAndMoveInches(90, -6, -24,0.5,0.5);
+                drive.rotateAndMoveInches(90, -3, -24,0.5,0.5);
                 wait(0.25);
                 drive.rotateAndMoveInches(90,0,-7.5,0.2,0.2);
                 slide.grabR();
