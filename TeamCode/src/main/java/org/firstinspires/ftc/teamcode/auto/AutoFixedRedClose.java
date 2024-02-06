@@ -97,15 +97,15 @@ public class AutoFixedRedClose extends LinearOpMode{
                 wait(0.25);
 
                 //Move and place yellow pixel on board
-                drive.rotateAndMoveInches(90,-16,24,0.5,0.4);
+                drive.rotateAndMoveInches(90,-20,24,0.5,0.4);
                 wait(0.5);
                 slide.ungrabR();
                 wait(0.25);
 
                 //Position to go under gate
                 drive.rotateAndMoveInches(90,0,-12,0.5,0.4);
-                slide.setArmPos(0, 0);
-                drive.rotateAndMoveInches(90,39,0,0.5,0.4);
+                slide.setArmPos(0, LinearSlide.MEDIUM_ROT);
+                drive.rotateAndMoveInches(90,42,0,0.5,0.4);
 
                 break;
             case LEFT:
@@ -128,9 +128,9 @@ public class AutoFixedRedClose extends LinearOpMode{
                 wait(0.25);
 
                 //Position to go under gate
-                drive.rotateAndMoveInches(90,0,-12,0.5,0.4);
+                drive.rotateAndMoveInches(90,0,-14,0.5,0.4);
                 slide.setAutoPos(0,LinearSlide.MEDIUM_ROT);
-                drive.rotateAndMoveInches(90,28,0,0.5,0.4);
+                drive.rotateAndMoveInches(90,29.5,0,0.5,0.4);
 
 
 
@@ -147,7 +147,7 @@ public class AutoFixedRedClose extends LinearOpMode{
                 slide.turnPlaceEx();
 
 
-                //Go to white stack
+                //Place yellow pixel
                 drive.rotateAndMoveInches(90,-10.5,48,0.5,0.4);
 
                 slide.ungrabR();
@@ -155,27 +155,28 @@ public class AutoFixedRedClose extends LinearOpMode{
 
                 //Position to get ready to go under the gate
                 //strafe: -12
-                drive.rotateAndMoveInches(90,0,-12,0.5,0.4);
+                drive.rotateAndMoveInches(90,0,-14,0.5,0.4);
                 slide.setAutoPos(0, LinearSlide.MEDIUM_ROT);
-                drive.rotateAndMoveInches(90,36,0,0.5,0.4);
+                drive.rotateAndMoveInches(90,38,0,0.5,0.4);
                 break;
             default:
                 break;
         }
-        //Go under the gate and rotate the arm (DEFINITELY CHANGE THIS CODE FOR DIFFERENT TEAMS)
-        drive.rotateAndMoveInches(90,0,0,0.2,0.7);
-        drive.rotateAndMoveInches(90,0,-66,1.0,0.4);
+        drive.rotateAndMoveInches(90,0,0,0.2,0.3);
+        drive.rotateAndMoveInches(90,0,-66,0.7,0.4);
         slide.setArmPos(250,0);
-        drive.rotateAndMoveInches(90,0,-20,1.0,0.4);
-
+        drive.rotateAndMoveInches(90,0,-15,0.7,0.4);
         slide.turnFloor();
         drive.rotateAndMoveInches(90,0,-19,0.15,0.4);
         slide.grabR();
         slide.grabL();
         wait(0.5);
-        slide.setAutoPos(0, slide.MEDIUM_ROT);
+        slide.setArmPos(0, slide.MEDIUM_ROT);
         drive.rotateAndMoveInches(90,0,7,0.2,0.2);
-        drive.rotateAndMoveInches(90,0,94,1.0,0.4);
+        wait(0.5);
+        drive.rotateAndMoveInches(90,0,80,0.7,0.4);
+        drive.rotateAndMoveInches(90,0,7,0.5,0.4);
+
         slide.setArmPos(150,LinearSlide.LOW_ROT -10);
 
 
@@ -184,38 +185,37 @@ public class AutoFixedRedClose extends LinearOpMode{
         switch (position){
             case LEFT:
                 //Move to in front of the backboard (PROBABLY CHANGE THIS CODE FOR DIFFERENT TEAMS)
-                slide.turnPlaceEx();
+                slide.turnPlace();
                 drive.rotateAndMoveInches(90,-28,0,0.5,0.4);
+                drive.rotateAndMoveInches(90,0,15,0.5,0.4);
                 slide.ungrabR();
                 slide.ungrabL();
                 wait(0.5);
-                slide.setAutoPos(0,0);
-                wait(3.0);
                 break;
 
             case RIGHT:
-                slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90,-39,0,0.5,0.4);
+                slide.turnPlace();
+                drive.rotateAndMoveInches(90,-32,0,0.5,0.4);
+                drive.rotateAndMoveInches(90,0,15,0.5,0.4);
+                wait(0.25);
                 slide.ungrabR();
                 slide.ungrabL();
                 wait(0.5);
-                slide.setAutoPos(0,0);
-                wait(3.0);
                 break;
             case CENTER:
-                slide.turnPlaceEx();
+                slide.turnPlace();
                 drive.rotateAndMoveInches(90,-36,0,0.5,0.4);
-                drive.rotateAndMoveInches(90,0,8,0.5,0.4);
+                drive.rotateAndMoveInches(90,0,16,0.5,0.4);
                 slide.ungrabR();
                 slide.ungrabL();
                 wait(0.5);
-                slide.setAutoPos(0,0);
-                wait(3.0);
+
                 break;
             default:
         }
-
-
+        slide.setAutoPos(0,0);
+        drive.rotateAndMoveInches(90,0,-6,0.5,0.5);
+        wait(1.0);
     }
     public void wait (double t) {
         ElapsedTime timer = new ElapsedTime();

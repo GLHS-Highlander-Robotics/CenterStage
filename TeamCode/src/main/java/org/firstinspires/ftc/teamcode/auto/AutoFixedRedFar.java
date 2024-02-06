@@ -89,13 +89,14 @@ public class AutoFixedRedFar extends LinearOpMode{
                 drive.rotateAndMoveInches(-90,35.5,-10,0.5,0.4);
                 slide.setArmPos(200,0);
                 drive.rotateAndMoveInches(-90,0,5,0.2,0.2);
+                wait(0.25);
                 slide.ungrabR();
                 slide.setArmPos(50,0);
                 slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
                 wait(0.25);
 
                 //Go to white stack
-                drive.rotateAndMoveInches(90, -4, -25, 0.5,0.5);
+                drive.rotateAndMoveInches(90, -3.5, -25, 0.5,0.5);
                 wait(0.25);
                 drive.rotateAndMoveInches(90, 0, -7.5, 0.2,0.2);
                 slide.grabR();
@@ -147,7 +148,7 @@ public class AutoFixedRedFar extends LinearOpMode{
                 wait(0.25);
 
                 //Go to white stack
-                drive.rotateAndMoveInches(90, -6, -24,0.5,0.5);
+                drive.rotateAndMoveInches(90, -5.5, -24,0.5,0.5);
                 wait(0.25);
                 drive.rotateAndMoveInches(90,0,-7.5,0.2,0.2);
                 slide.grabR();
@@ -229,8 +230,8 @@ public class AutoFixedRedFar extends LinearOpMode{
                 break;
             default:
         }
-
-
+        drive.rotateAndMoveInches(0,0,0,0.25,1);
+        wait(1);
     }
     public void wait (double t) {
         ElapsedTime timer = new ElapsedTime();
