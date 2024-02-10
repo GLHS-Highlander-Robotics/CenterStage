@@ -86,11 +86,12 @@ public class AutoFixedRedFar extends LinearOpMode{
             case RIGHT:
                 //Move and place purple pixel
                 slide.turnFloor();
-                drive.rotateAndMoveInches(-90,35.5,-10,0.5,0.4);
+                drive.rotateAndMoveInches(-90,35.5,-10.75,0.5,0.4);
                 slide.setArmPos(200,0);
                 drive.rotateAndMoveInches(-90,0,5,0.2,0.2);
                 wait(0.25);
                 slide.ungrabR();
+                wait(0.25);
                 slide.setArmPos(50,0);
                 slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
                 wait(0.25);
@@ -105,8 +106,8 @@ public class AutoFixedRedFar extends LinearOpMode{
 
                 //Position to get ready to go under the gate
                 slide.setArmPos(0,0);
-                drive.rotateAndMoveInches(90,0,16,0.5,0.4);
-                drive.rotateAndMoveInches(90,-20,6,0.5,0.4);
+                drive.rotateAndMoveInches(90,0,14,0.5,0.4);
+                drive.rotateAndMoveInches(90,-21.5,8,0.5,0.4);
 
                 //End Position (90, 5, -5.5)
                 break;
@@ -121,7 +122,7 @@ public class AutoFixedRedFar extends LinearOpMode{
                 wait(0.25);
 
                 //Go to white stack
-                drive.rotateAndMoveInches(90, -10, 0, 0.5,0.5);
+                drive.rotateAndMoveInches(90, -9.5, 0, 0.5,0.5);
                 drive.rotateAndMoveInches(90,0,-20,0.5,0.25);
                 wait(0.25);
                 drive.rotateAndMoveInches(90, 0, -7.5, 0.2,0.2);
@@ -205,8 +206,9 @@ public class AutoFixedRedFar extends LinearOpMode{
                 wait(0.5);
                 slide.setArmPos(0,0);
                 slide.turnPlaceEx();
+                //Leave the backboard to allow alliance to place
                 drive.rotateAndMoveInches(90,0,-6,0.25,0.2);
-                drive.rotateAndMoveInches(90,-24, 0,0.25,0.25);
+                drive.rotateAndMoveInches(90,-21, 0,0.25,0.25);
                 slide.setAutoPos(0,0);
                 break;
             case CENTER:
@@ -216,7 +218,7 @@ public class AutoFixedRedFar extends LinearOpMode{
                 //Move into the backboard and release
                 drive.rotateAndMoveInches(90,0,20,0.25,0.2);
                 slide.ungrabL();
-                slide.setArmPos(150,LinearSlide.LOW_ROT);
+                slide.setArmPos(100,LinearSlide.LOW_ROT);
                 wait(0.25);
                 drive.rotateAndMoveInches(90,-6,0,0.25,0.25);
                 wait(0.25);
@@ -230,8 +232,7 @@ public class AutoFixedRedFar extends LinearOpMode{
                 break;
             default:
         }
-        drive.rotateAndMoveInches(0,0,0,0.25,1);
-        wait(1);
+        drive.rotateAndMoveInches(10,0,0,0.25,1);
     }
     public void wait (double t) {
         ElapsedTime timer = new ElapsedTime();
