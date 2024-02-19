@@ -110,7 +110,6 @@ public class SpikeDetectionNew implements VisionProcessor {
         leftMat.release();
         centerMat.release();
         rightMat.release();
-
         return input;
     }
 
