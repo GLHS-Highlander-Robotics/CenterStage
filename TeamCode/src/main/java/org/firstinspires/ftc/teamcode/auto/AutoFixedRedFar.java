@@ -87,55 +87,57 @@ public class AutoFixedRedFar extends LinearOpMode{
             case RIGHT:
                 //Move and place purple pixel
                 slide.turnFloor();
-                drive.rotateAndMoveInches(-90,36,-16,0.5,0.4);
-                drive.rotateAndMoveInches(-90,0,5,0.2,0.2);
-                slide.setArmPos(450,0);
-                wait(0.25);
+                slide.setArmPos(150,0);
+                drive.rotateAndMoveInches(0, 30, -3, 0.5, 0.2);
+                drive.rotateAndMoveInches(-90, 0, 0, 0.5, 0.5);
+
+
+                wait(0.5);
+                //drive.rotateAndMoveInches(0,2,0, 0.2,0.2);
                 slide.ungrabR();
-                wait(0.25);
-                slide.setArmPos(35,0);
-                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
+                slide.setArmPos(0,50);
+//                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
                 wait(0.25);
 
                 //Go to white stack
-                drive.rotateAndMoveInches(90, -4, -22, 0.5,0.5);
+                drive.rotateAndMoveInches(90, -3.25, -10, 0.5,0.5);
                 wait(0.25);
-                drive.rotateAndMoveInches(90, 0, -7.5, 0.2,0.2);
+                drive.rotateAndMoveInches(90, 0, -11.5, 0.2,0.2);
                 slide.grabR();
                 wait(0.25);
                 drive.rotateAndMoveInches(90,0,4,0.2,0.2);
 
                 //Position to get ready to go under the gate
-                slide.turnRot(slide.rightRot, LinearSlide.RPLACE + 0.29);
+                slide.turnRot(slide.rotServo, LinearSlide.RPLACE);
                 slide.setArmPos(0,0);
-                drive.rotateAndMoveInches(90,0,14,0.5,0.4);
-                drive.rotateAndMoveInches(90,-21.25,8,0.5,0.4);
+                drive.rotateAndMoveInches(90,0,16,0.5,0.4);
+                drive.rotateAndMoveInches(90,-24.25,8,0.5,0.4);
 
                 //End Position (90, 5, -5.5)
                 break;
             case LEFT:
                 //Move and place purple pixel
                 slide.turnFloor();
-                slide.setArmPos(250,0);
-                drive.rotateAndMoveInches(90,35,6,0.5,0.4);
+                slide.setArmPos(200,0);
+                drive.rotateAndMoveInches(90,42,9,0.5,0.4);
                 wait(0.25);
                 slide.ungrabR();
                 wait(0.25);
-                slide.setArmPos(35,0);
-                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
+                slide.setArmPos(0,53);
+//                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
                 wait(0.25);
 
                 //Go to white stack
-                drive.rotateAndMoveInches(90, -10, 0, 0.5,0.5);
-                drive.rotateAndMoveInches(90,0,-20,0.5,0.25);
+                drive.rotateAndMoveInches(90, -13, 0, 0.5,0.5);
+                drive.rotateAndMoveInches(90,0,-13,0.5,0.25);
                 wait(0.25);
-                drive.rotateAndMoveInches(90, 0, -7.5, 0.2,0.2);
+                drive.rotateAndMoveInches(90, 0, -12.5, 0.2,0.2);
                 slide.grabR();
                 wait(0.25);
                 drive.rotateAndMoveInches(90,0,4,0.2,0.2);
 
                 //Position to get ready to go under the gate
-                slide.turnRot(slide.rightRot, LinearSlide.RPLACE + 0.29);
+                slide.turnRot(slide.rotServo, LinearSlide.RPLACE);
                 slide.setArmPos(0,0);
                 drive.rotateAndMoveInches(90,0,16,0.5,0.4);
                 drive.rotateAndMoveInches(90,-20,6,0.5,0.4);
@@ -146,29 +148,29 @@ public class AutoFixedRedFar extends LinearOpMode{
                 //Move and place purple pixel
                 slide.turnFloor();
                 slide.setArmPos(200,0);
-                drive.rotateAndMoveInches(0, 30, 0, 0.5, 0.2);
-//                drive.rotateAndMoveInches(0,2,0, 0.2,0.2);
+                drive.rotateAndMoveInches(0, 27, 0, 0.5, 0.2);
+                //drive.rotateAndMoveInches(0,2,0, 0.2,0.2);
                 slide.ungrabR();
-                slide.setArmPos(35,0);
-                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
+                slide.setArmPos(0,70);
+//                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
                 wait(0.25);
 
                 //Go to white stack
-                drive.rotateAndMoveInches(0,-3.5,0,0.5,0.5);
-                drive.rotateAndMoveInches(90, 0, -24,0.5,0.5);
-                wait(0.25);
-                drive.rotateAndMoveInches(90,0,-7.5,0.2,0.2);
+                drive.rotateAndMoveInches(90,2.5,0, 0.5,0.5);
+                slide.turnFloorEx();
+                drive.rotateAndMoveInches(90,0,-22,0.2,0.2);
+
                 wait(0.25);
                 slide.grabR();
                 wait(0.25);
-                drive.rotateAndMoveInches(90,0,4,0.2,0.2);
+                drive.rotateAndMoveInches(90,0,4,1,0.2);
                 //Stack Position: (90, 27, -27.5)
 
                 //Position to get ready to go under the gate
-                slide.turnRot(slide.rightRot, LinearSlide.RPLACE + 0.29);
+                slide.turnRot(slide.rotServo, LinearSlide.RPLACE + 0.29);
                 slide.setArmPos(0,0);
                 drive.rotateAndMoveInches(90,0,16,0.5,0.4);
-                drive.rotateAndMoveInches(90,-21.5,6,0.5,0.4);
+                drive.rotateAndMoveInches(90,-22,6,0.5,0.4);
 
                 //End Position (90, 5, -5.5)
                 break;
@@ -186,13 +188,13 @@ public class AutoFixedRedFar extends LinearOpMode{
         switch (position){
             case LEFT:
                 //Move to in front of the backboard (PROBABLY CHANGE THIS CODE FOR DIFFERENT TEAMS)
-                drive.rotateAndMoveInches(90, 34, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(90, 29, 0, 0.5, 0.2);
 
                 //Move into the backboard and release
                 drive.rotateAndMoveInches(90,0,20,0.25,0.2);
                 slide.ungrabL();
                 wait(0.25);
-                drive.rotateAndMoveInches(90,-20,-12,0.25,0.25);
+                drive.rotateAndMoveInches(90,-17,-12,0.25,0.25);
                 wait(0.25);
                 drive.rotateAndMoveInches(90,0,16,0.25,0.25);
                 slide.ungrabR();
@@ -206,22 +208,25 @@ public class AutoFixedRedFar extends LinearOpMode{
 
             case RIGHT:
                 //Move to in front of the backboard (PROBABLY CHANGE THIS CODE FOR DIFFERENT TEAMS)
-                drive.rotateAndMoveInches(90, 22, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(90, 20, 0, 0.5, 0.2);
+
 
                 //Move into the backboard and release
+                slide.setArmPos(300,LinearSlide.LOW_ROT);
                 drive.rotateAndMoveInches(90,0,20,0.25,0.2);
+
                 slide.ungrabAll();
                 wait(0.5);
                 slide.setArmPos(0,0);
                 slide.turnPlaceEx();
                 //Leave the backboard to allow alliance to place
                 drive.rotateAndMoveInches(90,0,-6,0.25,0.2);
-                drive.rotateAndMoveInches(90,-21.75, 0,0.25,0.25);
+                drive.rotateAndMoveInches(90,-23.75, 0,0.25,0.25);
                 slide.setAutoPos(0,0);
                 break;
             case CENTER:
                 //Move to in front of the backboard (PROBABLY CHANGE THIS CODE FOR DIFFERENT TEAMS)
-                drive.rotateAndMoveInches(90, 29.5, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(90, 21.5, 0, 0.5, 0.2);
 
                 //Move into the backboard and release
                 drive.rotateAndMoveInches(90,0,20,0.25,0.2);
@@ -240,7 +245,7 @@ public class AutoFixedRedFar extends LinearOpMode{
                 break;
             default:
         }
-        drive.rotateAndMoveInches(15,0,0,0.25,1);
+        drive.rotateAndMoveInches(0,0,0,0.25,1);
     }
     public void wait (double t) {
         ElapsedTime timer = new ElapsedTime();

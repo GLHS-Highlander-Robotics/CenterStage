@@ -66,7 +66,7 @@ public class AutoFixedRedClose extends LinearOpMode{
                 .addProcessor(spikeDetect)
                 .build();
 
-        slide.turnPlaceAuto();
+        slide.turnPlace();
         slide.grabAll();
         slide.turnRot(slide.droneServo, 1);
 
@@ -88,13 +88,13 @@ public class AutoFixedRedClose extends LinearOpMode{
                 //Move and place purple pixel
                 slide.turnFloor();
                 slide.setArmPos(250,0);
-                drive.rotateAndMoveInches(90,37,36,0.5,0.4);
+                drive.rotateAndMoveInches(90,32,37,0.5,0.4);
                 drive.rotateAndMoveInches(90,0,-4,0.2,0.4);
-                slide.setArmPos(200,0);
+                slide.setArmPos(100,0);
                 wait(0.25);
                 slide.ungrabL();
                 wait(0.25);
-                slide.setArmPos(50, LinearSlide.LOW_ROT + 20);
+                slide.setArmPos(150, LinearSlide.LOW_ROT);
 
                 slide.turnPlace();
                 wait(0.25);
@@ -104,76 +104,76 @@ public class AutoFixedRedClose extends LinearOpMode{
                 wait(0.5);
                 slide.ungrabR();
                 wait(0.4);
-                slide.setArmPos(200, LinearSlide.LOW_ROT + 20);
+                slide.setArmPos(250, LinearSlide.LOW_ROT + 20);
                 wait(0.25);
 
                 //Position to go under gate
-                drive.rotateAndMoveInches(90,0,-12,0.5,0.4);
+                drive.rotateAndMoveInches(90,0,-10,0.5,0.4);
                 slide.setArmPos(0, LinearSlide.MEDIUM_ROT);
-                drive.rotateAndMoveInches(90,40.5,0,0.5,0.4);
+                drive.rotateAndMoveInches(90,38,0,0.5,0.4);
 
                 break;
             case LEFT:
                 //Move and place purple pixel
                 slide.turnFloor();
-                slide.setArmPos(250,0);
+                slide.setArmPos(150,0);
                 drive.rotateAndMoveInches(90,35.5,10,0.5,0.4);
                 drive.rotateAndMoveInches(90,0,-4,0.2,0.4);
                 slide.ungrabL();
                 wait(0.25);
-                slide.setArmPos(50, LinearSlide.LOW_ROT+20);
+                slide.setArmPos(150, LinearSlide.LOW_ROT);
 
                 slide.turnPlaceEx();
 
 
                 //Move and place yellow pixel on board
-                drive.rotateAndMoveInches(90,-3,48,0.5,0.4);
+                drive.rotateAndMoveInches(90,0,48,0.5,0.4);
 
                 slide.ungrabR();
                 wait(0.4);
-                slide.setArmPos(200, LinearSlide.LOW_ROT + 20);
+                slide.setArmPos(250, LinearSlide.LOW_ROT + 20);
                 wait(0.25);
 
                 //Position to go under gate
-                drive.rotateAndMoveInches(90,0,-14,0.5,0.4);
+                drive.rotateAndMoveInches(90,0,-12,0.5,0.4);
                 slide.setAutoPos(0,LinearSlide.MEDIUM_ROT);
-                drive.rotateAndMoveInches(90,28,0,0.5,0.4);
+                drive.rotateAndMoveInches(90,25,0,0.5,0.4);
 
                 break;
             case CENTER:
                 //Move and place purple pixel
                 slide.turnFloor();
                 slide.setArmPos(200,0);
-                drive.rotateAndMoveInches(0, 28.5, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(0, 27, 0, 0.5, 0.2);
                 //drive.rotateAndMoveInches(0,2,0, 0.2,0.2);
                 slide.ungrabL();
                 wait(0.25);
-                slide.setArmPos(50,LinearSlide.LOW_ROT+20);
+                slide.setArmPos(150,LinearSlide.LOW_ROT);
                 slide.turnPlaceEx();
 
 
                 //Place yellow pixel
-                drive.rotateAndMoveInches(90,-10.5,48,0.5,0.4);
+                drive.rotateAndMoveInches(90,-4,48,0.5,0.4);
 
                 slide.ungrabR();
                 wait(0.4);
-                slide.setArmPos(200, LinearSlide.LOW_ROT + 20);
+                slide.setArmPos(250, LinearSlide.LOW_ROT- 10);
                 wait(0.25);
 
                 //Position to get ready to go under the gate
                 //strafe: -12
-                drive.rotateAndMoveInches(90,0,-14,0.5,0.4);
+                drive.rotateAndMoveInches(90,0,-12,0.5,0.4);
                 slide.setAutoPos(0, LinearSlide.MEDIUM_ROT);
-                drive.rotateAndMoveInches(90,35.5,0,0.5,0.4);
+                drive.rotateAndMoveInches(90,32,4,0.5,0.4);
                 break;
             default:
                 break;
         }
         drive.rotateAndMoveInches(90,0,0,0.2,0.3);
-        drive.rotateAndMoveInches(90,0,-66,0.7,0.4);
-        slide.setArmPos(175,0);
+        drive.rotateAndMoveInches(90,0,-67,0.7,0.4);
+        slide.setArmPos(0,30);
         drive.rotateAndMoveInches(90,0,-15,0.7,0.4);
-        slide.turnFloor();
+        slide.turnFloorEx();
         drive.rotateAndMoveInches(90,0,-19,0.15,0.4);
         slide.grabR();
         slide.grabL();
@@ -185,6 +185,7 @@ public class AutoFixedRedClose extends LinearOpMode{
         drive.rotateAndMoveInches(90,0,7,0.5,0.4);
 
         slide.setArmPos(750,LinearSlide.LOW_ROT -10);
+        wait(0.25);
 
 
 
@@ -221,7 +222,7 @@ public class AutoFixedRedClose extends LinearOpMode{
             default:
         }
         slide.setAutoPos(0,0);
-        drive.rotateAndMoveInches(5,0,-8,0.5,0.5);
+        drive.rotateAndMoveInches(0,0,-8,0.5,0.5);
         wait(1.0);
     }
     public void wait (double t) {

@@ -314,7 +314,7 @@ public class BetterFixedDrive {
         checkTimer.reset();
         double checkTime = runTimer.time();
 
-        while (runTimer.time() < travelTime) {
+        while (distAlrTrav < Math.abs(maxDist)) {
             updateHeadingRad();
             fieldForward = strafePower * Math.sin(-botHeading) + forwardPower * Math.cos(-botHeading);
             fieldStrafe = strafePower * Math.cos(-botHeading) - forwardPower * Math.sin(-botHeading);
@@ -329,9 +329,12 @@ public class BetterFixedDrive {
             }
             updateHeadingDeg();
             opMode.telemetry.addData("rot: ", botHeading);
+            opMode.telemetry.addData("Distance traveled: ", distAlrTrav);
             opMode.telemetry.update();
             driveBot(fieldForward,fieldStrafe,realRot);
 
+
+            //brokerunner time correction
             if (runTimer.time() - checkTime >= 0.05) {
                 double trueFL = frontLeftMotor.getPower();
 
@@ -343,30 +346,29 @@ public class BetterFixedDrive {
                 trueStrafe = (((trueBL - trueBR) / 2.0) * Math.cos(-botHeading)) - (((trueFL + trueBR) / 2.0) * Math.sin(-botHeading));
 
                 if (maxDist == Math.abs(forwardDist)) {
-                    distAlrTrav += trueForward * (runTimer.time() - checkTime);
+                    distAlrTrav += Math.abs(trueForward) * (runTimer.time() - checkTime) * MAX_SPEED_SECONDS;
                     timeInc = distToTime(maxDist - distAlrTrav, trueForward);
                 } else {
-                    distAlrTrav += trueStrafe * (runTimer.time() - checkTime);
-                    timeInc = distToTime(maxDist - distAlrTrav, trueForward);
+                    distAlrTrav += Math.abs(trueStrafe) * (runTimer.time() - checkTime) * MAX_SPEED_SECONDS;
+                    timeInc = distToTime(maxDist - distAlrTrav, trueStrafe);
+                }
+                if (timeInc < 0) {
+                    timeInc = 0;
                 }
                 travelTime = runTimer.time() + timeInc;
                 checkTime = runTimer.time();
             }
 
-
         }
 
         while (botHeading < rotateTarget - 1 || botHeading > rotateTarget + 1) {
             updateHeadingRad();
-            if (Math.abs(botHeading - Math.toRadians(rotateTarget)) > (Math.PI/2.0)) {
                 if (botHeading - Math.toRadians(rotateTarget) > 0) {
                     realRot = rotatePower;
                 } else {
                     realRot = -rotatePower;
                 }
-            } else {
-                realRot = rotatePower * Math.sin((botHeading - Math.toRadians(rotateTarget)) / 2.0);
-            }
+
             driveBot(0,0,realRot);
             updateHeadingDeg();
             opMode.telemetry.addData("rot: ", botHeading);

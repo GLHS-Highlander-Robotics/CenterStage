@@ -2,21 +2,25 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.HIGH_ROT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCHESPERTICK;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREMENT_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREMENT_STEPS_SLIDE;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_HEIGHT;
-import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_ROT;
+import static org.firstinspires.ftc.teamcode.teleop.OldDriveTwoPlayerTeleOp.armMode.DEFAULT;
+import static org.firstinspires.ftc.teamcode.teleop.OldDriveTwoPlayerTeleOp.armMode.EXTENDOBOARD;
+import static org.firstinspires.ftc.teamcode.teleop.OldDriveTwoPlayerTeleOp.armMode.EXTENDOFLOOR;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
+
 
 import org.firstinspires.ftc.teamcode.subsystem.drive.OldDrive;
 import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
@@ -56,6 +60,10 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
     boolean detectedExtendo = false;
     boolean extendoOn = false;
     boolean rotTrigged = false;
+    public enum armMode {
+        EXTENDOFLOOR, EXTENDOBOARD, DEFAULT
+    }
+    armMode mode = DEFAULT;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -67,9 +75,11 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         drive.imu.resetYaw();
         slide.ungrabL();
         slide.ungrabR();
-        slide.turnFloor();
+        slide.turnRot(slide.rotServo, 0.3);
         slide.turnRot(slide.droneServo, 1);
         slide.place = false;
+        slide.rightLED.setState(false);
+        slide.leftLED.setState(false);
         while (opModeInInit()) {
             updateTeleOpTelemetry();
             telemetry.update();
@@ -90,76 +100,112 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         if (gamepad2.a) {
             rotMotorSteps = MIN_ROT;
             armMotorSteps = MIN_HEIGHT;
-            slide.turnFloorEx();
+            slide.turnFloor();
             slide.place = false;
-            extendoOn = false;
+            mode = DEFAULT;
         } else if (gamepad2.b) {
             rotMotorSteps = LOW_ROT;
-            armMotorSteps = MIN_HEIGHT;
+            armMotorSteps = LOW_HEIGHT;
             slide.turnPlaceEx();
             slide.place=true;
-            extendoOn = false;
+            mode = DEFAULT;
         } else if (gamepad2.x) {
             rotMotorSteps = MEDIUM_ROT+30;
             armMotorSteps = MIN_HEIGHT;
-            slide.turnPlaceEx();
-            slide.place=true;
-            extendoOn = false;
+            slide.turnFloor();
+            slide.place=false;
+            mode = DEFAULT;
         } else if (gamepad2.y) {
             rotMotorSteps = HIGH_ROT;
             armMotorSteps = MIN_HEIGHT;
-            extendoOn = false;
+            mode = DEFAULT;
         }else
         if (gamepad2.dpad_left){
             rotMotorSteps = 500;
             armMotorSteps=MIN_HEIGHT;
-            extendoOn = false;
+            mode = DEFAULT;
         }
         // Increase arm and rotation steps by increments using p2 sticks
-        if (-gamepad2.left_stick_y > DEAD_ZONE_P2) {
-            if (!extendoOn) {
-                armMotorSteps += INCREMENT_STEPS_SLIDE;
-            } else {armMotorSteps += (INCREMENT_STEPS_SLIDE * 2);}
-            leftStickPressed = true;
-        } else if (-gamepad2.left_stick_y < -DEAD_ZONE_P2) {
-            if (!extendoOn) {
-                armMotorSteps -= INCREMENT_STEPS_SLIDE;
-            } else {armMotorSteps -= (INCREMENT_STEPS_SLIDE * 2);}
-            leftStickPressed = true;
-        } else if (leftStickPressed) {
-            leftStickPressed = false;
-        }
+        switch (mode) {
+            case EXTENDOFLOOR:
 
 
-        if (!detectedExtendo) {
-            if (gamepad2.dpad_right && !extendoOn) {
-                if (slide.slideMotor.getCurrentPosition() < 500) {
-                    extendoOn = true;
-                    detectedExtendo = true;
+
+                if (-gamepad2.left_stick_y > DEAD_ZONE_P2) {
+                    armMotorSteps += INCREMENT_STEPS_SLIDE * 2;
+                    leftStickPressed = true;
+                } else if (-gamepad2.left_stick_y < -DEAD_ZONE_P2) {
+                    armMotorSteps -= INCREMENT_STEPS_SLIDE * 2;
+                    leftStickPressed = true;
+                } else if (leftStickPressed) {
+                    leftStickPressed = false;
                 }
-            } else if (gamepad2.dpad_right && extendoOn) {
-                extendoOn = false;
-                detectedExtendo = true;
-            }
-        } else {
-            if (!gamepad2.dpad_right) {
-                detectedExtendo = false;
-            }
-        }
-        //incremental rotation with p2 dpad
 
-        if (gamepad2.dpad_up) {
-            rotMotorSteps += INCREMENT_ROT;
-            detectedRot = true;
-        } else if (gamepad2.dpad_down) {
-            rotMotorSteps -= INCREMENT_ROT;
-            detectedRot = true;
-        } else if (detectedRot) {
-            detectedRot = false;
-        }
+                rotMotorSteps = Range.clip((int)((( Math.toDegrees(Math.acos(9/(9 + 4 + (4 * Range.clip(armMotorSteps - 560, 0, 1000000000)/340.0)))))-50)/(LinearSlide.DEGPERTICK) ), 0, 500);
 
-        if (extendoOn) {
-            rotMotorSteps = Range.clip((int)((( Math.toDegrees(Math.acos(9/(9 + 4 + (4 * Range.clip(armMotorSteps - 520, 0, 1000000000)/340.0)))))-50)/(LinearSlide.DEGPERTICK) ), 0, 500);
+                if (gamepad2.dpad_up) {
+                    rotMotorSteps += INCREMENT_ROT;
+                    mode = DEFAULT;
+                } else if (gamepad2.dpad_down) {
+                    rotMotorSteps -= INCREMENT_ROT;
+                    mode = DEFAULT;
+                }
+                break;
+
+            case EXTENDOBOARD:
+
+
+                if (-gamepad2.left_stick_y > DEAD_ZONE_P2) {
+                    armMotorSteps += INCREMENT_STEPS_SLIDE;
+                    leftStickPressed = true;
+                } else if (-gamepad2.left_stick_y < -DEAD_ZONE_P2) {
+                    armMotorSteps -= INCREMENT_STEPS_SLIDE;
+                    leftStickPressed = true;
+                } else if (leftStickPressed) {
+                    leftStickPressed = false;
+                }
+
+                rotMotorSteps = 1220 - Range.clip((int)(( 60 - Math.toDegrees(Math.asin(9.09327/(15 + INCHESPERTICK * (Math.max(0,armMotorSteps - LOW_HEIGHT))))))/(LinearSlide.DEGPERTICK) ), 0, 500);
+
+                if (gamepad2.dpad_up) {
+                    rotMotorSteps += INCREMENT_ROT;
+                    mode = DEFAULT;
+                } else if (gamepad2.dpad_down) {
+                    rotMotorSteps -= INCREMENT_ROT;
+                    mode = DEFAULT;
+                }
+                break;
+            case DEFAULT:
+                //incremental rotation with p2 dpad
+                if (gamepad2.dpad_up) {
+                    rotMotorSteps += INCREMENT_ROT;
+                    detectedRot = true;
+                } else if (gamepad2.dpad_down) {
+                    rotMotorSteps -= INCREMENT_ROT;
+                    detectedRot = true;
+                } else if (detectedRot) {
+                    detectedRot = false;
+                }
+
+                if (-gamepad2.left_stick_y > DEAD_ZONE_P2) {
+                        armMotorSteps += INCREMENT_STEPS_SLIDE;
+                    leftStickPressed = true;
+                } else if (-gamepad2.left_stick_y < -DEAD_ZONE_P2) {
+                        armMotorSteps -= INCREMENT_STEPS_SLIDE;
+                    leftStickPressed = true;
+                } else if (leftStickPressed) {
+                    leftStickPressed = false;
+                }
+
+                    if (gamepad2.dpad_right) {
+                        if (slide.slideMotor.getCurrentPosition() < 500 && slide.rotMotor.getCurrentPosition() < 840) {
+                            mode = EXTENDOFLOOR;
+                        } else if (slide.rotMotor.getCurrentPosition() > 840) {
+                            mode = EXTENDOBOARD;
+                        }
+
+                }
+            break;
         }
 
         armMotorSteps = Range.clip(armMotorSteps, MIN_HEIGHT, MAX_HEIGHT);
@@ -173,10 +219,13 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
                 slide.ungrabR();
                 rightGrabbed = false;
                 detectedR = true;
+//                drive.leftLED.setState(false);
             } else if (gamepad1.right_trigger > 0.5 && !rightGrabbed) {
                 slide.grabR();
                 rightGrabbed = true;
                 detectedR = true;
+//                drive.leftLED.setState(true);
+
             }
         } else {
             if (gamepad1.right_trigger < 0.5) {
@@ -293,9 +342,11 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         telemetry.addData("Actual rot motor steps:", slide.rotMotor.getCurrentPosition());
         telemetry.addData("Rot Power:", slide.rotMotor.getPower());
         telemetry.addData("Place:", slide.place);
-        telemetry.addData("Turn Rot:", slide.rightRot.getPosition());
+        telemetry.addData("Turn Rot:", slide.rotServo.getPosition());
+        telemetry.addData("Right Pos:", slide.rightGripper.getPosition());
+        telemetry.addData("Left Pos:", slide.leftGripper.getPosition());
         telemetry.addData("Mode:", slide.rotMotor.getMode());
-        telemetry.addData("Extendo:", extendoOn);
+        telemetry.addData("Mode:", mode);
 
 
 
