@@ -101,7 +101,7 @@ public class LinearSlide {
     }
 
     public void setRot(int steps) {
-        rotMotorSteps = Range.clip(steps, MIN_ROT - 200, MAX_ROT + 100);
+        rotMotorSteps = Range.clip(steps, MIN_ROT - 10000, MAX_ROT + 100);
         rotMotor.setTargetPosition(rotMotorSteps);
     }
 

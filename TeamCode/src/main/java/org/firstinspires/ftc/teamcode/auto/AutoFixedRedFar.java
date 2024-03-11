@@ -95,6 +95,7 @@ public class AutoFixedRedFar extends LinearOpMode{
                 wait(0.5);
                 //drive.rotateAndMoveInches(0,2,0, 0.2,0.2);
                 slide.ungrabR();
+                wait(0.7);
                 slide.setArmPos(0,50);
 //                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
                 wait(0.25);
@@ -122,7 +123,7 @@ public class AutoFixedRedFar extends LinearOpMode{
                 drive.rotateAndMoveInches(90,42,9,0.5,0.4);
                 wait(0.25);
                 slide.ungrabR();
-                wait(0.25);
+                wait(0.7);
                 slide.setArmPos(0,53);
 //                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
                 wait(0.25);
@@ -140,7 +141,7 @@ public class AutoFixedRedFar extends LinearOpMode{
                 slide.turnRot(slide.rotServo, LinearSlide.RPLACE);
                 slide.setArmPos(0,0);
                 drive.rotateAndMoveInches(90,0,16,0.5,0.4);
-                drive.rotateAndMoveInches(90,-20,6,0.5,0.4);
+                drive.rotateAndMoveInches(90,-23,6,0.5,0.4);
 
                 //End Position (90, 5, -5.5)
                 break;
@@ -151,6 +152,7 @@ public class AutoFixedRedFar extends LinearOpMode{
                 drive.rotateAndMoveInches(0, 27, 0, 0.5, 0.2);
                 //drive.rotateAndMoveInches(0,2,0, 0.2,0.2);
                 slide.ungrabR();
+                wait(0.7);
                 slide.setArmPos(0,70);
 //                slide.turnRot(slide.leftRot, LinearSlide.LPLACE + 0.29);
                 wait(0.25);
@@ -178,6 +180,7 @@ public class AutoFixedRedFar extends LinearOpMode{
                 break;
         }
         //Go under the gate and rotate the arm (DEFINITELY CHANGE THIS CODE FOR DIFFERENT TEAMS)
+        wait(4.5);
         drive.rotateAndMoveInches(90, 0,66,0.5,0.2);
         slide.setArmPos(150, LinearSlide.LOW_ROT - 20);
         slide.turnPlaceEx();

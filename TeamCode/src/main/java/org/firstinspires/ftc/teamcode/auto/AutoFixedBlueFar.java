@@ -109,7 +109,7 @@ public class AutoFixedBlueFar extends LinearOpMode{
                 slide.turnRot(slide.rotServo, LinearSlide.RPLACE);
                 slide.setArmPos(0,0);
                 drive.rotateAndMoveInches(-90,0,-16,0.5,0.4);
-                drive.rotateAndMoveInches(-90,-20,-6,0.5,0.4);
+                drive.rotateAndMoveInches(-90,-25,-6,0.5,0.4);
 
                 //End Position (90, 5, -5.5)
                 break;
@@ -225,7 +225,7 @@ public class AutoFixedBlueFar extends LinearOpMode{
                 break;
             case CENTER:
                 //Move to in front of the backboard (PROBABLY CHANGE THIS CODE FOR DIFFERENT TEAMS)
-                drive.rotateAndMoveInches(-90, 21.5, 0, 0.5, 0.2);
+                drive.rotateAndMoveInches(-90, 29.5, 0, 0.5, 0.2);
 
                 //Move into the backboard and release
                 drive.rotateAndMoveInches(-90,0,-20,0.25,0.2);

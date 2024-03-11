@@ -57,9 +57,10 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
     boolean detectedL = false;
     boolean detectedRot = false;
     boolean detectedRotTrig = false;
-    boolean detectedExtendo = false;
+    boolean detectedY = false;
     boolean extendoOn = false;
     boolean rotTrigged = false;
+    int limit = 100;
     public enum armMode {
         EXTENDOFLOOR, EXTENDOBOARD, DEFAULT
     }
@@ -70,6 +71,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
 
         drive = new OldDrive(hardwareMap, this);
         slide = new LinearSlide(hardwareMap);
+
 
         drive.setModes(DcMotorEx.RunMode.RUN_USING_ENCODER);
         drive.imu.resetYaw();
@@ -98,30 +100,31 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         slide.update();
         // Set rotation steps to predefined height with p2 buttons, preset pickup command
         if (gamepad2.a) {
-            rotMotorSteps = MIN_ROT;
+            rotMotorSteps = MIN_ROT  + limit;
             armMotorSteps = MIN_HEIGHT;
             slide.turnFloor();
             slide.place = false;
             mode = DEFAULT;
         } else if (gamepad2.b) {
-            rotMotorSteps = LOW_ROT;
+            rotMotorSteps = LOW_ROT + limit;
             armMotorSteps = LOW_HEIGHT;
             slide.turnPlaceEx();
             slide.place=true;
             mode = DEFAULT;
         } else if (gamepad2.x) {
-            rotMotorSteps = MEDIUM_ROT+30;
+            rotMotorSteps = MEDIUM_ROT+30 + limit;
             armMotorSteps = MIN_HEIGHT;
             slide.turnFloor();
             slide.place=false;
             mode = DEFAULT;
         } else if (gamepad2.y) {
-            rotMotorSteps = HIGH_ROT;
+            rotMotorSteps = HIGH_ROT + limit;
             armMotorSteps = MIN_HEIGHT;
             mode = DEFAULT;
         }else
         if (gamepad2.dpad_left){
-            rotMotorSteps = 500;
+            slide.place = true;
+            rotMotorSteps = 500 + limit;
             armMotorSteps=MIN_HEIGHT;
             mode = DEFAULT;
         }
@@ -197,19 +200,27 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
                     leftStickPressed = false;
                 }
 
-                    if (gamepad2.dpad_right) {
-                        if (slide.slideMotor.getCurrentPosition() < 500 && slide.rotMotor.getCurrentPosition() < 840) {
-                            mode = EXTENDOFLOOR;
-                        } else if (slide.rotMotor.getCurrentPosition() > 840) {
-                            mode = EXTENDOBOARD;
+                if (gamepad2.dpad_right) {
+                    if (slide.slideMotor.getCurrentPosition() < 500 && slide.rotMotor.getCurrentPosition() < 840) {
+                        mode = EXTENDOFLOOR;
+                    } else if (slide.rotMotor.getCurrentPosition() > 840) {
+                        mode = EXTENDOBOARD;
                         }
 
                 }
+
+                if (gamepad2.left_bumper) {
+                    limit -= 10;
+                    rotMotorSteps -= 10;
+                } if (gamepad2.right_bumper) {
+                limit += 10;
+                rotMotorSteps += 10;
+            }
             break;
         }
 
         armMotorSteps = Range.clip(armMotorSteps, MIN_HEIGHT, MAX_HEIGHT);
-        rotMotorSteps = Range.clip(rotMotorSteps, MIN_ROT - 100, MAX_HEIGHT);
+        rotMotorSteps = Range.clip(rotMotorSteps, MIN_ROT + limit, MAX_HEIGHT);
         slide.setArmPos(armMotorSteps, rotMotorSteps);
 
         //Grab claw with p1 bumpers
@@ -219,12 +230,10 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
                 slide.ungrabR();
                 rightGrabbed = false;
                 detectedR = true;
-//                drive.leftLED.setState(false);
             } else if (gamepad1.right_trigger > 0.5 && !rightGrabbed) {
                 slide.grabR();
                 rightGrabbed = true;
                 detectedR = true;
-//                drive.leftLED.setState(true);
 
             }
         } else {
@@ -282,8 +291,6 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         if (gamepad1.x) {
             drive.imu.resetYaw();
             fieldCentric = true;
-        } else if (gamepad1.y) {
-            fieldCentric = false;
         }
 
          forward = -gamepad1.left_stick_y * limiter;
@@ -329,24 +336,18 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
     }
 
     public void updateTeleOpTelemetry() {
-        telemetry.addData("Limiter: ", limiter);
         telemetry.addData("Heading: ", botHeading);
-        telemetry.addData("Field Centric?: ", fieldCentric);
         telemetry.addData("Forward: ", forward);
         telemetry.addData("Strafe: ", strafe);
         telemetry.addData("Rotate:", rotate);
         telemetry.addData("Target slide motor steps:", armMotorSteps);
         telemetry.addData("Actual slide motor steps:", slide.slideMotor.getCurrentPosition());
-        telemetry.addData("Slide Power:", slide.slideMotor.getPower());
-        telemetry.addData("Target rot motor steps:", rotMotorSteps);
-        telemetry.addData("Actual rot motor steps:", slide.rotMotor.getCurrentPosition());
-        telemetry.addData("Rot Power:", slide.rotMotor.getPower());
-        telemetry.addData("Place:", slide.place);
+        telemetry.addData("Target rot motor steps:", rotMotorSteps - limit);
+        telemetry.addData("Actual rot motor steps:", slide.rotMotor.getCurrentPosition() - limit);
+        telemetry.addData("Rot correction", limit);
+        telemetry.addData("Place position?", slide.place);
         telemetry.addData("Turn Rot:", slide.rotServo.getPosition());
-        telemetry.addData("Right Pos:", slide.rightGripper.getPosition());
-        telemetry.addData("Left Pos:", slide.leftGripper.getPosition());
-        telemetry.addData("Mode:", slide.rotMotor.getMode());
-        telemetry.addData("Mode:", mode);
+        telemetry.addData("Extendo Mode:", mode);
 
 
 
