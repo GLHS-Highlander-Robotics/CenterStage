@@ -39,7 +39,7 @@ public class LinearSlide {
     public static int TICKSPERROT = 2520;
     public static double DEGPERTICK = 90.0/500.0;
     //Grip pos
-    public static double RFLOOR = 0.9;
+    public static double RFLOOR = 0.9075;
     public static double RPLACE = 0.39;
     public static double RCLOSE = 0.9;
     public static double ROPEN = 0.69;
@@ -129,6 +129,54 @@ public class LinearSlide {
         if (slideMotor.getCurrentPosition() == MIN_HEIGHT) {
             slideMotor.setPower(MIN_POWER_SLIDE);
         }
+    }
+
+    public void setAutoExtendo (int armstep) {
+        int rotstep =  Range.clip((int)((( Math.toDegrees(Math.acos(8.5/(9 + 4 + (4 * Range.clip(armstep - 560, 0, 1000000000)/340.0)))))-50)/(LinearSlide.DEGPERTICK) ), 0, 500);
+                //Range.clip((int)((( Math.toDegrees(Math.acos(8.5/(14 + (INCHESPERTICK * Range.clip(armMotorSteps - 240, 0, 1000000000)))))) - 45)/(LinearSlide.DEGPERTICK) ), 0, 500);
+
+
+        if (armstep > armMotorSteps) {
+            setArmPos(armMotorSteps,rotstep);
+            ElapsedTime safetime = new ElapsedTime();
+            safetime.reset();
+            while (rotMotor.isBusy() && safetime.time() < 3) {
+                rotMotor.setPower(MAX_POWER_ROT);
+            }
+            rotMotor.setPower(HOLD_POWER_ROT);
+            if (rotMotor.getCurrentPosition() == MIN_ROT) {
+                rotMotor.setPower(MIN_POWER_ROT);
+            }
+            setArmPos(armstep,rotstep);
+            while (slideMotor.isBusy()) {
+                slideMotor.setPower(MAX_POWER_SLIDE);
+            }
+            slideMotor.setPower(HOLD_POWER_SLIDE);
+            if (slideMotor.getCurrentPosition() == MIN_HEIGHT) {
+                slideMotor.setPower(MIN_POWER_SLIDE);
+            }
+        } else {
+            setArmPos(armstep,rotMotorSteps);
+            ElapsedTime safetime = new ElapsedTime();
+            safetime.reset();
+            while (slideMotor.isBusy() && safetime.time() < 3) {
+                slideMotor.setPower(MAX_POWER_SLIDE);
+            }
+            slideMotor.setPower(HOLD_POWER_SLIDE);
+            if (slideMotor.getCurrentPosition() == MIN_ROT) {
+                slideMotor.setPower(MIN_POWER_SLIDE);
+            }
+            setArmPos(armstep,rotstep);
+            while (rotMotor.isBusy()) {
+                rotMotor.setPower(MAX_POWER_ROT);
+            }
+            rotMotor.setPower(HOLD_POWER_ROT);
+            if (rotMotor.getCurrentPosition() == MIN_ROT) {
+                rotMotor.setPower(MIN_POWER_ROT);
+            }
+        }
+
+
     }
 
     public void update() {

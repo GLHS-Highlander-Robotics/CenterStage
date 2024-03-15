@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.INCREME
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.LOW_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_HEIGHT;
+import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MAX_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MEDIUM_ROT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_HEIGHT;
 import static org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide.MIN_ROT;
@@ -57,10 +58,8 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
     boolean detectedL = false;
     boolean detectedRot = false;
     boolean detectedRotTrig = false;
-    boolean detectedY = false;
-    boolean extendoOn = false;
     boolean rotTrigged = false;
-    int limit = 100;
+    int limit = 0;
     public enum armMode {
         EXTENDOFLOOR, EXTENDOBOARD, DEFAULT
     }
@@ -144,7 +143,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
                     leftStickPressed = false;
                 }
 
-                rotMotorSteps = Range.clip((int)((( Math.toDegrees(Math.acos(9/(9 + 4 + (4 * Range.clip(armMotorSteps - 560, 0, 1000000000)/340.0)))))-50)/(LinearSlide.DEGPERTICK) ), 0, 500);
+                rotMotorSteps = Range.clip((int)((( Math.toDegrees(Math.acos(9/(14 + (INCHESPERTICK * Range.clip(armMotorSteps - 240, 0, 1000000000)))))) - 45)/(LinearSlide.DEGPERTICK) ), 0, 500);
 
                 if (gamepad2.dpad_up) {
                     rotMotorSteps += INCREMENT_ROT;
@@ -209,10 +208,10 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
 
                 }
 
-                if (gamepad2.left_bumper) {
+                if (gamepad2.right_bumper) {
                     limit -= 10;
                     rotMotorSteps -= 10;
-                } if (gamepad2.right_bumper) {
+                } else if (gamepad2.left_bumper) {
                 limit += 10;
                 rotMotorSteps += 10;
             }
@@ -220,7 +219,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
         }
 
         armMotorSteps = Range.clip(armMotorSteps, MIN_HEIGHT, MAX_HEIGHT);
-        rotMotorSteps = Range.clip(rotMotorSteps, MIN_ROT + limit, MAX_HEIGHT);
+        rotMotorSteps = Range.clip(rotMotorSteps, MIN_ROT + limit, MAX_ROT + limit);
         slide.setArmPos(armMotorSteps, rotMotorSteps);
 
         //Grab claw with p1 bumpers
