@@ -143,7 +143,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
                     leftStickPressed = false;
                 }
 
-                rotMotorSteps = Range.clip((int)((( Math.toDegrees(Math.acos(9/(14 + (INCHESPERTICK * Range.clip(armMotorSteps - 240, 0, 1000000000)))))) - 45)/(LinearSlide.DEGPERTICK) ), 0, 500);
+                rotMotorSteps = Range.clip((int)((( Math.toDegrees(Math.acos(9/(14 + (INCHESPERTICK * Range.clip(armMotorSteps - 240, 0, 1000000000)))))) - 45)/(LinearSlide.DEGPERTICK) ) + limit, 0, 500);
 
                 if (gamepad2.dpad_up) {
                     rotMotorSteps += INCREMENT_ROT;
@@ -167,7 +167,7 @@ public class OldDriveTwoPlayerTeleOp extends LinearOpMode {
                     leftStickPressed = false;
                 }
 
-                rotMotorSteps = 1220 - Range.clip((int)(( 60 - Math.toDegrees(Math.asin(9.09327/(15 + INCHESPERTICK * (Math.max(0,armMotorSteps - LOW_HEIGHT))))))/(LinearSlide.DEGPERTICK) ), 0, 500);
+                rotMotorSteps = limit + 1220 - Range.clip((int)(( 60 - Math.toDegrees(Math.asin(9.09327/(15 + INCHESPERTICK * (Math.max(0,armMotorSteps - LOW_HEIGHT))))))/(LinearSlide.DEGPERTICK) ), 0, 500);
 
                 if (gamepad2.dpad_up) {
                     rotMotorSteps += INCREMENT_ROT;

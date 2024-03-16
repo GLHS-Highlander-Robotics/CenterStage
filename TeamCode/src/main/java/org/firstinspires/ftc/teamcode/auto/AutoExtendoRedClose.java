@@ -43,8 +43,8 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "BlueBoard")
-public class AutoBlueBoard extends LinearOpMode{
+@Autonomous (name = "Extendo Red Close")
+public class AutoExtendoRedClose extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;
@@ -70,9 +70,9 @@ public class AutoBlueBoard extends LinearOpMode{
         slide.turnPlaceAuto();
         slide.grabAll();
         slide.turnRot(slide.droneServo, 1);
-        while(opModeInInit()){
-            telemetry.addData("Right Claw","Yellow Pixel");
-            telemetry.addData("Left Claw","Purple Pixel");
+        while (opModeInInit()) {
+            telemetry.addData("Right Claw", "Yellow Pixel");
+            telemetry.addData("Left Claw", "Purple Pixel");
             telemetry.addData("Block Location", spikeDetect.getPos());
             telemetry.update();
         }
@@ -82,112 +82,107 @@ public class AutoBlueBoard extends LinearOpMode{
         drive.imu.resetYaw();
         SpikeDetectionNew.Position position = spikeDetect.getPos();
         portal.close();
-        switch (position) {
-            case RIGHT:
-                //Place First Purple Pixel
-                slide.turnFloor();
-                drive.rotateAndMoveInches(-90, 30, -5, 0.5, 0.2);
-                slide.setArmPos(150,0);
-                drive.rotateAndMoveInches(-90, 0, 2, 0.25, 0.25);
-                drive.rotateAndMoveInches(-90, 0, -2, 0.25, 0.25);
-                slide.ungrabL();
-                wait(0.25);
-                //Move to Wall to place Yellow Pixel
-                slide.setArmPos(0, LinearSlide.LOW_ROT + 25);
-                slide.turnPlaceEx();
-                drive.rotateAndMoveInches(-90,0,5,0.4,0.25);
-                wait(0.3);
-                drive.rotateAndMoveInches(-90, 14, -45, 0.5, 0.25);
-                wait(0.25);
-                slide.ungrabR();
-                wait(0.25);
-                drive.rotateAndMoveInches(-90, 21, 15, 0.5, 0.25);
-
-                break;
-            case LEFT:
-                slide.turnFloor();
-                drive.rotateAndMoveInches(-90, 30, -31, 0.5, 0.2);
-                slide.setArmPos(150,0);
-                drive.rotateAndMoveInches(-90, 0, 2, 0.25, 0.25);
-                drive.rotateAndMoveInches(-90, 0, -2, 0.25, 0.25);
-                slide.ungrabL();
-                wait(0.25);
-                //Move to Wall to place Yellow Pixel
-                slide.setArmPos(0, LinearSlide.LOW_ROT + 25);
-                slide.turnPlaceEx();
-                drive.rotateAndMoveInches(-90, -3, -27, 0.5, 0.5);
-                wait(0.75);
-                slide.ungrabR();
-                wait(0.35);
-                drive.rotateAndMoveInches(-90, 0, 13, 0.5, 0.5);
-                drive.rotateAndMoveInches(-90, 31.5, 0, 0.5, 0.5);
-
-                break;
-            case CENTER:
-                slide.turnFloor();
-                drive.rotateAndMoveInches(0, 30, 0, 0.5, 0.2);
-                slide.setArmPos(150,0);
-                drive.rotateAndMoveInches(-90, 2, 0, 0.25, 0.25);
-                drive.rotateAndMoveInches(-90, -2, 0, 0.25, 0.25);
-                slide.ungrabL();
-                wait(0.4);
-                slide.setArmPos(0, LinearSlide.LOW_ROT +10);
-                slide.turnPlaceEx();
-                drive.rotateAndMoveInches(-90, 0, -50, 0.5, 0.5);
-                slide.ungrabR();
-                wait(0.4);
-                drive.rotateAndMoveInches(-90, 0, 13, 0.5, 0.5);
-                slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 20);
-                drive.rotateAndMoveInches(-90, 27, 0, 0.5, 0.5);
-
-                break;
-            default:
-                break;
-        }
-        //Discrepancy Line 154, 142
-        //Go to get 2 White pixels
-        //Go Under Gate
-        slide.setArmPos(0, LinearSlide.MEDIUM_ROT + 20);
-        slide.turnFloor();
-        drive.rotateAndMoveInches(-90, -4, 60, 0.6, 0.25);
-        slide.setArmPos(100,0);
-        drive.rotateAndMoveInches(-90, 0.5, 31, 0.5, 0.25);
-
-        //Pick up White Pixel
-        wait(2.0);
-        drive.rotateAndMoveInches(-90, 0, 14.75, 0.2, 0.25);
-
-//        drive.rotateAndMoveInches(90, 2, -14.75, 0.2, 0.25);
-        wait(0.5);
-        slide.grabL();
-        slide.grabR();
-
-        wait(0.5);
-        //Go Back to Wall
-        drive.rotateAndMoveInches(-90, 0, -8.5, 0.7, 0.25);
-        slide.setArmPos(0, LinearSlide.MEDIUM_ROT+20);
-        slide.turnPlaceEx();
-        wait(2.0);
-        drive.rotateAndMoveInches(-90, 0, -80, 1.0, 0.25);
-
-        drive.rotateAndMoveInches(-90, -42, -15, 0.95, 0.25);
-        wait(0.5);
-        //Move to Wall to place White Pixel
-
-        slide.setArmPos(200, LinearSlide.LOW_ROT - 20);
-        wait(1.0);
-//        slide.turnPlaceEx();
-//        wait(0.5);
-        drive.rotateAndMoveInches(-90, 0, -35, 0.5, 0.25);
-        drive.rotateAndMoveInches(-90, 0, -2, 0.5, 0.25);
-        slide.ungrabL();
-        slide.ungrabR();
-        wait(0.5);
-        slide.setAutoPos(0,0);
-        drive.rotateAndMoveInches(-90, 0, 7, 0.3, 0.25);
+        slide.turnFloorEx();
+        purplePixel(position);
+        yellowPixelIn(position);
+        parkCenter(position);
         slide.setAutoPos(0,0);
     }
 
+    public void purplePixel(SpikeDetectionNew.Position position){
+        drive.rotateAndMoveInches(0,10,0,0.5,0.5);
+        switch (position){
+            case RIGHT:
+                drive.rotateAndMoveInches(-25, 0,0,0,0.4);
+                slide.setAutoExtendo((int)(18/slide.INCHESPERTICK));
+                slide.turnFloorEx();
+                wait(0.25);
+                slide.ungrabL();
+                wait(0.25);
+                slide.turnPlaceEx();
+                slide.setAutoExtendo(0);
+                wait(0.5);
+                drive.rotateAndMoveInches(0,0,0,0,0.5);
+                drive.rotateAndMoveInches(0,-2.5,0,0.5,0.75);
+                break;
+            case CENTER:
+                slide.setAutoExtendo((int)(22.0/slide.INCHESPERTICK));
+                slide.turnFloorEx();
+                wait(0.25);
+                slide.ungrabL();
+                wait(0.25);
+                slide.turnPlaceEx();
+                slide.setAutoExtendo(0);
+                wait(0.5);
+                drive.rotateAndMoveInches(0,0,0,0,0.5);
+                drive.rotateAndMoveInches(0,-2,0,0.5,0.75);
+                break;
+            case LEFT:
+                drive.rotateAndMoveInches(20, 0,0,0,0.4);
+                slide.setAutoExtendo((int)(18/slide.INCHESPERTICK));
+                slide.turnFloorEx();
+                wait(0.25);
+                slide.ungrabL();
+                wait(0.25);
+                slide.turnPlaceEx();
+                slide.setAutoExtendo(0);
+                wait(0.5);
+                drive.rotateAndMoveInches(0,0,0,0,0.5);
+                drive.rotateAndMoveInches(0,-3.5,0,0.5,0.75);
+                break;
+        }
+    }
+
+    public void yellowPixelIn(SpikeDetectionNew.Position position){
+        drive.rotateAndMoveInches(0,0,39,0.5,0.5);
+        switch(position){
+            case LEFT:
+                drive.rotateAndMoveInches(90,30.5,0,0.5,0.25);
+                slide.setArmPos(350, LinearSlide.LOW_ROT-10);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90,0,16,0.25,0.2);
+                wait(0.75);
+                break;
+
+            case RIGHT:
+                drive.rotateAndMoveInches(90,17,0,0.5,0.25);
+                slide.setArmPos(350, LinearSlide.LOW_ROT-10);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90,0,16,0.25,0.2);
+                wait(0.75);
+                break;
+
+            case CENTER:
+                drive.rotateAndMoveInches(90,22,0,0.5,0.25);
+                slide.setArmPos(300, LinearSlide.LOW_ROT-5);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90,0,17,0.25,0.2);
+                wait(0.5);
+                break;
+        }
+        slide.ungrabR();
+        wait(0.5);
+        slide.setAutoPos(0,0);
+    }
+    public void parkCenter(SpikeDetectionNew.Position position){
+        switch(position){
+            case LEFT:
+                drive.rotateAndMoveInches(90,0,-10,0.4,0.2);
+                drive.rotateAndMoveInches(90,20,0,0.4,0.2);
+//                drive.rotateAndMoveInches(0,0,17,0.4,0.4);
+                break;
+            case CENTER:
+                drive.rotateAndMoveInches(90,27,-10,0.4,0.2);
+//                drive.rotateAndMoveInches(0,0,17,0.4,0.4);
+                break;
+            case RIGHT:
+                drive.rotateAndMoveInches(90,36,-10,0.4,0.2);
+//                drive.rotateAndMoveInches(0,0,17,0.4,0.4);
+                break;
+        }
+        drive.rotateAndMoveInches(0,0,17,0.4,0.4);
+        slide.setAutoPos(0,0);
+    }
     public void wait (double t) {
         ElapsedTime timer = new ElapsedTime();
         timer.reset();

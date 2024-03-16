@@ -40,7 +40,7 @@ public class LinearSlide {
     public static double DEGPERTICK = 90.0/500.0;
     //Grip pos
     public static double RFLOOR = 0.9075;
-    public static double RPLACE = 0.39;
+    public static double RPLACE = 0.45;
     public static double RCLOSE = 0.9;
     public static double ROPEN = 0.69;
     public static double LCLOSE = 0.3;

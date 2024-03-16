@@ -33,6 +33,7 @@ import android.util.Size;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -42,9 +43,9 @@ import org.firstinspires.ftc.teamcode.subsystem.drive.OldDrive;
 import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
-
+@Disabled
 @Autonomous(name = "RedBoard")
-public class AutoRedBoard extends LinearOpMode{
+public class DisabledAutoRedBoard extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;

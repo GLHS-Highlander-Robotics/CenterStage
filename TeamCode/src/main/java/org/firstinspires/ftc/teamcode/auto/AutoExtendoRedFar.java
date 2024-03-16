@@ -43,13 +43,14 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous (name = "AutoExtendoTest")
-public class AutoExtendoTest extends LinearOpMode{
+@Autonomous (name = "Extendo Red Far")
+public class AutoExtendoRedFar extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;
     OldDrive drive;
     LinearSlide slide;
+    AutoExtendoFarTemplates template;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -58,6 +59,7 @@ public class AutoExtendoTest extends LinearOpMode{
         slide = new LinearSlide(hardwareMap);
         drive = new OldDrive(hardwareMap, this);
         drive.botHeading = 0;
+        template = new AutoExtendoFarTemplates(slide, drive, true);
 
 
         spikeDetect = new SpikeDetectionNew();
@@ -83,14 +85,17 @@ public class AutoExtendoTest extends LinearOpMode{
         SpikeDetectionNew.Position position = spikeDetect.getPos();
         portal.close();
         slide.turnFloorEx();
-        drive.rotateAndMoveInches(0,10,0,0.5,0.5);
-        purplePixel(position);
-        yellowPixelIn(position);
-        parkCenter(position);
+        template.purplePixel(position);
+        template.yellowPixelIn(position);
+        template.parkCenter(position);
+//        purplePixel(position);
+//        yellowPixelIn(position);
+//        parkCenter(position);
         slide.setAutoPos(0,0);
     }
 
     public void purplePixel(SpikeDetectionNew.Position position){
+        drive.rotateAndMoveInches(0,10,0,0.5,0.5);
         switch (position){
             case LEFT:
                 drive.rotateAndMoveInches(25, 0,0,0,0.4);
@@ -128,7 +133,7 @@ public class AutoExtendoTest extends LinearOpMode{
                 slide.setAutoExtendo(0);
                 wait(0.5);
                 drive.rotateAndMoveInches(0,0,0,0,0.5);
-                drive.rotateAndMoveInches(0,-3.5,0,0.5,0.75);
+                drive.rotateAndMoveInches(0,-4,0,0.5,0.75);
                 break;
         }
     }
@@ -148,7 +153,7 @@ public class AutoExtendoTest extends LinearOpMode{
                 break;
 
             case RIGHT:
-                drive.rotateAndMoveInches(90,20,0,0.5,0.25);
+                drive.rotateAndMoveInches(90,21,0,0.5,0.25);
                 slide.setArmPos(475, LinearSlide.LOW_ROT-10);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90,0,17,0.25,0.2);
@@ -159,7 +164,7 @@ public class AutoExtendoTest extends LinearOpMode{
                 break;
 
             case CENTER:
-                drive.rotateAndMoveInches(90,27,0,0.5,0.25);
+                drive.rotateAndMoveInches(90,28,0,0.5,0.25);
                 slide.setArmPos(300, LinearSlide.LOW_ROT-5);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90,0,17,0.25,0.2);
