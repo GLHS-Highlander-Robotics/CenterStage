@@ -39,7 +39,7 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 
 @Disabled
-public class AutoExtendoFarTemplates extends LinearOpMode{
+public class AutoExtendoCloseTemplates extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -50,7 +50,7 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
     SpikeDetectionNew.Position pos;
     boolean isRedSide;
 
-    public AutoExtendoFarTemplates(LinearSlide slid, OldDrive driv, boolean redSide){
+    public AutoExtendoCloseTemplates(LinearSlide slid, OldDrive driv, boolean redSide){
         slide = slid;
         drive=driv;
         isRedSide=redSide;
@@ -59,19 +59,20 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
 
     public void ungrabPurple(){
         if(isRedSide){
+            slide.ungrabL();
+        }else{
+            slide.ungrabR();
+        }
+    }
+
+    public void ungrabYellow(){
+        if(isRedSide){
             slide.ungrabR();
         }else{
             slide.ungrabL();
         }
     }
 
-    public void ungrabYellow(){
-        if(isRedSide){
-            slide.ungrabL();
-        }else{
-            slide.ungrabR();
-        }
-    }
     public void purplePixel(SpikeDetectionNew.Position position){
         //Initializing Constants and Inverter
         if(!isRedSide){
@@ -89,9 +90,10 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
         drive.rotateAndMoveInches(0,10,0,0.5,0.5);
         switch (pos){
             //Remember that this is on Red side
-            case LEFT:
-                drive.rotateAndMoveInches(25, 0,0,0,0.4);
-                slide.setAutoExtendo((int)(19.5/slide.INCHESPERTICK));
+
+            case RIGHT:
+                drive.rotateAndMoveInches(-25*multiplier, 0,0,0,0.4);
+                slide.setAutoExtendo((int)(18/slide.INCHESPERTICK));
                 slide.turnFloorEx();
                 wait(0.25);
                 ungrabPurple();
@@ -103,7 +105,7 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
                 drive.rotateAndMoveInches(0,-2.5,0,0.5,0.75);
                 break;
             case CENTER:
-                slide.setAutoExtendo((int)(23.0/slide.INCHESPERTICK));
+                slide.setAutoExtendo((int)(22.0/slide.INCHESPERTICK));
                 slide.turnFloorEx();
                 wait(0.25);
                 ungrabPurple();
@@ -114,8 +116,8 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
                 drive.rotateAndMoveInches(0,0,0,0,0.5);
                 drive.rotateAndMoveInches(0,-2,0,0.5,0.75);
                 break;
-            case RIGHT:
-                drive.rotateAndMoveInches(-20*multiplier, 0,0,0,0.4);
+            case LEFT:
+                drive.rotateAndMoveInches(20*multiplier, 0,0,0,0.4);
                 slide.setAutoExtendo((int)(18/slide.INCHESPERTICK));
                 slide.turnFloorEx();
                 wait(0.25);
@@ -125,7 +127,7 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
                 slide.setAutoExtendo(0);
                 wait(0.5);
                 drive.rotateAndMoveInches(0,0,0,0,0.5);
-                drive.rotateAndMoveInches(0,-4,0,0.5,0.75);
+                drive.rotateAndMoveInches(0,-3.5,0,0.5,0.75);
                 break;
         }
     }
@@ -144,40 +146,32 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
         } else multiplier = 1;
 
         //Actual Code
-        drive.rotateAndMoveInches(0,0,82*multiplier,0.5,0.5);
+        drive.rotateAndMoveInches(0,0,39*multiplier,0.5,0.5);
         switch(pos){
             //Remember that this is on Red side
+
             case LEFT:
-                drive.rotateAndMoveInches(90*multiplier,33,0,0.5,0.25);
-                slide.setArmPos(475, LinearSlide.LOW_ROT-10);
+                drive.rotateAndMoveInches(90*multiplier,30.5,0,0.5,0.25);
+                slide.setArmPos(350, LinearSlide.LOW_ROT-10);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90*multiplier,0,17*multiplier,0.25,0.2);
+                drive.rotateAndMoveInches(90*multiplier,0,16*multiplier,0.25,0.2);
                 wait(0.75);
-//                ungrabYellow(isRedSide);
-//                wait(0.5);
-//                slide.setAutoPos(0,0);
                 break;
 
             case RIGHT:
-                drive.rotateAndMoveInches(90*multiplier,21,0,0.5,0.25);
-                slide.setArmPos(475, LinearSlide.LOW_ROT-10);
+                drive.rotateAndMoveInches(90*multiplier,17,0,0.5,0.25);
+                slide.setArmPos(350, LinearSlide.LOW_ROT-10);
                 slide.turnPlaceEx();
-                drive.rotateAndMoveInches(90*multiplier,0,17*multiplier,0.25,0.2);
+                drive.rotateAndMoveInches(90*multiplier,0,16*multiplier,0.25,0.2);
                 wait(0.75);
-//                ungrabYellow(isRedSide);
-//                wait(0.5);
-//                slide.setAutoPos(0,0);
                 break;
 
             case CENTER:
-                drive.rotateAndMoveInches(90*multiplier,28,0,0.5,0.25);
+                drive.rotateAndMoveInches(90*multiplier,22,0,0.5,0.25);
                 slide.setArmPos(300, LinearSlide.LOW_ROT-5);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90*multiplier,0,17*multiplier,0.25,0.2);
                 wait(0.5);
-//                ungrabYellow(isRedSide);
-//                wait(0.5);
-//                slide.setAutoPos(0,0);
                 break;
         }
         ungrabYellow();
@@ -200,24 +194,25 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
 
         //Actual Code
         switch(pos){
-            //Remember that this is on Red Side
+            //Remember that this is on Red side
             case LEFT:
                 drive.rotateAndMoveInches(90*multiplier,0,-10*multiplier,0.4,0.2);
                 drive.rotateAndMoveInches(90*multiplier,20,0,0.4,0.2);
-//                drive.rotateAndMoveInches(0,0,17*multiplier,0.4,0.4);
+//                drive.rotateAndMoveInches(0,0,17,0.4,0.4);
                 break;
             case CENTER:
                 drive.rotateAndMoveInches(90*multiplier,27,-10*multiplier,0.4,0.2);
-//                drive.rotateAndMoveInches(0,0,17*multiplier,0.4,0.4);
+//                drive.rotateAndMoveInches(0,0,17,0.4,0.4);
                 break;
             case RIGHT:
-                drive.rotateAndMoveInches(90*multiplier,35,-10*multiplier,0.4,0.2);
-//                drive.rotateAndMoveInches(0,0,17*multiplier,0.4,0.4);
+                drive.rotateAndMoveInches(90*multiplier,36,-10*multiplier,0.4,0.2);
+//                drive.rotateAndMoveInches(0,0,17,0.4,0.4);
                 break;
         }
         drive.rotateAndMoveInches(0,0,17*multiplier,0.4,0.4);
         slide.setAutoPos(0,0);
     }
+
     public void wait (double t) {
         ElapsedTime timer = new ElapsedTime();
         timer.reset();

@@ -43,8 +43,8 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous (name = "Extendo Red Far")
-public class AutoExtendoRedFar extends LinearOpMode{
+@Autonomous (name = "Extendo Blue Far")
+public class AutoExtendoBlueFar extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;
@@ -59,7 +59,7 @@ public class AutoExtendoRedFar extends LinearOpMode{
         slide = new LinearSlide(hardwareMap);
         drive = new OldDrive(hardwareMap, this);
         drive.botHeading = 0;
-        template = new AutoExtendoFarTemplates(slide, drive, true);
+        template = new AutoExtendoFarTemplates(slide, drive, false);
 
 
         spikeDetect = new SpikeDetectionNew();
@@ -73,8 +73,8 @@ public class AutoExtendoRedFar extends LinearOpMode{
         slide.grabAll();
         slide.turnRot(slide.droneServo, 1);
         while (opModeInInit()) {
-            telemetry.addData("Right Claw", "Purple Pixel");
-            telemetry.addData("Left Claw", "Yellow Pixel");
+            telemetry.addData("Right Claw", "Yellow Pixel");
+            telemetry.addData("Left Claw", "Purple Pixel");
             telemetry.addData("Block Location", spikeDetect.getPos());
             telemetry.update();
         }

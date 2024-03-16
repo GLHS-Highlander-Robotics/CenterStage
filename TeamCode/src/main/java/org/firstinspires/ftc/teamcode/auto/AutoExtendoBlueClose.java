@@ -43,8 +43,8 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous (name = "Extendo Red Close")
-public class AutoExtendoRedClose extends LinearOpMode{
+@Autonomous (name = "Extendo Blue Close")
+public class AutoExtendoBlueClose extends LinearOpMode{
 
     private SpikeDetectionNew spikeDetect;
     private VisionPortal portal;
@@ -59,7 +59,7 @@ public class AutoExtendoRedClose extends LinearOpMode{
         slide = new LinearSlide(hardwareMap);
         drive = new OldDrive(hardwareMap, this);
         drive.botHeading = 0;
-        templates = new AutoExtendoCloseTemplates(slide,drive,true);
+        templates = new AutoExtendoCloseTemplates(slide,drive,false);
 
 
         spikeDetect = new SpikeDetectionNew();
