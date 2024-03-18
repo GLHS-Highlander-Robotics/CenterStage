@@ -47,7 +47,7 @@ public class AutoExtendoCloseTemplates extends LinearOpMode{
     LinearSlide slide;
     OldDrive drive;
     double multiplier = 1;
-    SpikeDetectionNew.Position pos;
+    SpikeDetectionNew.Position pos = SpikeDetectionNew.Position.LEFT;
     boolean isRedSide;
 
     public AutoExtendoCloseTemplates(LinearSlide slid, OldDrive driv, boolean redSide){
@@ -84,7 +84,10 @@ public class AutoExtendoCloseTemplates extends LinearOpMode{
             }else{
                 pos=SpikeDetectionNew.Position.CENTER;
             }
-        } else multiplier = 1;
+        } else {
+            multiplier = 1;
+            pos=position;
+        };
 
         //Actual Code
         drive.rotateAndMoveInches(0,10,0,0.5,0.5);
@@ -92,6 +95,7 @@ public class AutoExtendoCloseTemplates extends LinearOpMode{
             //Remember that this is on Red side
 
             case RIGHT:
+                //Close to Wall/Corner
                 drive.rotateAndMoveInches(-25*multiplier, 0,0,0,0.4);
                 slide.setAutoExtendo((int)(18/slide.INCHESPERTICK));
                 slide.turnFloorEx();
@@ -117,6 +121,7 @@ public class AutoExtendoCloseTemplates extends LinearOpMode{
                 drive.rotateAndMoveInches(0,-2,0,0.5,0.75);
                 break;
             case LEFT:
+                //Far from Wall/Corner
                 drive.rotateAndMoveInches(20*multiplier, 0,0,0,0.4);
                 slide.setAutoExtendo((int)(18/slide.INCHESPERTICK));
                 slide.turnFloorEx();
@@ -143,7 +148,10 @@ public class AutoExtendoCloseTemplates extends LinearOpMode{
             }else{
                 pos=SpikeDetectionNew.Position.CENTER;
             }
-        } else multiplier = 1;
+        } else {
+            multiplier = 1;
+            pos=position;
+        };
 
         //Actual Code
         drive.rotateAndMoveInches(0,0,39*multiplier,0.5,0.5);
@@ -151,19 +159,21 @@ public class AutoExtendoCloseTemplates extends LinearOpMode{
             //Remember that this is on Red side
 
             case LEFT:
+                //Far from Wall/Corner
                 drive.rotateAndMoveInches(90*multiplier,30.5,0,0.5,0.25);
                 slide.setArmPos(350, LinearSlide.LOW_ROT-10);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90*multiplier,0,16*multiplier,0.25,0.2);
-                wait(0.75);
+                wait(1.0);
                 break;
 
             case RIGHT:
-                drive.rotateAndMoveInches(90*multiplier,17,0,0.5,0.25);
+                //Close to Wall/Corner
+                drive.rotateAndMoveInches(90*multiplier,17.5,0,0.5,0.25);
                 slide.setArmPos(350, LinearSlide.LOW_ROT-10);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90*multiplier,0,16*multiplier,0.25,0.2);
-                wait(0.75);
+                wait(1.0);
                 break;
 
             case CENTER:
@@ -171,7 +181,7 @@ public class AutoExtendoCloseTemplates extends LinearOpMode{
                 slide.setArmPos(300, LinearSlide.LOW_ROT-5);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90*multiplier,0,17*multiplier,0.25,0.2);
-                wait(0.5);
+                wait(0.75);
                 break;
         }
         ungrabYellow();
@@ -190,12 +200,16 @@ public class AutoExtendoCloseTemplates extends LinearOpMode{
             }else{
                 pos=SpikeDetectionNew.Position.CENTER;
             }
-        } else multiplier = 1;
+        } else {
+            multiplier = 1;
+            pos=position;
+        };
 
         //Actual Code
         switch(pos){
             //Remember that this is on Red side
             case LEFT:
+                //Far from Wall/Corner
                 drive.rotateAndMoveInches(90*multiplier,0,-10*multiplier,0.4,0.2);
                 drive.rotateAndMoveInches(90*multiplier,20,0,0.4,0.2);
 //                drive.rotateAndMoveInches(0,0,17,0.4,0.4);
@@ -205,6 +219,7 @@ public class AutoExtendoCloseTemplates extends LinearOpMode{
 //                drive.rotateAndMoveInches(0,0,17,0.4,0.4);
                 break;
             case RIGHT:
+                //Close to Wall/Corner
                 drive.rotateAndMoveInches(90*multiplier,36,-10*multiplier,0.4,0.2);
 //                drive.rotateAndMoveInches(0,0,17,0.4,0.4);
                 break;

@@ -86,7 +86,8 @@ public class AutoExtendoBlueFar extends LinearOpMode{
         portal.close();
         slide.turnFloorEx();
         template.purplePixel(position);
-        template.yellowPixelIn(position);
+//        template.yellowPixelIn(position);
+        template.yellowPixelOut(position);
         template.parkCenter(position);
         slide.setAutoPos(0,0);
     }

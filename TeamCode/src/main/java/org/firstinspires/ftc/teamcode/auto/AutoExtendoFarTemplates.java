@@ -39,59 +39,66 @@ import org.firstinspires.ftc.teamcode.subsystem.slide.LinearSlide;
 import org.firstinspires.ftc.teamcode.vision.SpikeDetectionNew;
 
 @Disabled
-public class AutoExtendoFarTemplates extends LinearOpMode{
+public class AutoExtendoFarTemplates extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
     }
+
     LinearSlide slide;
     OldDrive drive;
     double multiplier = 1;
     SpikeDetectionNew.Position pos;
     boolean isRedSide;
 
-    public AutoExtendoFarTemplates(LinearSlide slid, OldDrive driv, boolean redSide){
+    public AutoExtendoFarTemplates(LinearSlide slid, OldDrive driv, boolean redSide) {
         slide = slid;
-        drive=driv;
-        isRedSide=redSide;
+        drive = driv;
+        isRedSide = redSide;
     }
 
 
-    public void ungrabPurple(){
-        if(isRedSide){
+    public void ungrabPurple() {
+        if (isRedSide) {
             slide.ungrabR();
-        }else{
+        } else {
             slide.ungrabL();
         }
     }
 
-    public void ungrabYellow(){
-        if(isRedSide){
+    public void ungrabYellow() {
+        if (isRedSide) {
             slide.ungrabL();
-        }else{
+        } else {
             slide.ungrabR();
         }
     }
-    public void purplePixel(SpikeDetectionNew.Position position){
+
+    public void purplePixel(SpikeDetectionNew.Position position) {
         //Initializing Constants and Inverter
-        if(!isRedSide){
+        if (!isRedSide) {
             multiplier = -1;
-            if(position==SpikeDetectionNew.Position.LEFT){
-                pos=SpikeDetectionNew.Position.RIGHT;
-            }else if(position==SpikeDetectionNew.Position.RIGHT){
-                pos=SpikeDetectionNew.Position.LEFT;
-            }else{
-                pos=SpikeDetectionNew.Position.CENTER;
+            if (position == SpikeDetectionNew.Position.LEFT) {
+                pos = SpikeDetectionNew.Position.RIGHT;
+            } else if (position == SpikeDetectionNew.Position.RIGHT) {
+                pos = SpikeDetectionNew.Position.LEFT;
+            } else {
+                pos = SpikeDetectionNew.Position.CENTER;
             }
-        } else multiplier = 1;
+        } else {
+            multiplier = 1;
+            pos = position;
+        }
+        ;
 
         //Actual Code
-        drive.rotateAndMoveInches(0,10,0,0.5,0.5);
-        switch (pos){
+        drive.rotateAndMoveInches(0, 10, 0, 0.5, 0.5);
+        switch (pos) {
             //Remember that this is on Red side
             case LEFT:
-                drive.rotateAndMoveInches(25, 0,0,0,0.4);
-                slide.setAutoExtendo((int)(19.5/slide.INCHESPERTICK));
+                //Far from Wall/Center
+                drive.rotateAndMoveInches(25 * multiplier, 0, 0, 0, 0.4);
+                slide.setAutoExtendo((int) (19.5 / slide.INCHESPERTICK));
                 slide.turnFloorEx();
                 wait(0.25);
                 ungrabPurple();
@@ -99,11 +106,11 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
                 slide.turnPlaceEx();
                 slide.setAutoExtendo(0);
                 wait(0.5);
-                drive.rotateAndMoveInches(0,0,0,0,0.5);
-                drive.rotateAndMoveInches(0,-2.5,0,0.5,0.75);
+                drive.rotateAndMoveInches(0, 0, 0, 0, 0.5);
+                drive.rotateAndMoveInches(0, -2.5, 0, 0.5, 0.75);
                 break;
             case CENTER:
-                slide.setAutoExtendo((int)(23.0/slide.INCHESPERTICK));
+                slide.setAutoExtendo((int) (23.0 / slide.INCHESPERTICK));
                 slide.turnFloorEx();
                 wait(0.25);
                 ungrabPurple();
@@ -111,12 +118,13 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
                 slide.turnPlaceEx();
                 slide.setAutoExtendo(0);
                 wait(0.5);
-                drive.rotateAndMoveInches(0,0,0,0,0.5);
-                drive.rotateAndMoveInches(0,-2,0,0.5,0.75);
+                drive.rotateAndMoveInches(0, 0, 0, 0, 0.5);
+                drive.rotateAndMoveInches(0, -2, 0, 0.5, 0.75);
                 break;
             case RIGHT:
-                drive.rotateAndMoveInches(-20*multiplier, 0,0,0,0.4);
-                slide.setAutoExtendo((int)(18/slide.INCHESPERTICK));
+                //Close to Wall/Corner
+                drive.rotateAndMoveInches(-20 * multiplier, 0, 0, 0, 0.4);
+                slide.setAutoExtendo((int) (18 / slide.INCHESPERTICK));
                 slide.turnFloorEx();
                 wait(0.25);
                 ungrabPurple();
@@ -124,12 +132,77 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
                 slide.turnPlaceEx();
                 slide.setAutoExtendo(0);
                 wait(0.5);
-                drive.rotateAndMoveInches(0,0,0,0,0.5);
-                drive.rotateAndMoveInches(0,-4,0,0.5,0.75);
+                drive.rotateAndMoveInches(0, 0, 0, 0, 0.5);
+                drive.rotateAndMoveInches(0, -4, 0, 0.5, 0.75);
                 break;
         }
     }
 
+    public void yellowPixelOut(SpikeDetectionNew.Position position) {
+        //Initializing Constants and Inverter
+        if (!isRedSide) {
+            multiplier = -1;
+            if (position == SpikeDetectionNew.Position.LEFT) {
+                pos = SpikeDetectionNew.Position.RIGHT;
+            } else if (position == SpikeDetectionNew.Position.RIGHT) {
+                pos = SpikeDetectionNew.Position.LEFT;
+            } else {
+                pos = SpikeDetectionNew.Position.CENTER;
+            }
+        } else {
+            multiplier = 1;
+            pos = position;
+        }
+        ;
+
+        //Actual Code
+        wait(2.0);
+        drive.rotateAndMoveInches(0,0,74*multiplier,0.5,0.5);
+//        drive.rotateAndMoveInches(0, 0, 82 * multiplier, 0.5, 0.5);
+
+//        drive.rotateAndMoveInches(0,28,0,0.5,0.5);
+        //        drive.rotateAndMoveInches(0,0,82*multiplier,0.5,0.5);
+        switch (pos) {
+            //Remember that this is on Red side
+            case LEFT:
+                //Far from Wall/Center
+                drive.rotateAndMoveInches(90 * multiplier, 34.5, 0, 0.5, 0.25);
+                slide.setArmPos(550, LinearSlide.LOW_ROT - 5);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90 * multiplier, 0, 26 * multiplier, 0.25, 0.2);
+                wait(1.0);
+//                ungrabYellow(isRedSide);
+//                wait(0.5);
+//                slide.setAutoPos(0,0);
+                break;
+
+            case RIGHT:
+                //Close to Wall/Corner
+                drive.rotateAndMoveInches(90 * multiplier, 21.5, 0, 0.5, 0.25);
+                slide.setArmPos(550, LinearSlide.LOW_ROT - 5);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90 * multiplier, 0, 26 * multiplier, 0.25, 0.2);
+                wait(1.0);
+//                ungrabYellow(isRedSide);
+//                wait(0.5);
+//                slide.setAutoPos(0,0);
+                break;
+
+            case CENTER:
+                drive.rotateAndMoveInches(90 * multiplier, 28, 0, 0.5, 0.25);
+                slide.setArmPos(400, LinearSlide.LOW_ROT - 5);
+                slide.turnPlaceEx();
+                drive.rotateAndMoveInches(90 * multiplier, 0, 26 * multiplier, 0.25, 0.2);
+                wait(0.75);
+//                ungrabYellow(isRedSide);
+//                wait(0.5);
+//                slide.setAutoPos(0,0);
+                break;
+        }
+        ungrabYellow();
+        wait(0.5);
+        slide.setAutoPos(0, 0);
+    }
     public void yellowPixelIn(SpikeDetectionNew.Position position){
         //Initializing Constants and Inverter
         if(!isRedSide){
@@ -141,29 +214,39 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
             }else{
                 pos=SpikeDetectionNew.Position.CENTER;
             }
-        } else multiplier = 1;
+        } else {
+            multiplier = 1;
+            pos=position;
+        };
 
         //Actual Code
+        wait(2.0);
+//        drive.rotateAndMoveInches(0,0,60*multiplier,0.5,0.5);
         drive.rotateAndMoveInches(0,0,82*multiplier,0.5,0.5);
+
+//        drive.rotateAndMoveInches(0,28,0,0.5,0.5);
+        //        drive.rotateAndMoveInches(0,0,82*multiplier,0.5,0.5);
         switch(pos){
             //Remember that this is on Red side
             case LEFT:
-                drive.rotateAndMoveInches(90*multiplier,33,0,0.5,0.25);
-                slide.setArmPos(475, LinearSlide.LOW_ROT-10);
+                //Far from Wall/Center
+                drive.rotateAndMoveInches(90*multiplier,34.5,0,0.5,0.25);
+                slide.setArmPos(550, LinearSlide.LOW_ROT-5);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90*multiplier,0,17*multiplier,0.25,0.2);
-                wait(0.75);
+                wait(1.0);
 //                ungrabYellow(isRedSide);
 //                wait(0.5);
 //                slide.setAutoPos(0,0);
                 break;
 
             case RIGHT:
-                drive.rotateAndMoveInches(90*multiplier,21,0,0.5,0.25);
-                slide.setArmPos(475, LinearSlide.LOW_ROT-10);
+                //Close to Wall/Corner
+                drive.rotateAndMoveInches(90*multiplier,21.5,0,0.5,0.25);
+                slide.setArmPos(550, LinearSlide.LOW_ROT-5);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90*multiplier,0,17*multiplier,0.25,0.2);
-                wait(0.75);
+                wait(1.0);
 //                ungrabYellow(isRedSide);
 //                wait(0.5);
 //                slide.setAutoPos(0,0);
@@ -171,10 +254,10 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
 
             case CENTER:
                 drive.rotateAndMoveInches(90*multiplier,28,0,0.5,0.25);
-                slide.setArmPos(300, LinearSlide.LOW_ROT-5);
+                slide.setArmPos(400, LinearSlide.LOW_ROT-5);
                 slide.turnPlaceEx();
                 drive.rotateAndMoveInches(90*multiplier,0,17*multiplier,0.25,0.2);
-                wait(0.5);
+                wait(0.75);
 //                ungrabYellow(isRedSide);
 //                wait(0.5);
 //                slide.setAutoPos(0,0);
@@ -196,12 +279,16 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
             }else{
                 pos=SpikeDetectionNew.Position.CENTER;
             }
-        } else multiplier = 1;
+        } else {
+            multiplier = 1;
+            pos=position;
+        };
 
         //Actual Code
         switch(pos){
             //Remember that this is on Red Side
             case LEFT:
+                //Far from Wall/Center
                 drive.rotateAndMoveInches(90*multiplier,0,-10*multiplier,0.4,0.2);
                 drive.rotateAndMoveInches(90*multiplier,20,0,0.4,0.2);
 //                drive.rotateAndMoveInches(0,0,17*multiplier,0.4,0.4);
@@ -211,6 +298,7 @@ public class AutoExtendoFarTemplates extends LinearOpMode{
 //                drive.rotateAndMoveInches(0,0,17*multiplier,0.4,0.4);
                 break;
             case RIGHT:
+                //Close to Wall/Corner
                 drive.rotateAndMoveInches(90*multiplier,35,-10*multiplier,0.4,0.2);
 //                drive.rotateAndMoveInches(0,0,17*multiplier,0.4,0.4);
                 break;
